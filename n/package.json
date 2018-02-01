@@ -5,6 +5,6 @@
     "globby": "7.1.1",
     "cors": "2.8.4",
     "body-parser": "1.18.2",
-    "extend_exclude": "1.0.9"
+    "pg": "7.4.1"
   }
 }

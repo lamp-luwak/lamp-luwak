@@ -4,9 +4,7 @@ const
 ;
 
 module.exports = async (rootPath, config) => {
-  const
-    context = {}
-  ;
+  const context = {};
 
   function scanDir(dir) {
     return Globby.sync([`./${dir}/**/*.js`, `!./${dir}/**/_*.js`], { cwd: rootPath, absolute: true });
@@ -38,9 +36,7 @@ module.exports = async (rootPath, config) => {
   }
 
   function makeApi() {
-    const
-      api = {};
-
+    const api = {};
     context.api = api;
 
     for (let filename of scanDir('api')) {

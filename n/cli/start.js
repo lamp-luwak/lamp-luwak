@@ -1,8 +1,7 @@
 #!/usr/bin/env node --harmony
 
 const
-  App = require('../src'),
-  Path = require('path')
+  App = require('../src')
 ;
 
 App({
