@@ -1,5 +1,4 @@
 {
-  "license": "MIT",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
