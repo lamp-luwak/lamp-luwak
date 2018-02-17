@@ -2,8 +2,4 @@
 /node_modules
 
 # misc
-/connect.lock
-/coverage
-/libpeerconnection.log
 npm-debug.log
-testem.log

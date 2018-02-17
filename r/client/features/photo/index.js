@@ -1,0 +1,1 @@
+export { PhotoPage } from './page'

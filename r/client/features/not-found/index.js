@@ -1,0 +1,1 @@
+export { NotFountPage } from './page'

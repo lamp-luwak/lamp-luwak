@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./client",
+    "checkJs": false,
+    "jsx": "react",
+    "lib": [
+      "es2015",
+      "es2016",
+      "dom"
+    ],
+    "plugins": [
+      { "name": "typescript-styled-plugin" }
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
