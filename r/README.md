@@ -1,3 +1,2 @@
-# InstaClone
+# Client
 
-Instagram clone with React, Redux, AtomicDesign, StyledComponents
