@@ -1,0 +1,25 @@
+
+:host {
+  display: inline-block;
+}
+
+.handler {
+  display: inline-block;
+}
+.content-placeholder {
+  display: inline-block;
+  position: relative;
+
+  &:before {
+    content: "";
+    display: inline-block;
+  }
+}
+.content {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  white-space: nowrap;
+  background: #FAFAFA;
+  padding: 2px 5px;
+}

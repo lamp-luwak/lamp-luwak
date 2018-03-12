@@ -1,0 +1,38 @@
+
+:host {
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+}
+
+.header {
+  height: 30px;
+  background: #FF5600;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+  justify-content: space-between;
+}
+
+.header-title {
+  text-transform: uppercase;
+  color: #FFF;
+  text-decoration: none;
+}
+
+.footer {
+  height: 50px;
+  background: #FAFAFA;
+  color: #AAA;
+  font-size: 80%;
+}
+
+/deep/ [x-layout-content] {
+  flex-grow: 1;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
