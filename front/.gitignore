@@ -1,27 +1,11 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/dist
-/dist-server
-/tmp
-/out-tsc
-
 # dependencies
 /node_modules
 
 # misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
 npm-debug.log
-yarn-error.log
-testem.log
-/typings
 
-# e2e
-/e2e/*.js
-/e2e/*.map
+# compiled output
+dist
 
 # custom
 package-lock.json

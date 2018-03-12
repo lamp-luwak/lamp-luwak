@@ -1,1 +1,0 @@
-export { UserPage } from './page'
