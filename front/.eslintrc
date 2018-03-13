@@ -1,0 +1,7 @@
+{
+  "extends": "@atomix/eslint-config",
+  "rules": {
+    "semi": ["error", "always"],
+    "import/newline-after-import": ["warn", { "count": 1 }]
+  }
+}

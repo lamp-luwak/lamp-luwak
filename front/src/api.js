@@ -1,6 +1,2 @@
-
 export class Api {
-
-  constructor() { }
-
 }

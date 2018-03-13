@@ -5,7 +5,7 @@ import Thunk from 'redux-thunk';
 import { Api } from './api';
 
 const reducer = combineReducers({
-  feed: () => ({})
+  feed: () => ({}),
 });
 
 export function configureStore(rootInitialState = {}) {
@@ -16,6 +16,7 @@ export function configureStore(rootInitialState = {}) {
     Thunk.withExtraArgument({ api }),
   ];
 
+  // eslint-disable-next-line no-underscore-dangle
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
   return createStore(

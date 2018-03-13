@@ -1,4 +1,4 @@
-process.title = 'sonata:front:webpack';
+process.title = 'sonata:webpack';
 
 const { cpus } = require('os');
 const { resolve } = require('path');
@@ -37,10 +37,10 @@ const config = {
 
   resolve: {
     extensions: ['.mjs', '.js'],
-
-    alias: {
-      '~': SRC,
-    },
+    modules: [
+      'node_modules',
+      SRC,
+    ],
   },
 
   module: {
@@ -82,7 +82,7 @@ const config = {
     //   minChunks: Infinity,
     // }),
     new HtmlPlugin({
-      title: 'Instaclone',
+      title: 'Sonata',
       template: 'index.tpl.html',
     }),
     new EnvironmentPlugin({

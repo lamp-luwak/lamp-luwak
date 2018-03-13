@@ -1,0 +1,11 @@
+{
+  "extends": "@atomix/react",
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "semi": ["error", "always"],
+    "jsx-a11y/anchor-is-valid": "off",
+    "import/newline-after-import": ["warn", { "count": 1 }]
+  }
+}

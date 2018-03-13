@@ -1,1 +1,1 @@
-export { FeedPage } from './page'
+export { FeedPage } from './page';
