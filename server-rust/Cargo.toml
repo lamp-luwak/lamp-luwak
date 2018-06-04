@@ -1,0 +1,6 @@
+[package]
+name = "server-rust"
+version = "0.1.0"
+authors = ["Viacheslav Bereza <mail@betula.co>"]
+
+[dependencies]
