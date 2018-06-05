@@ -7,17 +7,14 @@
     "react-dom": "^16.3.2",
     "react-scripts": "1.1.4",
     "react-app-rewired": "^1.5.2",
-    "react-app-rewire-mobx": "^1.0.8",
     "react-app-rewire-styled-components": "^3.0.2",
     "babel-plugin-import": "^1.7.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "styled-components": "^3.3.0",
+    "ajv": "^6.0.0",
     "antd": "^3.6.1",
-    "mobx-react": "^5.1.2",
-    "mobx": "^4.3.0",
-    "ajv": "^6.5.0",
-    "module-resolver": "^1.0.0",
-    "superagent": "^3.8.3",
-    "rxjs": "^6.2.0"
+    "optice": "git://github.com/betula/optice.git",
+    "optux": "^0.2.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

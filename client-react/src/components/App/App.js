@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { createStore } from 'optice';
+import { OptuxProvider } from 'optux';
 import { Button } from 'antd';
+import AuthProvider from 'providers/AuthProvider';
 
-const BlackButton = styled(Button)`
-  color: black;
+
+const MachineButton = styled(Button)`
+  margin: 20px;
 `;
-
 
 class App extends Component {
 
+  store = createStore();
+
   render() {
     return (
-      <div>
-        <BlackButton type="primary">Primary</BlackButton>
-      </div>
+      <OptuxProvider store={this.store}>
+        <AuthProvider>
+          <div>
+            <MachineButton type="primary">Hi! I'am machine!</MachineButton>
+          </div>
+        </AuthProvider>
+      </OptuxProvider>
     );
   }
 }
