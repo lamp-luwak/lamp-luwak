@@ -1,3 +1,0 @@
-# Back
-
-	./cli/start.js
