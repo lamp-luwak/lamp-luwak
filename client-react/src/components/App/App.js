@@ -12,7 +12,7 @@ const MachineButton = styled(Button)`
 `;
 
 @subscribe
-export class App extends React.Component {
+export class App extends React.PureComponent {
 
   @inject(User) user;
   @inject(Account) account;
