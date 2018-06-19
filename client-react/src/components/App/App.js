@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { createStore } from 'optice';
-import { OptuxProvider } from 'optux';
+import { aware, inject } from 'lib/core';
+import { User } from 'subjects/User';
 import { Button } from 'antd';
-import AuthProvider from 'providers/AuthProvider';
 
 
 const MachineButton = styled(Button)`
   margin: 20px;
 `;
 
-class App extends Component {
+@aware
+export class App extends React.Component {
 
-  store = createStore();
+  @inject(User) user;
 
   render() {
     return (
-      <OptuxProvider store={this.store}>
-        <AuthProvider>
-          <div>
-            <MachineButton type="primary">Hi! I'am machine!</MachineButton>
-          </div>
-        </AuthProvider>
-      </OptuxProvider>
+      <div>
+        hello {(this.user || {}).name}
+        <br />
+        <input onInput={(e) => this.user.setName(e.target.value)} />
+        <br />
+        <MachineButton type="primary">Hi! I'am machine!</MachineButton>
+      </div>
     );
   }
 }

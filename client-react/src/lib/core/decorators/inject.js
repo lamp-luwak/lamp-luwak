@@ -1,14 +1,21 @@
+import { ctx } from '../ctx';
 
-import { addInjectInfo } from '../injectInfo';
-
-export const inject = (Service) => (
-  (Component, property) => {
-    addInjectInfo(Component.constructor, property, Service);
-    return {
-      value: undefined,
-      enumerable: false,
-      configurable: true,
-      writable: true
-    };
+export const inject = (Service) => (Component, property) => {
+  (Component.__injectedPropertyNames = Component.__injectedPropertyNames || []).push(
+    property
+  );
+  return {
+    get() {
+      const instance = ctx(Service);
+      Object.defineProperty(this, property, {
+        value: instance,
+        enumerable: false,
+        configurable: false,
+        writable: false
+      });
+      return instance;
+    },
+    enumerable: false,
+    configurable: true
   }
-);
+};

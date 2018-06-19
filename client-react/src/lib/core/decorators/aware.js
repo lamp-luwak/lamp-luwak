@@ -1,5 +1,3 @@
-import { getInjectInfo } from '../injectInfo';
-import { ctx } from '../ctx';
 
 export const aware = (Component) => (
   class extends Component {
@@ -7,13 +5,28 @@ export const aware = (Component) => (
 
     constructor(props, context) {
       super(props, context);
-      const info = getInjectInfo(Component);
-      if (info) {
-        for (let name of Object.keys(info)) {
-          this[name] = ctx(info[name]);
+
+      const unsubscribers = this.__subjectUnsubscribers = this.__subjectUnsubscribers || [];
+      const update = () => this.forceUpdate();
+
+      if (this.__injectedPropertyNames) {
+        const names = this.__injectedPropertyNames;
+        for (let name of names) {
+          if (this[name].__mutSubscribe) {
+            unsubscribers.push(
+              this[name].__mutSubscribe(update)
+            );
+          }
         }
       }
-      this.ctxReady && this.ctxReady();
     }
+
+    componentWillUnmount() {
+      super.componentWillUnmount();
+      for (let unsubscriber of this.__subjectUnsubscribers) {
+        unsubscriber();
+      }
+    }
+
   }
 );
