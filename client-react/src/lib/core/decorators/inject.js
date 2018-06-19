@@ -1,5 +1,7 @@
 import React from 'react';
 
+const store = new Map();
+
 export const inject = (Ctor) => (Prototype, property) => {
   if (Prototype instanceof React.Component) {
     (Prototype.__injectedPropertyNames = Prototype.__injectedPropertyNames || []).push(
@@ -9,10 +11,11 @@ export const inject = (Ctor) => (Prototype, property) => {
 
   return {
     get() {
-      if (!this.ctx) {
-        throw new Error(`Instance of ${this.constructor.name} doesn't have ctx.`);
+      let instance;
+      if (!(instance = store.get(Ctor))) {
+        store.set(Ctor, instance = new Ctor());
       }
-      const instance = this.ctx(Ctor);
+
       Object.defineProperty(this, property, {
         value: instance,
         enumerable: true,

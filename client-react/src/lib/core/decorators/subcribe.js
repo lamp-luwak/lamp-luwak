@@ -1,13 +1,12 @@
-import { ctx } from '../ctx';
 
-export const aware = (Component) => {
-  class DecoratedComponent extends Component {
+export const subscribe = (Component) => (
+  class extends Component {
     static displayName = Component.name;
 
     constructor(props, context) {
       super(props, context);
 
-      const unsubscribers = this.__subjectUnsubscribers = this.__subjectUnsubscribers || [];
+      const unsubscribers = this.__mutUnsubscribers = this.__mutUnsubscribers || [];
       const update = () => this.forceUpdate();
 
       if (this.__injectedPropertyNames) {
@@ -20,22 +19,22 @@ export const aware = (Component) => {
           }
         }
       }
+
+      for (let name of Object.keys(props)) {
+        if (props[name].__mutSubscribe) {
+          unsubscribers.push(
+            props[name].__mutSubscribe(update)
+          );
+        }
+      }
+
     }
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      for (let unsubscriber of this.__subjectUnsubscribers) {
+      for (let unsubscriber of this.__mutUnsubscribers) {
         unsubscriber();
       }
     }
   }
-
-  Object.defineProperty(DecoratedComponent.prototype, 'ctx', {
-    value: ctx,
-    enumerable: false,
-    configurable: false,
-    writable: false
-  });
-
-  return DecoratedComponent;
-};
+);
