@@ -1,11 +1,11 @@
 
 import { injectInfoKey } from './keys';
 
-export const addInjectInfo = (ctor, property, Service) => {
-  const info = ctor[injectInfoKey] = ctor[injectInfoKey] || {};
+export const addInjectInfo = (Ctor, property, Service) => {
+  const info = Ctor[injectInfoKey] = Ctor[injectInfoKey] || {};
   info[property] = Service;
 }
 
-export const getInjectInfo = (ctor) => {
-  return ctor[injectInfoKey];
-}
+export const getInjectInfo = (Ctor) => (
+  Ctor[injectInfoKey]
+)

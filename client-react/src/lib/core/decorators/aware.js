@@ -1,23 +1,19 @@
 import { getInjectInfo } from '../injectInfo';
-import { extractCtxFromProps, connectToScope } from '../scope';
+import { ctx } from '../ctx';
 
-export const aware = (DecoratedComponent) => {
-
-  return connectToScope(class extends DecoratedComponent {
-
-    static displayName = DecoratedComponent.name;
+export const aware = (Component) => (
+  class extends Component {
+    static displayName = Component.name;
 
     constructor(props, context) {
       super(props, context);
-
-      const info = getInjectInfo(DecoratedComponent);
+      const info = getInjectInfo(Component);
       if (info) {
-        const ctx = extractCtxFromProps(props);
         for (let name of Object.keys(info)) {
           this[name] = ctx(info[name]);
         }
       }
-      this.initialized && this.initialized();
+      this.ctxReady && this.ctxReady();
     }
-  });
-};
+  }
+);

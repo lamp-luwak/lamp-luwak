@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 // import App from 'components/App/App';
 import registerServiceWorker from './registerServiceWorker';
-import { aware, subject, mut, inject, Provider } from 'lib/core';
+import { aware, subject, mut, inject } from 'lib/core';
 
 @subject
 class User {
@@ -30,17 +30,6 @@ export class App extends React.Component {
   }
 }
 
-class Root extends React.Component {
-  render() {
-    return (
-      <Provider>
-        <App />
-      </Provider>
-    );
-  }
-}
-
-
-ReactDOM.render(<Root />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 
 registerServiceWorker();
