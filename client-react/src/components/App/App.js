@@ -4,7 +4,7 @@ import { subscribe, inject } from 'lib/core';
 import { User } from 'subjects/User';
 import { Account } from 'subjects/Account';
 import { Button } from 'antd';
-import { FetcherLoading } from '../FetcherLoading/FetcherLoading';
+import { FetcherLoader } from '../FetcherLoader/FetcherLoader';
 
 
 const MachineButton = styled(Button)`
@@ -24,7 +24,7 @@ export class App extends React.Component {
 
   render() {
     return (
-      <FetcherLoading fetcher={this.account.fetcher}>
+      <FetcherLoader fetcher={this.account.fetcher}>
         <div>
           hello {(this.user || {}).name}
           <br />
@@ -34,7 +34,7 @@ export class App extends React.Component {
           <br />
           <MachineButton type="primary">Hi! I'am machine!</MachineButton>
         </div>
-      </FetcherLoading>
+      </FetcherLoader>
     );
   }
 }
