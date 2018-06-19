@@ -1,21 +1,27 @@
-import { ctx } from '../ctx';
+import React from 'react';
 
-export const inject = (Service) => (Component, property) => {
-  (Component.__injectedPropertyNames = Component.__injectedPropertyNames || []).push(
-    property
-  );
+export const inject = (Ctor) => (Prototype, property) => {
+  if (Prototype instanceof React.Component) {
+    (Prototype.__injectedPropertyNames = Prototype.__injectedPropertyNames || []).push(
+      property
+    );
+  }
+
   return {
     get() {
-      const instance = ctx(Service);
+      if (!this.ctx) {
+        throw new Error(`Instance of ${this.constructor.name} doesn't have ctx.`);
+      }
+      const instance = this.ctx(Ctor);
       Object.defineProperty(this, property, {
         value: instance,
-        enumerable: false,
+        enumerable: true,
         configurable: false,
         writable: false
       });
       return instance;
     },
-    enumerable: false,
+    enumerable: true,
     configurable: true
   }
 };

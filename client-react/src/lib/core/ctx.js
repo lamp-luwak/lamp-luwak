@@ -9,6 +9,7 @@ export const ctx = (Ctor) => {
   return instance;
 }
 
-ctx.make = (Ctor, ...args) => (
-  new Ctor(ctx, ...args)
-);
+ctx.make = function(Ctor, ...args) {
+  Ctor.prototype.ctx = this;
+  return new Ctor(...args);
+};

@@ -1,6 +1,7 @@
+import { ctx } from '../ctx';
 
-export const aware = (Component) => (
-  class extends Component {
+export const aware = (Component) => {
+  class DecoratedComponent extends Component {
     static displayName = Component.name;
 
     constructor(props, context) {
@@ -27,6 +28,14 @@ export const aware = (Component) => (
         unsubscriber();
       }
     }
-
   }
-);
+
+  Object.defineProperty(DecoratedComponent.prototype, 'ctx', {
+    value: ctx,
+    enumerable: false,
+    configurable: false,
+    writable: false
+  });
+
+  return DecoratedComponent;
+};
