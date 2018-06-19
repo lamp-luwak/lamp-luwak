@@ -11,5 +11,9 @@ module.exports = function(config, env){
     ['module-resolver', { root: ['./src'] }],
     config
   );
+  config = injectBabelPlugin(
+    'transform-decorators-legacy',
+    config
+  );
   return config;
 };
