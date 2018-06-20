@@ -1,22 +1,18 @@
 const
-  Pool = require('pg').Pool
+  Database = require('better-sqlite3')
 ;
 
 module.exports = () => {
-  let pool;
+  let db;
 
   return {
 
-    init({ database, user }) {
-      pool = new Pool({ database, user });
+    init({ filename }) {
+      db = new Database(filename);
     },
 
-    async rows(...args) {
-      return ( await pool.query(...args) ).rows;
-    },
-
-    async row(...args) {
-      return ( ( await pool.query(...args) ).rows || [] )[0];
+    async run(sqlText, params = {}) {
+      return db.prepare(sqlText).run(params);
     }
 
   };

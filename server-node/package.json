@@ -1,10 +1,11 @@
 {
   "private": true,
   "dependencies": {
-    "express": "4.16.2",
-    "globby": "7.1.1",
-    "cors": "2.8.4",
-    "body-parser": "1.18.2",
-    "pg": "7.4.1"
+    "express": "^4.16.3",
+    "globby": "^8.0.1",
+    "cors": "^2.8.4",
+    "body-parser": "^1.18.3",
+    "better-sqlite3": "^4.1.4",
+    "nanoid": "^1.0.3"
   }
 }

@@ -1,4 +1,5 @@
 import { mut, inject } from 'lib/core';
+import { fetchJson } from 'lib/fetch';
 import { Config } from './Config';
 
 export class Fetcher {
@@ -15,7 +16,7 @@ export class Fetcher {
   async fetch() {
     this.loading = true;
     try {
-      const data = await fetch(this.config.get('api-host') + this.url);
+      const data = await fetchJson(this.config.get('api-host') + this.url);
       this.loading = false;
       return this.ok && this.ok(data);
     } catch(error) {

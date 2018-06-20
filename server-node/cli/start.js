@@ -1,13 +1,13 @@
 #!/usr/bin/env node --harmony
 
 const
+  Path = require('path'),
   App = require('../src')
 ;
 
 App({
   db: {
-    database: 'sonata',
-    user: 'betula'
+    filename: Path.resolve(__dirname, '../data/data.db')
   },
   server: {
     hostname: '127.0.0.1',
