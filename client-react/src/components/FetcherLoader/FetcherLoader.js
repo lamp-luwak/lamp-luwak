@@ -11,13 +11,11 @@ export class FetcherLoader extends React.PureComponent {
   }
 
   render() {
-    if (this.props.fetcher.loading) {
-      return (
-        <div>Loading</div>
-      );
-    } else {
-      return this.props.children;
-    }
+    const { fetcher, children } = this.props;
+    
+    return this.props.fetcher.loading
+      ? <div>Loading...</div>
+      : children;
   }
 }
 
