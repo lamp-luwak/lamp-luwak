@@ -18,8 +18,8 @@ export class App extends React.PureComponent {
   @inject(User) user;
   @inject(Account) account;
 
-  constructor(props, context) {
-    super(props, context);
+  constructor() {
+    super();
     this.account.fetcher.fetch();
   }
 

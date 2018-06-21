@@ -14,7 +14,7 @@ export const mut = (Prototype, property) => {
       },
       __mutNotify() {
         if (this.__mutUpdaters) {
-          for (let [updater] of this.__mutUpdaters) {
+          for (const [updater] of this.__mutUpdaters) {
             updater();
           }
         }

@@ -11,7 +11,7 @@ export const subscribe = (Component) => (
 
       if (this.__injectedPropertyNames) {
         const names = this.__injectedPropertyNames;
-        for (let name of names) {
+        for (const name of names) {
           if (this[name].__mutSubscribe) {
             unsubscribers.push(
               this[name].__mutSubscribe(update)
@@ -20,7 +20,7 @@ export const subscribe = (Component) => (
         }
       }
 
-      for (let name of Object.keys(props)) {
+      for (const name of Object.keys(props)) {
         if (props[name].__mutSubscribe) {
           unsubscribers.push(
             props[name].__mutSubscribe(update)
@@ -32,7 +32,7 @@ export const subscribe = (Component) => (
 
     componentWillUnmount() {
       super.componentWillUnmount();
-      for (let unsubscriber of this.__mutUnsubscribers) {
+      for (const unsubscriber of this.__mutUnsubscribers) {
         unsubscriber();
       }
     }
