@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Button } from 'antd';
+
 import { subscribe, inject } from 'lib/core';
 import { User } from 'subjects/User';
 import { Account } from 'subjects/Account';
-import { Button } from 'antd';
 import { FetcherLoader } from '../FetcherLoader/FetcherLoader';
 
 
@@ -17,8 +18,8 @@ export class App extends React.PureComponent {
   @inject(User) user;
   @inject(Account) account;
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.account.fetcher.fetch();
   }
 
@@ -32,7 +33,7 @@ export class App extends React.PureComponent {
           <br />
           Token: {this.account.token}
           <br />
-          <MachineButton type="primary">Hi! I'am machine!</MachineButton>
+          <MachineButton type="primary">Hi! I am machine!</MachineButton>
         </div>
       </FetcherLoader>
     );
