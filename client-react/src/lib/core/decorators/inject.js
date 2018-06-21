@@ -11,8 +11,8 @@ export const inject = (Ctor) => (Prototype, property) => {
 
   return {
     get() {
-      let instance;
-      if (!(instance = store.get(Ctor))) {
+      let instance = store.get(Ctor);
+      if (!instance) {
         store.set(Ctor, instance = new Ctor());
       }
 
