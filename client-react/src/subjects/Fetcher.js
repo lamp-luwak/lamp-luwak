@@ -1,6 +1,7 @@
 import { mut, inject } from 'lib/core';
 import { fetchJson } from 'lib/fetch';
 import { Config } from './Config';
+import { message } from 'antd';
 
 export class Fetcher {
   @inject(Config) config;
@@ -25,6 +26,7 @@ export class Fetcher {
         return this.fail(error);
       } else {
         console.error(error);
+        message.error(error.message);
       }
     }
   }
