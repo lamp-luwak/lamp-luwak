@@ -1,0 +1,17 @@
+{
+  "sourceMaps": "inline",
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }]
+  ],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    ["module-resolver", {
+      "root": ["./src"]
+    }]
+  ]
+}
