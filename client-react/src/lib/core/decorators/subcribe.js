@@ -1,7 +1,7 @@
 
 export const subscribe = (Component) => (
   class extends Component {
-    static displayName = Component.name;
+    static displayName = Component.displayName || Component.name;
 
     constructor(props, context) {
       super(props, context);
