@@ -13,7 +13,7 @@ export class FetcherLoader extends React.PureComponent {
   render() {
     const { fetcher, children } = this.props;
     
-    return this.props.fetcher.loading
+    return fetcher.loading
       ? <div>Loading...</div>
       : children;
   }
