@@ -33,10 +33,10 @@ export const mut = (Prototype, property) => {
       if (values[property] !== value) {
         values[property] = value;
 
-        if (!isReactComponent) {
-          this.__mutNotify();
-        } else {
+        if (isReactComponent) {
           this.forceUpdate();
+        } else {
+          this.__mutNotify();
         }
       }
     },
