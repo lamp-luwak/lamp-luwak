@@ -2,6 +2,7 @@ import React from 'react';
 import { subscribe, inject } from 'lib/core';
 import { Feed as FeedSubject } from 'subjects/Feed';
 import { FetcherLoader } from './FetcherLoader';
+import { FeedCreator } from './FeedCreator';
 
 @subscribe
 export class Feed extends React.PureComponent {
@@ -14,13 +15,14 @@ export class Feed extends React.PureComponent {
   }
 
   render() {
-    return (
+    return [
+      <FeedCreator />,
       <FetcherLoader
         fetcher={this.feed.fetcher}
         ok={() => this.feed.list.map((item, index) => {
           return <div key={index}>{item}</div>;
         })}
         />
-    );
+    ];
   }
 }
