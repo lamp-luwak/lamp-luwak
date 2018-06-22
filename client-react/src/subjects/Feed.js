@@ -6,10 +6,9 @@ export class Feed {
   @mut list = [];
 
   constructor() {
-    this.fetcher = new Fetcher(
-      '/feed/list',
-      (data) => this.list = data.items
-    );
+    this.fetcher = new Fetcher()
+      .url('/feed/list')
+      .ok(data => this.list = data.items);
   }
 
 }

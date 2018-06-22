@@ -14,23 +14,46 @@ export class Fetcher {
 
   @mut status;
 
-  constructor(url, ok, fail) {
-    this.url = url;
-    this.ok = ok;
-    this.fail = fail;
+  url(url) {
+    this._url = url;
+    return this;
+  }
+
+  ok(fn) {
+    this._ok = fn;
+    return this;
+  }
+
+  fail(fn) {
+    this._fail = fn;
+    return this;
+  }
+
+  before(fn) {
+    this._before = fn;
+    return this;
   }
 
   async fetch() {
+    if (this._before) {
+      let isStopped = true;
+      const result = this._before(() => isStopped = false);
+      if (isStopped) {
+        this.status = FetcherStatus.Ok;
+        return result;
+      }
+    }
+
     this.status = FetcherStatus.Progress;
     try {
-      const data = await fetchJson(this.config.get('api-host') + this.url);
-      const result = this.ok && this.ok(data);
+      const data = await fetchJson(this.config.get('api-host') + this._url);
+      const result = this._ok && this._ok(data);
       this.status = FetcherStatus.Ok;
       return result;
     }
     catch(error) {
-      if (this.fail) {
-        const result = this.fail(error);
+      if (this._fail) {
+        const result = this._fail(error);
         this.status = FetcherStatus.Fail;
         return result;
       }
