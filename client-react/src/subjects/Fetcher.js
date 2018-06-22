@@ -3,10 +3,16 @@ import { fetchJson } from 'lib/fetch';
 import { Config } from './Config';
 import { message } from 'antd';
 
+export const FetcherStatus = {
+  Progress: 1,
+  Ok: 2,
+  Fail: 3
+}
+
 export class Fetcher {
   @inject(Config) config;
 
-  @mut loading;
+  @mut status;
 
   constructor(url, ok, fail) {
     this.url = url;
@@ -15,18 +21,23 @@ export class Fetcher {
   }
 
   async fetch() {
-    this.loading = true;
+    this.status = FetcherStatus.Progress;
     try {
       const data = await fetchJson(this.config.get('api-host') + this.url);
-      this.loading = false;
-      return this.ok && this.ok(data);
-    } catch(error) {
-      this.loading = false;
+      const result = this.ok && this.ok(data);
+      this.status = FetcherStatus.Ok;
+      return result;
+    }
+    catch(error) {
       if (this.fail) {
-        return this.fail(error);
-      } else {
+        const result = this.fail(error);
+        this.status = FetcherStatus.Fail;
+        return result;
+      }
+      else {
         console.error(error);
         message.error(error.message);
+        this.status = FetcherStatus.Fail;
       }
     }
   }

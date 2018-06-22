@@ -1,19 +1,21 @@
-const { injectBabelPlugin } = require('react-app-rewired');
+const { injectBabelPlugin, compose } = require('react-app-rewired');
 const rewireStyledComponents = require('react-app-rewire-styled-components');
 
+const carry = (fn, ...cArgs) => (...args) => fn(...cArgs.concat(args));
+
+const injectBabelPlugins = (...plugins) => (
+  compose(...plugins.map((plugin) => carry(injectBabelPlugin, plugin)))
+)
+
 module.exports = function(config, env){
-  config = rewireStyledComponents(config, env);
-  config = injectBabelPlugin(
-    ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
-    config
+  const rewires = compose(
+    rewireStyledComponents,
+    injectBabelPlugins(
+      ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
+      ['module-resolver', { root: ['./src'] }],
+      'transform-decorators-legacy'
+    )
   );
-  config = injectBabelPlugin(
-    ['module-resolver', { root: ['./src'] }],
-    config
-  );
-  config = injectBabelPlugin(
-    'transform-decorators-legacy',
-    config
-  );
-  return config;
+
+  return rewires(config, env);
 };

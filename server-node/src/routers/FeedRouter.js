@@ -9,7 +9,7 @@ export class FeedRouter {
   }
 
   async list() {
-    return { items: [] };
+    return { items: [1,2,3] };
   }
 
 }

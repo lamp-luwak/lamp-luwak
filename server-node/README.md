@@ -1,3 +1,3 @@
-# Back
+# Server
 
-	./cli/start.js
+	npm start

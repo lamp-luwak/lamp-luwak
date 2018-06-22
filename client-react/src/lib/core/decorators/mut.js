@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const mut = (Prototype, property) => {
+export const mut = (Prototype, property, { initializer }) => {
   const isReactComponent = Prototype instanceof React.Component;
 
   if (!Prototype.__mutSubscribe && !isReactComponent) {
@@ -24,8 +24,10 @@ export const mut = (Prototype, property) => {
 
   return {
     get() {
-      if (this.__mutValues) {
+      if (this.__mutValues && this.__mutValues.hasOwnProperty(property)) {
         return this.__mutValues[property];
+      } else if (initializer) {
+        return (this.__mutValues = this.__mutValues || {})[property] = initializer();
       }
     },
     set(value) {
