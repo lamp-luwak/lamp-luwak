@@ -15,8 +15,8 @@ export class App {
     this.server.configure(server);
   }
 
-  init() {
-    this.db.init();
+  async init() {
+    await this.db.init();
     this.accountRouter.init();
     this.reedRouter.init();
   }

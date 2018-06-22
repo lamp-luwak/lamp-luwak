@@ -1,4 +1,4 @@
-import Database from 'better-sqlite3';
+import sqlite from 'sqlite';
 
 export class Db {
 
@@ -6,11 +6,17 @@ export class Db {
     this.filename = filename;
   }
 
-  init() {
-    this.db = new Database(this.filename);
+  async init() {
+    this.db = await sqlite.open(this.filename);
+    await this.db.migrate({ force: 'last' });
   }
 
-  async run(sqlText, params = {}) {
-    return this.db.prepare(sqlText).run(params);
+  async run(query, params = {}, paramPrefix = ':') {
+    const prefixiedParams = {};
+    for (const name of Object.keys(params)) {
+      const namePrefix = name[0] !== paramPrefix ? paramPrefix : '';
+      prefixiedParams[namePrefix + name] = params[name];
+    }
+    return this.db.run(query, prefixiedParams);
   }
 }

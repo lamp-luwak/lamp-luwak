@@ -10,7 +10,7 @@ new class Cli {
   constructor() {
     this.app.configure({
       db: {
-        filename: Path.resolve(__dirname, '../../data/data.db')
+        filename: Path.resolve(__dirname, '../../database.sqlite')
       },
       server: {
         hostname: '127.0.0.1',
@@ -21,3 +21,4 @@ new class Cli {
     this.app.run();
   }
 }
+

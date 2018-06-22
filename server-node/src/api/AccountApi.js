@@ -7,7 +7,7 @@ export class AccountApi {
 
   async createToken() {
     const token = nanoid();
-    await this.db.run('INSERT INTO tokens VALUES (:token)', { token });
+    await this.db.run('INSERT INTO Token VALUES (:token)', { token });
     return token;
   }
 

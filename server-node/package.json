@@ -7,7 +7,8 @@
     "build": "babel -d build src",
     "clean": "rimraf build",
     "serve": "node build/cli/start.js",
-    "test": "mocha --compilers js:babel-register"
+    "test": "mocha --compilers js:babel-register",
+    "migrate": "db-migrate"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -19,10 +20,10 @@
     "rimraf": "^2.6.2",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
+    "sqlite": "^2.9.2",
     "express": "^4.16.3",
     "cors": "^2.8.4",
     "body-parser": "^1.18.3",
-    "better-sqlite3": "^4.1.4",
     "nanoid": "^1.0.3"
   }
 }
