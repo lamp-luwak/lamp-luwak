@@ -1,10 +1,10 @@
 const { injectBabelPlugin, compose } = require('react-app-rewired');
 const rewireStyledComponents = require('react-app-rewire-styled-components');
 
-const carry = (fn, ...cArgs) => (...args) => fn(...cArgs.concat(args));
+const curry = (fn, ...cArgs) => (...args) => fn(...cArgs.concat(args));
 
 const injectBabelPlugins = (...plugins) => (
-  compose(...plugins.map((plugin) => carry(injectBabelPlugin, plugin)))
+  compose(...plugins.map((plugin) => curry(injectBabelPlugin, plugin)))
 )
 
 module.exports = function(config, env){

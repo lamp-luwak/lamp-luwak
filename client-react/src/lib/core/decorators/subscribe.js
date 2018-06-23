@@ -7,27 +7,32 @@ export const subscribe = (Component) => (
       super(props, context);
 
       const unsubscribers = this.__mutUnsubscribers = this.__mutUnsubscribers || [];
-      const update = () => this.forceUpdate();
+      const update = this.forceUpdate.bind(this);
 
       if (this.__injectedPropertyNames) {
         const names = this.__injectedPropertyNames;
         for (const name of names) {
           if (this[name].__mutSubscribe) {
-            unsubscribers.push(
-              this[name].__mutSubscribe(update)
-            );
+            unsubscribers.push(this[name].__mutSubscribe(update));
           }
         }
       }
 
       for (const name of Object.keys(props)) {
         if (props[name].__mutSubscribe) {
-          unsubscribers.push(
-            props[name].__mutSubscribe(update)
-          );
+          unsubscribers.push(props[name].__mutSubscribe(update));
         }
       }
 
+    }
+
+    subscribe(subject) {
+      if (subject && subject.__mutSubscribe) {
+        const unsubscribers = this.__mutUnsubscribers = this.__mutUnsubscribers || [];
+        const update = this.forceUpdate.bind(this);
+        unsubscribers.push(subject.__mutSubscribe(update));
+      }
+      return subject;
     }
 
     componentWillUnmount() {
