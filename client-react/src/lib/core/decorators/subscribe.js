@@ -26,15 +26,6 @@ export const subscribe = (Component) => (
 
     }
 
-    subscribe(subject) {
-      if (subject && subject.__mutSubscribe) {
-        const unsubscribers = this.__mutUnsubscribers = this.__mutUnsubscribers || [];
-        const update = this.forceUpdate.bind(this);
-        unsubscribers.push(subject.__mutSubscribe(update));
-      }
-      return subject;
-    }
-
     componentWillUnmount() {
       super.componentWillUnmount();
       for (const unsubscriber of this.__mutUnsubscribers) {

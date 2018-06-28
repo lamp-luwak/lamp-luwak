@@ -13,6 +13,7 @@ module.exports = function(config, env){
     injectBabelPlugins(
       ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
       ['module-resolver', { root: ['./src'] }],
+      'add-react-displayname',
       'transform-decorators-legacy'
     )
   );

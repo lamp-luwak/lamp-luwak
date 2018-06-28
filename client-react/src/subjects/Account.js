@@ -1,4 +1,4 @@
-import { mut } from 'lib/core';
+import { mut, inst } from 'lib/core';
 import { Fetcher } from './Fetcher';
 import { SharedValueStorage } from './storage/SharedValueStorage';
 
@@ -6,10 +6,10 @@ export class Account {
   @mut token;
 
   constructor() {
-    this.storage = new SharedValueStorage('account::token');
+    this.storage = inst(SharedValueStorage, 'account::token');
     this.token = this.storage.get();
 
-    this.fetcher = new Fetcher()
+    this.fetcher = inst(Fetcher)
       .url('/account/token')
       .ok(data => this.setToken(data.token))
       .before(next => this.token ? this.token : next());

@@ -1,10 +1,10 @@
-import { mut } from 'lib/core';
+import { mut, inst } from 'lib/core';
 import { message } from 'antd';
 
 export class FeedCreator {
 
   createDraft() {
-    return new Draft();
+    return inst(Draft);
   }
 }
 

@@ -1,4 +1,4 @@
-import { mut } from 'lib/core';
+import { mut, inst } from 'lib/core';
 import { Fetcher } from './Fetcher';
 
 export class Feed {
@@ -6,7 +6,7 @@ export class Feed {
   @mut list = [];
 
   constructor() {
-    this.fetcher = new Fetcher()
+    this.fetcher = inst(Fetcher)
       .url('/feed/list')
       .ok(data => this.list = data.items);
   }
