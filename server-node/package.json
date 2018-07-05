@@ -1,9 +1,9 @@
 {
   "private": true,
-  "main": "src/cli/start.js",
+  "main": "./cli/start.js",
   "scripts": {
-    "start": "nodemon -e js,sql,json src/cli/start.js --exec babel-node",
-    "once": "babel-node src/cli/start.js",
+    "start": "nodemon -e js,sql,json ./cli/start.js",
+    "once": "./cli/start.js",
     "build": "babel -d build src",
     "clean": "rimraf build",
     "serve": "node build/cli/start.js",

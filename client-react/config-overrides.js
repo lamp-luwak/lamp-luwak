@@ -14,7 +14,8 @@ module.exports = function(config, env){
       ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }],
       ['module-resolver', { root: ['./src'] }],
       'add-react-displayname',
-      'transform-decorators-legacy'
+      'transform-decorators-legacy',
+      'flow-react-proptypes'
     )
   );
 

@@ -2,8 +2,6 @@ import * as Path from 'path';
 import { App } from 'app/App';
 import { inject } from 'lib/core';
 
-import 'babel-register';
-
 new class Cli {
   @inject(App) app;
 
