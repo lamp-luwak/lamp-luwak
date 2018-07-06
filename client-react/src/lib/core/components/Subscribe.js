@@ -1,18 +1,18 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Subject } from '../PropTypes/Subject';
 
-export class Subscribe extends React.PureComponent {
+type Props = {
+  children: Function,
+  to?: Subject | Array<Subject>
+};
 
-  static propTypes = {
-    children: PropTypes.func.isRequired,
-    to: PropTypes.oneOfType([
-      Subject,
-      PropTypes.arrayOf(Subject)
-    ]).isRequired
-  }
+export class Subscribe extends React.PureComponent<Props> {
 
-  constructor(props, context) {
+  unsubscribers: Array<Function>;
+
+  constructor(props: Props, context?: any) {
     super(props, context);
 
     const unsubscribers = this.unsubscribers = [];

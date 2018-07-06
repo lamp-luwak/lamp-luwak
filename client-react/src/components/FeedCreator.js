@@ -1,11 +1,15 @@
+// @flow
 import React from 'react';
 import { subscribe, inject, Subscribe } from 'lib/core';
-import { FeedCreator as FeedCreatorSubject } from 'subjects/FeedCreator';
+import { FeedCreator as FeedCreatorSubject, Draft as FeedDraft } from 'subjects/FeedCreator';
 import { Input, Button, Col } from 'antd';
 
 @subscribe
-export class FeedCreator extends React.PureComponent {
-  @inject(FeedCreatorSubject) feedCreator;
+export class FeedCreator extends React.PureComponent<{}> {
+  @inject(FeedCreatorSubject)
+  feedCreator: FeedCreatorSubject;
+
+  draft: FeedDraft;
 
   constructor() {
     super();

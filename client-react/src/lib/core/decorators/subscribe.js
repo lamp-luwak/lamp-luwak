@@ -1,3 +1,5 @@
+// @flow
+
 
 export const subscribe = (Component) => (
   class extends Component {

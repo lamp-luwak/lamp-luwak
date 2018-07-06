@@ -1,18 +1,18 @@
+// @flow
 import React from 'react';
 import PropTypes from 'prop-types';
 import { subscribe } from 'lib/core';
 import { Fetcher, FetcherStatus } from 'subjects/Fetcher';
 import { Spin, Alert } from 'antd';
 
+type Props = {
+  fetcher: Fetcher,
+  ok?: Function,
+  fail?: Function
+};
+
 @subscribe
-export class FetcherLoader extends React.PureComponent {
-
-  static propTypes = {
-    fetcher: PropTypes.instanceOf(Fetcher).isRequired,
-    ok: PropTypes.func,
-    fail: PropTypes.func
-  }
-
+export class FetcherLoader extends React.PureComponent<Props> {
   render() {
     const { fetcher, ok, fail } = this.props;
 

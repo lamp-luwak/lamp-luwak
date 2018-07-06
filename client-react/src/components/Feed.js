@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { subscribe, inject } from 'lib/core';
 import { Feed as FeedSubject } from 'subjects/Feed';
@@ -5,9 +6,10 @@ import { FetcherLoader } from './FetcherLoader';
 import { FeedCreator } from './FeedCreator';
 
 @subscribe
-export class Feed extends React.PureComponent {
+export class Feed extends React.PureComponent<{}> {
 
-  @inject(FeedSubject) feed;
+  @inject(FeedSubject)
+  feed: FeedSubject;
 
   constructor() {
     super();
