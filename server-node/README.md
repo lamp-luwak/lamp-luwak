@@ -1,3 +1,0 @@
-# Server
-
-	npm start
