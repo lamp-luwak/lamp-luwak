@@ -1,4 +1,6 @@
-# Server
+Install it and run:
 
-  npm run build
-  npm run start
+```bash
+npm i
+npm run watch-debug
+```

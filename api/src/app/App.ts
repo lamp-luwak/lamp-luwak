@@ -1,14 +1,14 @@
-import { provide } from '@lib/core';
-import { Db } from '@services/Db';
-import { Server } from '@services/Server';
-import { AccountRouter } from '@routers/AccountRouter';
-import { FeedRouter } from '@routers/FeedRouter';
+import { provide } from "@lib/core";
+import { Db } from "@services/Db";
+import { Server } from "@services/Server";
+import { AccountRouter } from "@routers/AccountRouter";
+import { FeedRouter } from "@routers/FeedRouter";
 
 export class App {
-  @provide(Db) db: Db;
-  @provide(Server) server: Server;
-  @provide(AccountRouter) accountRouter: AccountRouter;
-  @provide(FeedRouter) feedRouter: FeedRouter;
+  @provide(Db) public db: Db;
+  @provide(Server) public server: Server;
+  @provide(AccountRouter) public accountRouter: AccountRouter;
+  @provide(FeedRouter) public feedRouter: FeedRouter;
 
   public async start(config: any) {
     this._configure(config);

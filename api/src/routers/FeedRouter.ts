@@ -1,21 +1,22 @@
-import { provide } from '@lib/core';
-import { Route } from '@services/Route';
+import { provide } from "@lib/core";
+import { Route } from "@services/Route";
 
 export class FeedRouter {
-  @provide(Route) route: Route;
+  @provide(Route) public route: Route;
 
-  init() {
-    this.route.make('POST', '/feed/create', this.create.bind(this));
-    this.route.make('GET', '/feed/list', this.list.bind(this));
+  public init() {
+    this.route.make("POST", "/feed/create", this.create.bind(this));
+    this.route.make("GET", "/feed/list", this.list.bind(this));
   }
 
-  async create({ req, headers, body }: { req: any, headers: any, body: any }) {
+  public async create({ req, headers, body }: { req: any, headers: any, body: any }) {
+    // tslint:disable-next-line: no-console
     console.log(
-      req, headers, body
+      req, headers, body,
     );
   }
 
-  async list() {
+  public async list() {
     return { items: [1, 2, 3] };
   }
 

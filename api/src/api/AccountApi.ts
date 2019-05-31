@@ -1,13 +1,13 @@
-import nanoid from 'nanoid';
-import { provide } from '@lib/core';
-import { Db } from '@services/Db';
+import nanoid from "nanoid";
+import { provide } from "@lib/core";
+import { Db } from "@services/Db";
 
 export class AccountApi {
-  @provide(Db) db: Db;
+  @provide(Db) public db: Db;
 
-  async createToken() {
+  public async createToken() {
     const token = nanoid();
-    await this.db.collection('tokens').insertOne({ token });
+    await this.db.collection("tokens").insertOne({ token });
     return token;
   }
 

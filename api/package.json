@@ -1,12 +1,12 @@
 {
-  "name": "sonata-api",
+  "name": "@sonata/api",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
-    "serve": "node dist/cli/start.js",
-    "watch-node": "nodemon dist/cli/start.js",
+    "serve": "node .dist/cli/start.js",
+    "watch-node": "nodemon .dist/cli/start.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "test": "jest --forceExit --coverage --verbose",
     "watch-test": "npm run test -- --watchAll",
@@ -14,9 +14,9 @@
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect dist/cli/start.js",
+    "serve-debug": "nodemon --inspect .dist/cli/start.js",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
-    "clean": "rimraf dist"
+    "clean": "rimraf .dist"
   },
   "dependencies": {
     "express": "^4.17.0",
@@ -52,14 +52,15 @@
     "ts-jest": "^24.0.2",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
+    "tslint-config-standard": "^8.0.1",
     "typescript": "^3.4.5"
   },
   "_moduleAliases": {
-    "@lib": "dist/lib",
-    "@services": "dist/services",
-    "@routers": "dist/routers",
-    "@api": "dist/api",
-    "@app": "dist/app",
-    "@": "dist"
+    "@lib": ".dist/lib",
+    "@services": ".dist/services",
+    "@routers": ".dist/routers",
+    "@api": ".dist/api",
+    "@app": ".dist/app",
+    "@": ".dist"
   }
 }

@@ -1,7 +1,8 @@
 {
   "extends": [
     "tslint-config-standard",
-    "tslint:latest"
+    "tslint:latest",
+    "tslint-react"
   ],
   "rules": {
     "class-name": true,
@@ -9,37 +10,41 @@
       true,
       "check-space"
     ],
-    "indent": [
-      true,
-      "spaces"
-    ],
     "one-line": [
       true,
       "check-open-brace",
       "check-whitespace"
     ],
     "no-var-keyword": true,
-    "no-submodule-imports": [
+    "indent": [
       true,
-      "module-alias"
+      "spaces"
     ],
     "semicolon": [
       true,
       "always",
       "ignore-bound-class-methods"
     ],
-    "whitespace": [
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
+    "jsx-boolean-value": false,
+    "max-line-length": false,
+    "no-console": false,
+    "no-object-literal-type-assertion": false,
+    "no-submodule-imports": [
       true,
-      "check-branch",
-      "check-decl",
-      "check-operator",
-      "check-module",
-      "check-preblock",
-      "check-rest-spread",
-      "check-separator",
-      "check-typecast",
-      "check-type-operator",
-      "check-type"
+      "next",
+      "styled-jsx"
+    ],
+    "no-internal-module": true,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false,
+    "no-unused-variable": false,
+    "no-implicit-dependencies": false,
+    "space-before-function-paren": false,
+    "ter-indent": [
+      true,
+      2
     ],
     "typedef-whitespace": [
       true,
@@ -58,20 +63,20 @@
         "variable-declaration": "onespace"
       }
     ],
-    "no-internal-module": true,
-    "no-trailing-whitespace": true,
-    "no-implicit-dependencies": false,
-    "no-object-literal-type-assertion": false,
-    "ordered-imports": false,
-    "object-literal-sort-keys": false,
-    "max-line-length": false,
-    "no-null-keyword": true,
     "prefer-const": true,
     "jsdoc-format": true,
-    "space-before-function-paren": false,
-    "ter-indent": [
+    "whitespace": [
       true,
-      2
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-preblock",
+      "check-rest-spread",
+      "check-separator",
+      "check-typecast",
+      "check-type-operator",
+      "check-type"
     ],
     "interface-name": false,
     "no-empty-interface": false

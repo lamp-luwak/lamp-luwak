@@ -1,9 +1,8 @@
-import Path from 'path';
 import {
   MongoClient,
   Db as MongoDb,
-  Collection
-} from 'mongodb';
+  Collection,
+} from "mongodb";
 
 export class Db {
   public url: string;
@@ -24,10 +23,10 @@ export class Db {
   }
 
   private async _getConnectedClient(): Promise<MongoClient> {
-    return await MongoClient.connect(this.url, { useNewUrlParser: true });
+    return MongoClient.connect(this.url, { useNewUrlParser: true });
   }
 
   private async _getConnectedDb(): Promise<MongoDb> {
-    return ( await this._getConnectedClient() ).db(this.dbname);
+    return (await this._getConnectedClient()).db(this.dbname);
   }
 }
