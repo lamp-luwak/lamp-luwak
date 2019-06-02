@@ -1,12 +1,16 @@
+import { Component, ComponentClass, ComponentType } from "react";
+import { Type } from "@lib/types";
 
-export const subscribe = (Component: ObjectConstructor) => (
-  class SubscribedComponent<P = {}> extends Component {
-    public static displayName = (Component as any).displayName || Component.name;
+export const subscribe: <P extends object>(Comp: ComponentType<P>) => ComponentClass<P> = <P extends object>(Comp: ComponentType<P>) =>
+  class SubscribedComponent extends (Comp as Component<P>) {
+    public static displayName =
+      (Component as any).displayName || Component.name;
 
     constructor(props: P, context?: any) {
       super(props, context);
 
-      const unsubscribers = this.__mutUnsubscribers = this.__mutUnsubscribers || [];
+      const unsubscribers = (this.__mutUnsubscribers =
+        this.__mutUnsubscribers || []);
       const update = this.forceUpdate.bind(this);
 
       if (this.__injectedPropertyNames) {
@@ -23,14 +27,14 @@ export const subscribe = (Component: ObjectConstructor) => (
           unsubscribers.push(props[name].__mutSubscribe(update));
         }
       }
-
     }
 
-    componentWillUnmount() {
-      super.componentWillUnmount();
+    public componentWillUnmount() {
+      if (typeof super.componentWillUnmount !== "undefined") {
+        super.componentWillUnmount();
+      }
       for (const unsubscriber of this.__mutUnsubscribers) {
         unsubscriber();
       }
     }
-  }
-);
+  };

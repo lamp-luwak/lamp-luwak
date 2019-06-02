@@ -2,7 +2,7 @@
 import React from "react";
 import { subscribe, inject, Subscribe } from "@lib/core";
 import { FeedCreator as FeedCreatorSubject, Draft as FeedDraft } from "@subjects/FeedCreator";
-import { Input, Button, Col } from "antd";
+import { Input, Button, Col, Row } from "antd";
 
 @subscribe
 export class FeedCreator extends React.PureComponent<{}> {
@@ -18,7 +18,7 @@ export class FeedCreator extends React.PureComponent<{}> {
 
   render() {
     return (
-      <Input.Group>
+      <Row>
         <Col span={10}>
           <Subscribe to={this.draft}>
             {() => (
@@ -35,7 +35,7 @@ export class FeedCreator extends React.PureComponent<{}> {
             Create
           </Button>
         </Col>
-      </Input.Group>
+      </Row>
     );
   }
 }

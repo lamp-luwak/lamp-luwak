@@ -4,7 +4,7 @@ import { Feed as FeedSubject } from "@subjects/Feed";
 import { FetcherLoader } from "./FetcherLoader";
 import { FeedCreator } from "./FeedCreator";
 
-type FeedProps = {};
+interface FeedProps {}
 
 @subscribe
 export class Feed extends React.PureComponent<FeedProps> {

@@ -34,7 +34,8 @@
     "no-submodule-imports": [
       true,
       "next",
-      "styled-jsx"
+      "styled-jsx",
+      "@lib"
     ],
     "no-internal-module": true,
     "ordered-imports": false,

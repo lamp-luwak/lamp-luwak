@@ -6,6 +6,7 @@ import styles from "./index.styles";
 
 const Title = styled.h1`
   color: red;
+  transform: scale(2);
 `;
 
 class Index extends React.Component {

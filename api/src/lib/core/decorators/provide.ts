@@ -1,22 +1,25 @@
 const store = new Map();
 
-export const provide = (Ctor: object): any => (
-  (target: object, propertyName: string | symbol): PropertyDescriptor => ({
-    get() {
-      let instance = store.get(Ctor);
-      if (!instance) {
-        store.set(Ctor, (instance = new (Ctor as ObjectConstructor)()));
-      }
+type ClassType = new () => object;
 
-      Object.defineProperty(this, propertyName, {
-        value: instance,
-        enumerable: true,
-        configurable: false,
-        writable: false,
-      });
-      return instance;
-    },
-    enumerable: true,
-    configurable: true,
-  })
-);
+export const provide = (Class: ClassType): any => (
+  target: object,
+  propertyName: string | symbol,
+): PropertyDescriptor => ({
+  get() {
+    let instance = store.get(Class);
+    if (!instance) {
+      store.set(Class, (instance = new Class()));
+    }
+
+    Object.defineProperty(this, propertyName, {
+      value: instance,
+      enumerable: true,
+      configurable: false,
+      writable: false,
+    });
+    return instance;
+  },
+  enumerable: true,
+  configurable: true,
+});

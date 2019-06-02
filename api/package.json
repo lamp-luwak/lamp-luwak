@@ -60,7 +60,6 @@
     "@services": ".dist/services",
     "@routers": ".dist/routers",
     "@api": ".dist/api",
-    "@app": ".dist/app",
-    "@": ".dist"
+    "@app": ".dist/app"
   }
 }
