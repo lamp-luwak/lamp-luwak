@@ -1,1 +1,1 @@
-Use sinopia or verdaccio for private packages
+Maybe little bit later something will be here.

@@ -3,7 +3,7 @@ import { Fetcher } from "./Fetcher";
 import { SharedValueStorage } from "./storage/SharedValueStorage";
 
 export class Account {
-  @mut token;
+  @mut public token: string;
 
   constructor() {
     this.storage = inst(SharedValueStorage, "account::token");
