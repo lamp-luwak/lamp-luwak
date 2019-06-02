@@ -9,11 +9,11 @@ export interface Response extends Express.Response { }
 export type RequestHandler = (req: Request, res: Response) => Promise<any>;
 
 export class Server {
-  @provide(Logger) public logger: Logger;
+  @provide public logger!: Logger;
 
   public express: Express.Express;
-  public port: number;
-  public hostname: string;
+  public port!: number;
+  public hostname!: string;
 
   constructor() {
     this.express = Express();

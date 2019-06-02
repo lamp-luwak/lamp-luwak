@@ -58,6 +58,7 @@
         "variable-declaration": "onespace"
       }
     ],
+    "no-console": false,
     "no-internal-module": true,
     "no-trailing-whitespace": true,
     "no-implicit-dependencies": false,

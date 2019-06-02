@@ -5,20 +5,22 @@
   "scripts": {
     "start": "npm run serve",
     "build": "npm run build-ts && npm run tslint",
-    "serve": "node .dist/cli/start.js",
-    "watch-node": "nodemon .dist/cli/start.js",
+    "serve": "node .dist/start.js",
+    "watch-node": "nodemon .dist/start.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"npm run watch-ts\" \"npm run watch-node\"",
     "test": "jest --forceExit --coverage --verbose",
     "watch-test": "npm run test -- --watchAll",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
+    "run-once": "npm run build && npm run start",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "debug": "npm run build && npm run watch-debug",
-    "serve-debug": "nodemon --inspect .dist/cli/start.js",
+    "serve-debug": "nodemon --inspect .dist/start.js",
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,green.bold\" \"npm run watch-ts\" \"npm run serve-debug\"",
     "clean": "rimraf .dist"
   },
   "dependencies": {
+    "reflect-metadata": "^0.1.13",
     "express": "^4.17.0",
     "cors": "^2.8.5",
     "body-parser": "^1.19.0",
@@ -50,7 +52,6 @@
     "shelljs": "^0.8.3",
     "supertest": "^4.0.2",
     "ts-jest": "^24.0.2",
-    "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
     "tslint-config-standard": "^8.0.1",
     "typescript": "^3.4.5"

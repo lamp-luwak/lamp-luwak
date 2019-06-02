@@ -5,10 +5,10 @@ import { AccountRouter } from "@routers/AccountRouter";
 import { FeedRouter } from "@routers/FeedRouter";
 
 export class App {
-  @provide(Db) public db: Db;
-  @provide(Server) public server: Server;
-  @provide(AccountRouter) public accountRouter: AccountRouter;
-  @provide(FeedRouter) public feedRouter: FeedRouter;
+  @provide public db!: Db;
+  @provide public server!: Server;
+  @provide public accountRouter!: AccountRouter;
+  @provide public feedRouter!: FeedRouter;
 
   public async start(config: any) {
     this._configure(config);

@@ -1,10 +1,10 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 
 # IDEs and editors
-/.idea
+.idea
 .project
 .classpath
 .c9/
@@ -20,10 +20,10 @@
 !.vscode/extensions.json
 
 # testing
-/coverage
+./coverage
 
 # production
-/.dist
+.dist
 
 # misc
 .DS_Store

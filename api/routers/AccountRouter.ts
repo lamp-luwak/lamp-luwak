@@ -3,8 +3,8 @@ import { Route } from "@services/Route";
 import { AccountApi } from "@api/AccountApi";
 
 export class AccountRouter {
-  @provide(Route) public route: Route;
-  @provide(AccountApi) public accountApi: AccountApi;
+  @provide public route!: Route;
+  @provide public accountApi!: AccountApi;
 
   public init() {
     this.route.make("GET", "/account/token", this.createToken.bind(this));

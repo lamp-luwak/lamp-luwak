@@ -6,7 +6,9 @@
     "noImplicitAny": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "sourceMap": true,
+    "strict": true,
     "outDir": ".dist",
     "baseUrl": ".",
     "typeRoots": [
@@ -14,23 +16,23 @@
     ],
     "paths": {
       "@lib/*": [
-        "src/lib/*"
+        "lib/*"
       ],
       "@services/*": [
-        "src/services/*"
+        "services/*"
       ],
       "@routers/*": [
-        "src/routers/*"
+        "routers/*"
       ],
       "@api/*": [
-        "src/api/*"
+        "api/*"
       ],
       "@app/*": [
-        "src/app/*"
+        "app/*"
       ]
     }
   },
-  "include": [
-    "src/**/*"
+  "exclude": [
+    "./**/*.js"
   ]
 }
