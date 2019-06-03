@@ -5,9 +5,9 @@ import {
 } from "mongodb";
 
 export class Db {
-  public url!: string;
-  public dbname!: string;
-  public db!: MongoDb;
+  public url: string;
+  public dbname: string;
+  public db: MongoDb;
 
   public configure({ url, dbname }: { url: string, dbname: string }) {
     this.url = url;

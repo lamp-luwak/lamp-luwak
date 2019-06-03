@@ -5,7 +5,7 @@ import { App } from "@app/App";
 import { provide } from "@lib/core";
 
 class AppRunner {
-  @provide public app!: App;
+  @provide public app: App;
 
   public async start() {
     return this.app.start({
