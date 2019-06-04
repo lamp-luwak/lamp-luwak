@@ -15,18 +15,18 @@ export class Db {
   }
 
   public async init() {
-    this.db = await this._getConnectedDb();
+    this.db = await this.getConnectedDb();
   }
 
   public collection(name: string): Collection {
     return this.db.collection(name);
   }
 
-  private async _getConnectedClient(): Promise<MongoClient> {
+  private async getConnectedClient(): Promise<MongoClient> {
     return MongoClient.connect(this.url, { useNewUrlParser: true });
   }
 
-  private async _getConnectedDb(): Promise<MongoDb> {
-    return (await this._getConnectedClient()).db(this.dbname);
+  private async getConnectedDb(): Promise<MongoDb> {
+    return (await this.getConnectedClient()).db(this.dbname);
   }
 }

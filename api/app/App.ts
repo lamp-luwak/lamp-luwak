@@ -11,23 +11,23 @@ export class App {
   @provide public feedRouter: FeedRouter;
 
   public async start(config: any) {
-    this._configure(config);
-    await this._init();
-    this._run();
+    this.configure(config);
+    await this.init();
+    this.run();
   }
 
-  private _configure({ db, server }: { db: any, server: any }) {
+  private configure({ db, server }: { db: any, server: any }) {
     this.db.configure(db);
     this.server.configure(server);
   }
 
-  private async _init() {
+  private async init() {
     await this.db.init();
     this.accountRouter.init();
     this.feedRouter.init();
   }
 
-  private _run() {
+  private run() {
     this.server.run();
   }
 }
