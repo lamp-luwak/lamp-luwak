@@ -18,7 +18,7 @@ export interface StoreContainer {
   [StoreValues]?: any;
 }
 
-export function store(target: object & StoreContainer, propertyKey: string, descriptor?: PropertyDescriptorWithInitializer) {
+export function store(target: object & StoreContainer, propertyKey: string, descriptor?: PropertyDescriptorWithInitializer): any {
   const isReactComponent = target instanceof React.Component;
   const initializer = (descriptor || {}).initializer;
 
@@ -43,7 +43,7 @@ export function store(target: object & StoreContainer, propertyKey: string, desc
     });
   }
 
-  Object.defineProperty(target, propertyKey, {
+  return {
     get() {
       const container = this as StoreContainer;
       if (container[StoreValues] && container[StoreValues].hasOwnProperty(propertyKey)) {
@@ -67,5 +67,5 @@ export function store(target: object & StoreContainer, propertyKey: string, desc
     },
     configurable: false,
     enumerable: true,
-  });
+  };
 }
