@@ -43,10 +43,6 @@
     "no-unused-variable": false,
     "no-implicit-dependencies": false,
     "space-before-function-paren": false,
-    "ter-indent": [
-      true,
-      2
-    ],
     "typedef-whitespace": [
       true,
       {
@@ -80,6 +76,12 @@
       "check-type"
     ],
     "interface-name": false,
-    "no-empty-interface": false
+    "no-empty-interface": false,
+    "no-string-throw": false
+  },
+  "linterOptions": {
+    "exclude": [
+      "./**/*.js"
+    ]
   }
 }

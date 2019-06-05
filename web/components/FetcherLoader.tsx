@@ -1,19 +1,18 @@
-// @flow
 import React from "react";
-import PropTypes from "prop-types";
 import { subscribe } from "@lib/core";
-import { Fetcher, FetcherStatus } from "@subjects/Fetcher";
+import { Fetcher, FetcherStatus } from "@services/FetcherPool";
 import { Spin, Alert } from "antd";
 
-type Props = {
-  fetcher: Fetcher,
-  ok?: Function,
-  fail?: Function
-};
+interface FetcherLoaderProps {
+  fetcher: Fetcher;
+  ok?: () => any;
+  fail?: () => any;
+}
 
 @subscribe
-export class FetcherLoader extends React.PureComponent<Props> {
-  render() {
+export class FetcherLoader extends React.PureComponent<FetcherLoaderProps> {
+
+  public render() {
     const { fetcher, ok, fail } = this.props;
 
     switch (fetcher.status) {
@@ -33,4 +32,3 @@ export class FetcherLoader extends React.PureComponent<Props> {
     }
   }
 }
-

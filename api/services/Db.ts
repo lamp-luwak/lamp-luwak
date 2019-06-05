@@ -9,7 +9,7 @@ export class Db {
   public dbname: string;
   public db: MongoDb;
 
-  public configure({ url, dbname }: { url: string, dbname: string }) {
+  public configure({ url, dbname }: any) {
     this.url = url;
     this.dbname = dbname;
   }

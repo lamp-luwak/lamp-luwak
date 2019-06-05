@@ -11,6 +11,10 @@
     "allowJs": true,
     "noEmit": true,
     "strict": true,
+    "types": [
+      "reflect-metadata",
+      "@types/styled-jsx"
+    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
@@ -32,8 +36,8 @@
       "@lib/*": [
         "lib/*"
       ],
-      "@subjects/*": [
-        "subjects/*"
+      "@services/*": [
+        "services/*"
       ]
     }
   },

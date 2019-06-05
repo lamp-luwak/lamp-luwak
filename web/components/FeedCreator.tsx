@@ -1,22 +1,22 @@
-// @flow
 import React from "react";
-import { subscribe, inject, Subscribe } from "@lib/core";
-import { FeedCreator as FeedCreatorSubject, Draft as FeedDraft } from "@subjects/FeedCreator";
+import { subscribe, provide, Subscribe } from "@lib/core";
+import { FeedCreator as FeedCreatorService, Draft } from "@services/FeedCreator";
 import { Input, Button, Col, Row } from "antd";
 
+interface FeedCreatorProps {}
+
 @subscribe
-export class FeedCreator extends React.PureComponent<{}> {
-  @inject(FeedCreatorSubject)
-  feedCreator: FeedCreatorSubject;
+export class FeedCreator extends React.PureComponent<FeedCreatorProps> {
+  @provide public feedCreator: FeedCreatorService;
 
-  draft: FeedDraft;
+  public draft: Draft;
 
-  constructor() {
-    super();
-    this.draft = this.feedCreator.createDraft();
+  constructor(props: FeedCreatorProps) {
+    super(props);
+    this.draft = this.feedCreator.getDraft();
   }
 
-  render() {
+  public render() {
     return (
       <Row>
         <Col span={10}>
@@ -24,7 +24,7 @@ export class FeedCreator extends React.PureComponent<{}> {
             {() => (
               <Input
                 placeholder="Type text..."
-                onInput={(e) => this.draft.setText(e.target.value)}
+                onInput={(e) => this.draft.setText((e.target as any).value)}
                 value={this.draft.text}
               />
             )}

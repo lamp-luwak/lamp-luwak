@@ -6,7 +6,6 @@ import styles from "./index.styles";
 
 const Title = styled.h1`
   color: red;
-  transform: scale(2);
 `;
 
 class Index extends React.Component {
@@ -19,7 +18,7 @@ class Index extends React.Component {
           <meta name="description" content="description for indexing bots" />
         </Head>
         <Title>Title</Title>
-        <App />
+        {<App />}
         <p>Hello</p>
         <button>Butt</button>
         <style jsx>{styles}</style>

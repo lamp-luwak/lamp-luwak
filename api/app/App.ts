@@ -16,7 +16,7 @@ export class App {
     this.run();
   }
 
-  private configure({ db, server }: { db: any, server: any }) {
+  private configure({ db, server }: any) {
     this.db.configure(db);
     this.server.configure(server);
   }

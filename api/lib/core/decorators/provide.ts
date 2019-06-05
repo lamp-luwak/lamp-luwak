@@ -1,8 +1,8 @@
 const store = new Map();
 
-export function provide(target: object, propertyKey: string) {
+export function provide(target: object, propertyKey: string): any {
   const Class = Reflect.getMetadata("design:type", target, propertyKey);
-  Object.defineProperty(target, propertyKey, {
+  return {
     get() {
       let instance = store.get(Class);
       if (!instance) {
@@ -19,5 +19,5 @@ export function provide(target: object, propertyKey: string) {
     },
     enumerable: true,
     configurable: true,
-  });
+  };
 }

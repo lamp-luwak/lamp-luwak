@@ -21,7 +21,7 @@ export class Server {
     this.express.use(BodyParser.json());
   }
 
-  public configure({ port, hostname }: { port: number, hostname: string }) {
+  public configure({ port, hostname }: any) {
     this.port = port;
     this.hostname = hostname;
   }

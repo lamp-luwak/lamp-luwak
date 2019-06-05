@@ -1,35 +1,41 @@
-// @flow
 import React from "react";
-import PropTypes from "prop-types";
-import { Subject } from "../PropTypes/Subject";
+import { StoreSubscribe, StoreContainer } from "../decorators/store";
 
-type Props = {
-  children: Function,
-  to?: Subject | Array<Subject>
-};
+interface Props {
+  children: () => React.ReactNode;
+  to?: object | object[];
+}
 
 export class Subscribe extends React.PureComponent<Props> {
 
-  unsubscribers: Array<Function>;
+  public unsubscribers: Array<() => any>;
 
   constructor(props: Props, context?: any) {
     super(props, context);
 
-    const unsubscribers = this.unsubscribers = [];
+    const unsubscribers: Array<() => any> = this.unsubscribers = [];
     const update = this.forceUpdate.bind(this);
 
-    for (const subject of [].concat(this.props.to)) {
-      unsubscribers.push(subject.__mutSubscribe(update));
+    const to = (this.props.to instanceof Array)
+      ? this.props.to
+      : [ this.props.to ];
+
+    for (const item of to) {
+      const container = item as StoreContainer;
+      if (container[StoreSubscribe]) {
+        unsubscribers.push(container[StoreSubscribe]!(update));
+      }
+
     }
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     for (const unsubscriber of this.unsubscribers) {
       unsubscriber();
     }
   }
 
-  render() {
+  public render() {
     return this.props.children();
   }
 }

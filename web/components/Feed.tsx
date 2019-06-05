@@ -1,6 +1,6 @@
 import React from "react";
-import { subscribe, inject } from "@lib/core";
-import { Feed as FeedSubject } from "@subjects/Feed";
+import { subscribe, provide } from "@lib/core";
+import { Feed as FeedService } from "@services/Feed";
 import { FetcherLoader } from "./FetcherLoader";
 import { FeedCreator } from "./FeedCreator";
 
@@ -9,20 +9,20 @@ interface FeedProps {}
 @subscribe
 export class Feed extends React.PureComponent<FeedProps> {
 
-  @inject(FeedSubject) feed: FeedSubject;
+  @provide public feedService: FeedService;
 
   constructor(props: FeedProps) {
     super(props);
-    this.feed.fetcher.fetch();
+    this.feedService.fetcher.exec();
   }
 
-  render() {
+  public render() {
     return (
       <React.Fragment>
         <FeedCreator />
         <FetcherLoader
-          fetcher={this.feed.fetcher}
-          ok={() => this.feed.list.map((item, index) => (
+          fetcher={this.feedService.fetcher}
+          ok={() => this.feedService.list.map((item, index) => (
             <div key={index}>{item}</div>
           ))}
           />

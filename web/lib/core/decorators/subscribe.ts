@@ -1,30 +1,39 @@
-import { Component, ComponentClass, ComponentType } from "react";
-import { Type } from "@lib/types";
+import { Component } from "react";
+import { ProvidedPropertyNames } from "./provide";
+import { StoreSubscribe } from "./store";
 
-export const subscribe: <P extends object>(Comp: ComponentType<P>) => ComponentClass<P> = <P extends object>(Comp: ComponentType<P>) =>
-  class SubscribedComponent extends (Comp as Component<P>) {
+export const StoreUnsubscribers = Symbol("Store unsubscribers");
+
+export function subscribe<T extends new(...args: any[]) => Component>(Comp: T) {
+  return class extends Comp {
     public static displayName =
-      (Component as any).displayName || Component.name;
+      (Comp as any).displayName || Comp.name;
 
-    constructor(props: P, context?: any) {
-      super(props, context);
+    private [StoreUnsubscribers]: any[];
+    private [ProvidedPropertyNames]?: string[];
 
-      const unsubscribers = (this.__mutUnsubscribers =
-        this.__mutUnsubscribers || []);
+    [key: string]: any;
+
+    constructor(...args: any[]) {
+      super(...args);
+
+      const unsubscribers = (this[StoreUnsubscribers] = this[StoreUnsubscribers] || []);
       const update = this.forceUpdate.bind(this);
+      const names = this[ProvidedPropertyNames];
 
-      if (this.__injectedPropertyNames) {
-        const names = this.__injectedPropertyNames;
+      if (names) {
         for (const name of names) {
-          if (this[name].__mutSubscribe) {
-            unsubscribers.push(this[name].__mutSubscribe(update));
+          if (this[name][StoreSubscribe]) {
+            unsubscribers.push(this[name][StoreSubscribe](update));
           }
         }
       }
 
+      const props = args[ 0 ];
+
       for (const name of Object.keys(props)) {
-        if (props[name].__mutSubscribe) {
-          unsubscribers.push(props[name].__mutSubscribe(update));
+        if (props[name][StoreSubscribe]) {
+          unsubscribers.push(props[name][StoreSubscribe](update));
         }
       }
     }
@@ -33,8 +42,9 @@ export const subscribe: <P extends object>(Comp: ComponentType<P>) => ComponentC
       if (typeof super.componentWillUnmount !== "undefined") {
         super.componentWillUnmount();
       }
-      for (const unsubscriber of this.__mutUnsubscribers) {
+      for (const unsubscriber of this[StoreUnsubscribers]) {
         unsubscriber();
       }
     }
   };
+}

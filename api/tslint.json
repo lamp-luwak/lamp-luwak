@@ -70,10 +70,6 @@
     "prefer-const": true,
     "jsdoc-format": true,
     "space-before-function-paren": false,
-    "ter-indent": [
-      true,
-      2
-    ],
     "interface-name": false,
     "no-empty-interface": false
   }

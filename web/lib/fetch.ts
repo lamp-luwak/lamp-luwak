@@ -1,10 +1,10 @@
 import fetch from "isomorphic-fetch";
 
-export const fetchJson = async (...args) => {
-  const response = await fetch(...args);
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
+export const fetchJson = async (input: RequestInfo, init?: RequestInit) => {
+  const response = await fetch(input, init);
+  const contentType = response.headers.get("content-type");
+  if (contentType && contentType.includes("application/json")) {
     return response.json();
   }
-  throw new TypeError('Oops, we haven\'t got JSON!');
+  throw new TypeError("Oops, we haven't got JSON!");
 };
