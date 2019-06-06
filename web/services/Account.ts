@@ -15,9 +15,8 @@ export class Account {
   public fetcher: Fetcher;
 
   constructor() {
-    this.token = this.storage.get(AccountStorageKey);
+    this.token = this.token || this.storage.get(AccountStorageKey);
 
-    console.log("FETCH AccountToken");
     this.fetcher = this.fetcherPool.make()
       .url(this.config.apiUrls.accountToken)
       .ok((data) => this.setToken(data.token))
@@ -25,7 +24,6 @@ export class Account {
   }
 
   public setToken(token: string | undefined) {
-    console.log("SET TOKEN:", token);
     this.token = token;
     this.storage.set(AccountStorageKey, token);
     return this.token;

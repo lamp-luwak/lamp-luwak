@@ -16,7 +16,7 @@ export type BeforeHandler = (next: BeforeHandlerNext) => any;
 export class Fetcher {
   @provide public config: Config;
 
-  @store public status: FetcherStatus;
+  @store public status: FetcherStatus = FetcherStatus.Ok;
 
   constructor(
     protected urlString?: string,

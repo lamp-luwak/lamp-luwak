@@ -1,6 +1,6 @@
 import React from "react";
 import NextApp, { Container, AppContext } from "next/app";
-import { reset, serialize, init } from "@lib/core";
+import { reset, serialize, setInitialState } from "@lib/core";
 
 const SerializedData = "__serialized_data__";
 
@@ -10,7 +10,6 @@ interface SerializedDataProps {
 
 export default class App extends NextApp {
   public static async getInitialProps({ Component, ctx }: AppContext) {
-    reset();
     let pageProps = {};
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -23,7 +22,7 @@ export default class App extends NextApp {
     const { Component, pageProps } = this.props;
 
     if (pageProps[SerializedData]) {
-      init(pageProps[SerializedData]);
+      setInitialState(pageProps[SerializedData]);
     }
 
     return (
@@ -32,4 +31,5 @@ export default class App extends NextApp {
       </Container>
     );
   }
+
 }

@@ -1,5 +1,6 @@
 import React from "react";
-import { StoreSubscribe, StoreContainer } from "../decorators/store";
+import { StoreContainer } from "../store/interfaces";
+import { isStoreContainer, subscribe } from "../store/lib";
 
 interface Props {
   children: () => React.ReactNode;
@@ -22,8 +23,8 @@ export class Subscribe extends React.PureComponent<Props> {
 
     for (const item of to) {
       const container = item as StoreContainer;
-      if (container[StoreSubscribe]) {
-        unsubscribers.push(container[StoreSubscribe]!(update));
+      if (isStoreContainer(container)) {
+        unsubscribers.push(subscribe(container, update));
       }
 
     }

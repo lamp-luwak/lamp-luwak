@@ -1,12 +1,12 @@
-import { StoreSubscribe } from "../decorators/store";
+import { isStoreContainer } from "../store/lib";
 
 const createTypeChecker = (isRequired = false) => {
   const checker = (props: any, propName: string, componentName: string) => {
     const propValue = props[propName];
-    if ((isRequired && !propValue) || (propValue && !propValue[StoreSubscribe])) {
+    if ((isRequired && !propValue) || (propValue && !isStoreContainer(propValue))) {
       return new Error(
         "Invalid prop `" + propName + "` supplied to" +
-        " `" + componentName + "`. Subject validation failed.",
+        " `" + componentName + "`. StoreContainer validation failed.",
       );
     }
   };
@@ -18,4 +18,4 @@ const createTypeChecker = (isRequired = false) => {
   return checker;
 };
 
-export const Subject = createTypeChecker();
+export const StoreContainer = createTypeChecker();

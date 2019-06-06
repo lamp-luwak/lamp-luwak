@@ -1,16 +1,15 @@
 import { Component } from "react";
-import { ProvidedPropertyNames } from "./provide";
-import { StoreSubscribe } from "./store";
+import { ProvideContainer } from "../provide/interfaces";
+import { getKeys as getProvideKeys } from "../provide/lib";
+import { subscribe as storeSubscribe, isStoreContainer } from "../store/lib";
 
 export const StoreUnsubscribers = Symbol("Store unsubscribers");
 
-export function subscribe<T extends new(...args: any[]) => Component>(Comp: T) {
-  return class extends Comp {
-    public static displayName =
-      (Comp as any).displayName || Comp.name;
+export function subscribe<T extends new(...args: any[]) => Component>(Class: T) {
+  return class extends Class {
+    public static displayName = (Class as any).displayName || Class.name;
 
     private [StoreUnsubscribers]: any[];
-    private [ProvidedPropertyNames]?: string[];
 
     [key: string]: any;
 
@@ -19,21 +18,21 @@ export function subscribe<T extends new(...args: any[]) => Component>(Comp: T) {
 
       const unsubscribers = (this[StoreUnsubscribers] = this[StoreUnsubscribers] || []);
       const update = this.forceUpdate.bind(this);
-      const names = this[ProvidedPropertyNames];
+      const keys = getProvideKeys(this as ProvideContainer);
 
-      if (names) {
-        for (const name of names) {
-          if (this[name][StoreSubscribe]) {
-            unsubscribers.push(this[name][StoreSubscribe](update));
+      if (keys) {
+        for (const key of keys) {
+          if (isStoreContainer(this[key])) {
+            unsubscribers.push(storeSubscribe(this[key], update));
           }
         }
       }
 
-      const props = args[ 0 ];
+      const props = args.shift();
 
       for (const name of Object.keys(props)) {
-        if (props[name][StoreSubscribe]) {
-          unsubscribers.push(props[name][StoreSubscribe](update));
+        if (isStoreContainer(props[name])) {
+          unsubscribers.push(storeSubscribe(props[name], update));
         }
       }
     }

@@ -1,10 +1,8 @@
-import { instances } from "./decorators/provide";
-import { index, dictionary } from "./decorators/ssr";
-import { state } from "./init";
+import { reset as provideReset } from "./provide/lib";
+import { reset as ssrReset } from "./ssr/lib";
 
 export function reset() {
-  instances.clear();
-  index.clear();
-  dictionary.clear();
-  state.clear();
+  console.log("RESET");
+  provideReset();
+  ssrReset();
 }

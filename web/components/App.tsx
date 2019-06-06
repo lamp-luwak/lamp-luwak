@@ -15,11 +15,6 @@ export class App extends React.PureComponent {
     };
   }
 
-  // constructor(props: any) {
-  //   super(props);
-  //   this.account.fetcher.exec();
-  // }
-
   public render() {
     return <FetcherLoader fetcher={this.account.fetcher} ok={() => <Feed />} />;
   }

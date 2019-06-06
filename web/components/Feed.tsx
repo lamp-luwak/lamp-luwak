@@ -14,11 +14,6 @@ export class Feed extends React.PureComponent<FeedProps> {
     return resolve(FeedService).fetcher.fetch();
   }
 
-  // constructor(props: FeedProps) {
-  //   super(props);
-  //   this.feedService.fetcher.exec();
-  // }
-
   public render() {
     return (
       <React.Fragment>
