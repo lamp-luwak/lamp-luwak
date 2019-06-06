@@ -1,3 +1,5 @@
+import { dictionary } from "./ssr";
+import { state } from "../init";
 import React from "react";
 
 interface PropertyDescriptorWithInitializer extends PropertyDescriptor {
@@ -8,6 +10,7 @@ export const StoreSubscribe = Symbol("Store subscribe");
 export const StoreNotify = Symbol("Store notify");
 export const StoreUpdaters = Symbol("Store updaters");
 export const StoreValues = Symbol("Store values");
+export const StorePropertyNames = Symbol("Store property names");
 
 export type StoreUpdater = () => any;
 
@@ -16,11 +19,28 @@ export interface StoreContainer {
   [StoreNotify]?: () => any;
   [StoreUpdaters]?: Map<StoreUpdater, StoreUpdater>;
   [StoreValues]?: any;
+  [StorePropertyNames]?: string[];
+}
+
+function getInitValue(target: any, propertyKey: string) {
+  const Class = target.prototype.constructor;
+  const id = dictionary.get(Class);
+  if (typeof id !== "undefined") {
+    const data = state.get(id);
+    if (typeof data !== "undefined") {
+      return data[propertyKey];
+    }
+  }
 }
 
 export function store(target: object & StoreContainer, propertyKey: string, descriptor?: PropertyDescriptorWithInitializer): any {
   const isReactComponent = target instanceof React.Component;
   const initializer = (descriptor || {}).initializer;
+
+  if (!isReactComponent) {
+    target[StorePropertyNames] = target[StorePropertyNames] || [];
+    target[StorePropertyNames]!.push(propertyKey);
+  }
 
   if (!target[StoreSubscribe] && !isReactComponent) {
     Object.assign(target, {
@@ -48,8 +68,11 @@ export function store(target: object & StoreContainer, propertyKey: string, desc
       const container = this as StoreContainer;
       if (container[StoreValues] && container[StoreValues].hasOwnProperty(propertyKey)) {
         return container[StoreValues][propertyKey];
-      } else if (initializer) {
-        return (container[StoreValues] = container[StoreValues] || {})[propertyKey] = initializer();
+      } else {
+        const initValue = getInitValue(this, propertyKey);
+        return (container[StoreValues] = container[StoreValues] || {})[propertyKey] = (typeof initValue !== "undefined")
+          ? initValue
+          : initializer && initializer();
       }
     },
     set(value: any) {

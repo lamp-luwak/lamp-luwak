@@ -1,10 +1,11 @@
-import { store, provide } from "@lib/core";
+import { store, provide, ssr } from "@lib/core";
 import { FetcherPool, Fetcher } from "./FetcherPool";
 import { SharedStorage } from "./SharedStorage";
 import { Config } from "./Config";
 
 const AccountStorageKey = "__account_token__";
 
+@ssr("Account")
 export class Account {
   @provide public storage: SharedStorage;
   @provide public fetcherPool: FetcherPool;
@@ -16,6 +17,7 @@ export class Account {
   constructor() {
     this.token = this.storage.get(AccountStorageKey);
 
+    console.log("FETCH AccountToken");
     this.fetcher = this.fetcherPool.make()
       .url(this.config.apiUrls.accountToken)
       .ok((data) => this.setToken(data.token))
@@ -23,6 +25,7 @@ export class Account {
   }
 
   public setToken(token: string | undefined) {
+    console.log("SET TOKEN:", token);
     this.token = token;
     this.storage.set(AccountStorageKey, token);
     return this.token;

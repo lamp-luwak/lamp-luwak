@@ -10,6 +10,10 @@ const Title = styled.h1`
 
 class Index extends React.Component {
 
+  public static async getInitialProps() {
+    return App.prefetch();
+  }
+
   public render() {
     return (
       <React.Fragment>

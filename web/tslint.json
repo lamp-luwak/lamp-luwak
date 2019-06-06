@@ -77,7 +77,8 @@
     ],
     "interface-name": false,
     "no-empty-interface": false,
-    "no-string-throw": false
+    "no-string-throw": false,
+    "member-ordering": false
   },
   "linterOptions": {
     "exclude": [
