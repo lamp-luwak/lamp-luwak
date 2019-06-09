@@ -1,4 +1,2 @@
-import bind from "bind-decorator";
-
-export * from "./decorators/provide";
-export { bind };
+export { bind } from "bind-decorator";
+export { provide } from "node-provide";

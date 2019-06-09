@@ -1,5 +1,4 @@
 import "module-alias/register";
-import "reflect-metadata";
 
 import { App } from "@app/App";
 import { provide } from "@lib/core";

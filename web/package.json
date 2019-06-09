@@ -18,7 +18,8 @@
     "styled-jsx": "^3.2.1",
     "antd": "^3.19.1",
     "isomorphic-fetch": "^2.2.1",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "next-routes": "^1.4.2"
   },
   "devDependencies": {
     "@zeit/next-typescript": "^1.1.1",
