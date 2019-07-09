@@ -1,7 +1,7 @@
 {
   "name": "@sonata/web",
   "version": "0.0.0",
-  "license": "MIT",
+  "private": true,
   "scripts": {
     "dev": "next",
     "build": "next build",
