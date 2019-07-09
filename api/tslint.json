@@ -21,7 +21,8 @@
     "no-var-keyword": true,
     "no-submodule-imports": [
       true,
-      "module-alias"
+      "module-alias",
+      "~"
     ],
     "semicolon": [
       true,

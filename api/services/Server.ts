@@ -1,8 +1,8 @@
 import Express from "express";
 import Cors from "cors";
 import BodyParser from "body-parser";
-import { provide } from "@lib/core";
-import { Logger } from "@services/Logger";
+import { provide } from "~/lib/core";
+import { Logger } from "~/services/Logger";
 
 export interface Request extends Express.Request { }
 export interface Response extends Express.Response { }
@@ -32,12 +32,7 @@ export class Server {
   }
 
   public route(method: string, pattern: string, handler: RequestHandler) {
-
-    interface ExpressIndexSignature {
-      [key: string]: Express.IRouterMatcher<this>;
-    }
-
-    (this.express as Express.Express & ExpressIndexSignature)[ method.toLowerCase() ](
+    (this.express as any)[ method.toLowerCase() ](
       pattern,
       async (req: Express.Request, res: Express.Response) => {
         this.logger.log(req.method, req.url);

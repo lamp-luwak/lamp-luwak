@@ -1,8 +1,8 @@
-import { provide } from "@lib/core";
-import { Db } from "@services/Db";
-import { Server } from "@services/Server";
-import { AccountRouter } from "@routers/AccountRouter";
-import { FeedRouter } from "@routers/FeedRouter";
+import { provide } from "~/lib/core";
+import { Db } from "~/services/Db";
+import { Server } from "~/services/Server";
+import { AccountRouter } from "~/routers/AccountRouter";
+import { FeedRouter } from "~/routers/FeedRouter";
 
 export class App {
   @provide public db: Db;

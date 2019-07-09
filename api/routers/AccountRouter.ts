@@ -1,6 +1,6 @@
-import { provide, bind } from "@lib/core";
-import { Route } from "@services/Route";
-import { AccountApi } from "@api/AccountApi";
+import { provide, bind } from "~/lib/core";
+import { Route } from "~/services/Route";
+import { AccountApi } from "~/api/AccountApi";
 
 export class AccountRouter {
   @provide public route: Route;

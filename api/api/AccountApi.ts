@@ -1,6 +1,6 @@
 import nanoid from "nanoid";
-import { provide } from "@lib/core";
-import { Db } from "@services/Db";
+import { provide } from "~/lib/core";
+import { Db } from "~/services/Db";
 
 export class AccountApi {
   @provide public db: Db;

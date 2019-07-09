@@ -1,5 +1,5 @@
-import { provide } from "@lib/core";
-import { Server, RequestHandler } from "@services/Server";
+import { provide } from "~/lib/core";
+import { Server, RequestHandler } from "~/services/Server";
 
 export class Route {
   @provide public server: Server;

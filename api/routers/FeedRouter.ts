@@ -1,6 +1,6 @@
-import { provide, bind } from "@lib/core";
-import { Route } from "@services/Route";
-import { Request, Response } from "@services/Server";
+import { provide, bind } from "~/lib/core";
+import { Route } from "~/services/Route";
+import { Request, Response } from "~/services/Server";
 
 export class FeedRouter {
   @provide public route: Route;

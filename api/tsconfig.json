@@ -16,26 +16,8 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@lib/*": [
-        "lib/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@routers/*": [
-        "routers/*"
-      ],
-      "@routers": [
-        "routers"
-      ],
-      "@api/*": [
-        "api/*"
-      ],
-      "@api": [
-        "api"
-      ],
-      "@app/*": [
-        "app/*"
+      "~/*": [
+        "*"
       ]
     }
   },
