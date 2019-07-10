@@ -3,6 +3,6 @@
     "**/.dist": true,
     "**/.git": true,
     "**/.gitignore": true,
-    "**/next.config.js": true
+    "**/.next": true
   }
 }

@@ -1,6 +1,13 @@
 import React from "react";
 import NextApp, { Container, AppContext } from "next/app";
-import { reset, serialize, setInitialState } from "@lib/core";
+import { serialize, setInitialState } from "~/lib/core";
+import { ThemeProvider } from "styled-components";
+
+const theme = {
+  colors: {
+    primary: "#0070f3",
+  },
+};
 
 const SerializedData = "__serialized_data__";
 
@@ -27,7 +34,9 @@ export default class App extends NextApp {
 
     return (
       <Container>
-        <Component {...pageProps} />
+        <ThemeProvider theme={theme}>
+          <Component {...pageProps} />
+        </ThemeProvider>
       </Container>
     );
   }

@@ -1,7 +1,6 @@
 import React from "react";
-import { subscribe } from "@lib/core";
-import { Fetcher, FetcherStatus } from "@services/FetcherPool";
-import { Spin, Alert } from "antd";
+import { subscribe } from "~/lib/core";
+import { Fetcher, FetcherStatus } from "~/services/FetcherPool";
 
 interface FetcherLoaderProps {
   fetcher: Fetcher;
@@ -19,16 +18,16 @@ export class FetcherLoader extends React.PureComponent<FetcherLoaderProps> {
       case FetcherStatus.Ok:
         return ok
           ? ok()
-          : <Alert type="warning" message="Ok section does not defined" />;
+          : <b>Ok section does not defined</b>;
 
       case FetcherStatus.Fail:
         return fail
           ? fail()
-          : <Alert type="error" message="Failed to fetch" />;
+          : <b>Failed to fetch</b>;
 
       case FetcherStatus.Progress:
       default:
-        return <Spin />;
+        return <span>[ PROGRESS... ]</span>;
     }
   }
 }

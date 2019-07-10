@@ -1,7 +1,6 @@
-import { store, provide } from "@lib/core";
-import { fetchJson } from "@lib/fetch";
-import { Config } from "@services/Config";
-import { message } from "antd";
+import { store, provide } from "~/lib/core";
+import { fetchJson } from "~/lib/fetch";
+import { Config } from "~/services/Config";
 
 export enum FetcherStatus {
   Progress,
@@ -69,7 +68,6 @@ export class Fetcher {
         return result;
       } else {
         console.error(error);
-        message.error(error.message);
         this.status = FetcherStatus.Fail;
       }
     }

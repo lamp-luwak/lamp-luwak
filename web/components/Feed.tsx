@@ -1,6 +1,6 @@
 import React from "react";
-import { subscribe, provide, resolve } from "@lib/core";
-import { Feed as FeedService } from "@services/Feed";
+import { subscribe, provide, resolve } from "~/lib/core";
+import { Feed as FeedService } from "~/services/Feed";
 import { FetcherLoader } from "./FetcherLoader";
 import { FeedCreator } from "./FeedCreator";
 
@@ -23,7 +23,7 @@ export class Feed extends React.PureComponent<FeedProps> {
           ok={() => this.feedService.list.map((item, index) => (
             <div key={index}>{item}</div>
           ))}
-          />
+        />
       </React.Fragment>
     );
   }

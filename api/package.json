@@ -6,7 +6,7 @@
     "clean": "rimraf .dist",
     "build": "tsc",
     "start": "npm run clean && npm run build && node .dist/start.js",
-    "watch": "npm run clean && npm run build && concurrently -k -p \"[{name}]\" -n \"TS,Node\" -c \"blue,green\" \"tsc -w\" \"nodemon --delay 100ms --inspect --watch .dist .dist/start.js\"",
+    "watch": "npm run clean && npm run build && concurrently -k -p \"[{name}]\" -n \"ts,node\" -c \"magenta,blue\" \"tsc -w\" \"nodemon --delay 100ms --inspect --watch .dist .dist/start.js\"",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "test": "jest --forceExit --coverage --verbose",
     "watch-test": "npm run test -- --watchAll"

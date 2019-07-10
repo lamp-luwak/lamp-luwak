@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import Head from "next/head";
-import { App } from "@components/App";
-import styles from "./index.styles";
+import { App } from "~/components/App";
 
 const Title = styled.h1`
-  color: red;
+  font-size: 50px;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
+// tslint:disable-next-line: max-classes-per-file
 class Index extends React.Component {
 
   public static async getInitialProps() {
@@ -22,15 +23,7 @@ class Index extends React.Component {
           <meta name="description" content="description for indexing bots" />
         </Head>
         <Title>Title</Title>
-        {<App />}
-        <p>Hello</p>
-        <button>Butt</button>
-        <style jsx>{styles}</style>
-        <style jsx>{`
-          p {
-            color: yellow;
-          }
-        `}</style>
+        <App />
       </React.Fragment>
     );
   }

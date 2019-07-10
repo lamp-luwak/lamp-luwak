@@ -7,9 +7,7 @@
     [ "module-resolver", {
       "root": [ "." ],
       "alias": {
-        "@components": "./components",
-        "@lib": "./lib",
-        "@services": "./services",
+        "~": ".",
       },
     }],
     [ "babel-plugin-transform-typescript-metadata" ],
@@ -17,10 +15,5 @@
     [ "@babel/plugin-proposal-class-properties", { "loose": true } ],
     [ "add-react-displayname" ],
     [ "styled-components", { "ssr": true } ],
-    [ "import", {
-        "libraryName": "antd",
-        "style": true
-      },
-    ],
   ]
 }

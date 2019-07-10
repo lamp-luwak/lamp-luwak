@@ -1,8 +1,0 @@
-User-agent: *
-Allow: /a
-Allow: /b
-Disallow: /
-Disallow: /a/*
-Disallow: /b/*
-
-Sitemap: https://sonata.prod/sitemap.xml

@@ -12,8 +12,7 @@
     "noEmit": true,
     "strict": true,
     "types": [
-      "reflect-metadata",
-      "@types/styled-jsx"
+      "reflect-metadata"
     ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -30,18 +29,21 @@
       "node_modules/@types"
     ],
     "paths": {
-      "@components/*": [
-        "components/*"
-      ],
-      "@lib/*": [
-        "lib/*"
-      ],
-      "@services/*": [
-        "services/*"
+      "~/*": [
+        "*"
       ]
-    }
+    },
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "exclude": [
     "./**/*.js"
+  ],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ]
 }

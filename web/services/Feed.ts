@@ -1,4 +1,4 @@
-import { store, provide, ssr } from "@lib/core";
+import { store, provide, ssr } from "~/lib/core";
 import { Fetcher, FetcherPool } from "./FetcherPool";
 import { Config } from "./Config";
 

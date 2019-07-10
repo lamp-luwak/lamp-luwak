@@ -1,7 +1,6 @@
 import React from "react";
-import { subscribe, provide, Subscribe } from "@lib/core";
-import { FeedCreator as FeedCreatorService, Draft } from "@services/FeedCreator";
-import { Input, Button, Col, Row } from "antd";
+import { subscribe, provide, Subscribe } from "~/lib/core";
+import { FeedCreator as FeedCreatorService, Draft } from "~/services/FeedCreator";
 
 interface FeedCreatorProps {}
 
@@ -18,24 +17,24 @@ export class FeedCreator extends React.PureComponent<FeedCreatorProps> {
 
   public render() {
     return (
-      <Row>
-        <Col span={10}>
+      <div>
+        <div>
           <Subscribe to={this.draft}>
             {() => (
-              <Input
+              <input
                 placeholder="Type text..."
-                onInput={(e) => this.draft.setText((e.target as any).value)}
+                onInput={(e: any) => this.draft.setText(e.target.value)}
                 value={this.draft.text}
               />
             )}
           </Subscribe>
-        </Col>
-        <Col span={14}>
-          <Button type="primary" onClick={() => this.draft.send()}>
+        </div>
+        <div>
+          <button onClick={() => this.draft.send()}>
             Create
-          </Button>
-        </Col>
-      </Row>
+          </button>
+        </div>
+      </div>
     );
   }
 }

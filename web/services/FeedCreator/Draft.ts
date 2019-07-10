@@ -1,5 +1,4 @@
-import { store } from "@lib/core";
-import { message } from "antd";
+import { store } from "~/lib/core";
 
 export class Draft {
   @store public text: string;
@@ -9,6 +8,6 @@ export class Draft {
   }
 
   public send() {
-    message.info("Draft has been sended");
+    console.log("Draft has been sended");
   }
 }
