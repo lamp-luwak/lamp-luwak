@@ -23,7 +23,7 @@ export class FeedCreator extends React.PureComponent<FeedCreatorProps> {
             {() => (
               <input
                 placeholder="Type text..."
-                onInput={(e: any) => this.draft.setText(e.target.value)}
+                onChange={(e: any) => this.draft.setText(e.target.value)}
                 value={this.draft.text}
               />
             )}
