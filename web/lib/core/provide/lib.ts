@@ -18,6 +18,6 @@ export function resolve<T>(Class: new (...args: any) => T): T {
   return instance;
 }
 
-export function reset() {
+export function cleanup() {
   instances.clear();
 }

@@ -40,7 +40,7 @@ export function getInitialValue(Class: ClassType, key: string) {
   }
 }
 
-export function reset() {
+export function cleanup() {
   dictionary.clear();
   initialState.clear();
 }
