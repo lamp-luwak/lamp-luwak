@@ -19,8 +19,10 @@ export default class App extends NextApp {
     }
     const prefetch = (Component as any).prefetch;
     if (prefetch) {
-      await zone(prefetch);
-      (pageProps as any)[SerializedData] = serialize();
+      (pageProps as any)[SerializedData] = await zone(async () => {
+        await prefetch();
+        return serialize();
+      });
     }
     return { pageProps };
   }
