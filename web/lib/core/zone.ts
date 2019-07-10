@@ -1,3 +1,5 @@
 
 export function getZoneId() { return null; }
-export function zone() { return null; }
+export async function zone(callback: () => Promise<any>) {
+  return callback();
+}

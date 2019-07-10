@@ -1,6 +1,6 @@
 import React from "react";
 import NextApp, { Container, AppContext } from "next/app";
-import { serialize, setInitialState } from "~/lib/core";
+import { serialize, setInitialState, zone } from "~/lib/core";
 import { ThemeProvider } from "styled-components";
 
 const theme = {
@@ -9,11 +9,7 @@ const theme = {
   },
 };
 
-const SerializedData = "__serialized_data__";
-
-interface SerializedDataProps {
-  [SerializedData]: any;
-}
+const SerializedData = "__SERIALIZED_DATA__";
 
 export default class App extends NextApp {
   public static async getInitialProps({ Component, ctx }: AppContext) {
@@ -21,7 +17,11 @@ export default class App extends NextApp {
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
-    (pageProps as SerializedDataProps)[SerializedData] = serialize();
+    const prefetch = (Component as any).prefetch;
+    if (prefetch) {
+      await zone(prefetch);
+      (pageProps as any)[SerializedData] = serialize();
+    }
     return { pageProps };
   }
 

@@ -8,3 +8,4 @@ export { serialize, setInitialState } from "./ssr/lib";
 export { ssr } from "./ssr/decorators";
 export * from "./components/Subscribe";
 export * from "./PropTypes/StoreContainer";
+export { zone } from "./zone";

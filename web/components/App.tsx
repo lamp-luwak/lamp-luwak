@@ -9,10 +9,8 @@ export class App extends React.PureComponent {
   @provide public account: Account;
 
   public static async prefetch() {
-    return {
-      ...await resolve(Account).fetcher.fetch(),
-      ...await Feed.prefetch(),
-    };
+    await resolve(Account).fetcher.fetch();
+    await Feed.prefetch();
   }
 
   public render() {

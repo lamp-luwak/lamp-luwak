@@ -23,8 +23,8 @@ export default class Document extends NextDocument {
             {initialProps.styles}
             {sheet.getStyleElement()}
           </>
-        ) as any,
-      };
+        ),
+      } as any;
     } finally {
       sheet.seal();
     }
@@ -34,7 +34,7 @@ export default class Document extends NextDocument {
     return (
       <Html>
         <Head>
-        <link rel="shortcut icon" href="/static/favicon.ico" />
+          <link rel="shortcut icon" href="/static/favicon.ico" />
         </Head>
         <body>
           <Main />

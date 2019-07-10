@@ -8,11 +8,10 @@ const Title = styled.h1`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-// tslint:disable-next-line: max-classes-per-file
 class Index extends React.Component {
 
-  public static async getInitialProps() {
-    return App.prefetch();
+  public static async prefetch() {
+    await App.prefetch();
   }
 
   public render() {

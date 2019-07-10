@@ -11,7 +11,7 @@ export class Feed extends React.PureComponent<FeedProps> {
   @provide public feedService: FeedService;
 
   public static async prefetch() {
-    return resolve(FeedService).fetcher.fetch();
+    await resolve(FeedService).fetcher.fetch();
   }
 
   public render() {
