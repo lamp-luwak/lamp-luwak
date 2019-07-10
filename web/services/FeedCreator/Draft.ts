@@ -1,6 +1,8 @@
-import { store } from "~/lib/core";
+import { store, provide } from "~/lib/core";
+import { Feed } from "~/services/Feed";
 
 export class Draft {
+  @provide public feed: Feed;
   @store public text: string = "";
 
   public setText(text: string) {
@@ -8,6 +10,11 @@ export class Draft {
   }
 
   public send() {
-    console.log("Draft has been sended");
+    this.feed.append(this.text);
+    this.reset();
+  }
+
+  public reset() {
+    this.text = "";
   }
 }

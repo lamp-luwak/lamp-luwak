@@ -21,4 +21,8 @@ export class Feed {
     this.list = list;
   }
 
+  public append(item: any) {
+    this.list = this.list.concat(item);
+  }
+
 }
