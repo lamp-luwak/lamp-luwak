@@ -19,7 +19,7 @@ class Index extends React.Component {
     return (
       <React.Fragment>
         <Head>
-          <title>Index page</title>
+          <title>Welcome</title>
           <meta name="description" content="description for indexing bots" />
         </Head>
         <Title>Title</Title>

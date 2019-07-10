@@ -1,4 +1,8 @@
-import NextDocument, { DocumentContext, DocumentInitialProps } from "next/document";
+import NextDocument, {
+  DocumentContext,
+  DocumentInitialProps,
+  Html, Head, Main, NextScript,
+} from "next/document";
 import * as React from "react";
 import { ServerStyleSheet } from "styled-components";
 
@@ -24,5 +28,19 @@ export default class Document extends NextDocument {
     } finally {
       sheet.seal();
     }
+  }
+
+  public render() {
+    return (
+      <Html>
+        <Head>
+        <link rel="shortcut icon" href="/static/favicon.ico" />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
