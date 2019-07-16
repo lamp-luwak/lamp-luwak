@@ -1,46 +1,41 @@
-import { resolve } from "../provide/lib";
-import {
-  isStoreContainer,
-  serialize as storeSerialize,
-} from "../store/lib";
-import { ClassType } from "./interfaces";
+import { ClassType } from "../types";
+import { resolve } from "../di/lib";
+import { setInitialValues, serialize as serializeStoreContainer } from "../store/lib";
+import state from "./state";
 
-export const dictionary = new Map<ClassType, string>();
-export const initialState = new Map<string, any>();
+const { dictionary } = state;
 
-export function register(id: string, Class: ClassType) {
-  dictionary.set(Class, id);
+/**
+ * Class decorator
+ */
+export function ssr<T extends ClassType>(id: string) {
+  return (Class: T) => {
+    register(id, Class);
+    return Class;
+  };
 }
 
 export function serialize() {
   const data: any = {};
-  for (const [ Class, id ] of dictionary) {
-    const instance = resolve(Class);
-    if (isStoreContainer(instance)) {
-      data[id] = storeSerialize(instance);
-    }
+  for (const [ id, Class ] of dictionary) {
+    data[id] = serializeStoreContainer(resolve(Class));
   }
-  console.log("SERIALIZE", data);
   return data;
 }
 
 export function setInitialState(data: object) {
   for (const key of Object.keys(data)) {
-    initialState.set(key, (data as any)[key]);
-  }
-}
-
-export function getInitialValue(Class: ClassType, key: string) {
-  const id = dictionary.get(Class);
-  if (typeof id !== "undefined") {
-    const state = initialState.get(id);
-    if (typeof state !== "undefined") {
-      return (state || {})[key];
+    const Class = dictionary.get(key);
+    if (typeof Class !== "undefined") {
+      setInitialValues(Class, (data as any)[key]);
     }
   }
 }
 
-export function cleanup() {
+export function reset() {
   dictionary.clear();
-  initialState.clear();
+}
+
+function register(id: string, Class: ClassType) {
+  dictionary.set(id, Class);
 }

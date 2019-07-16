@@ -1,3 +1,4 @@
+import { ClassType } from "../types";
 import React from "react";
 import {
   StoreUpdaters,
@@ -5,8 +6,29 @@ import {
   StoreValues,
   StoreContainer,
   StoreUpdater,
-} from "./interfaces";
-import { getInitialValue } from "../ssr/lib";
+} from "./types";
+import state from "./state";
+
+const { initialValues } = state;
+
+/**
+ * Property decorator
+ */
+export function store(target: object, propertyKey: string, descriptor?: any): any {
+  const initializer = (descriptor || {}).initializer;
+
+  addKey(target, propertyKey);
+  return {
+    get(this: StoreContainer) {
+      return get(this, propertyKey, initializer);
+    },
+    set(this: StoreContainer, value: any) {
+      set(this, propertyKey, value);
+    },
+    configurable: false,
+    enumerable: true,
+  };
+}
 
 export function subscribe(target: StoreContainer, updater: StoreUpdater) {
   const updaters = target[StoreUpdaters] = target[StoreUpdaters] || new Map<StoreUpdater, StoreUpdater>();
@@ -27,12 +49,8 @@ export function notify(target: StoreContainer) {
   }
 }
 
-export function addKey(target: StoreContainer, key: string) {
-  (target[StoreKeys] = target[StoreKeys] || []).push(key);
-}
-
 export function isStoreContainer(target: StoreContainer) {
-  return target[StoreKeys] && target[StoreKeys]!.length;
+  return !!target[StoreKeys];
 }
 
 export function get(target: StoreContainer, key: string, initializer?: () => any) {
@@ -63,5 +81,24 @@ export function unserialize(target: StoreContainer, data: object) {
     if (data.hasOwnProperty(key)) {
       (target[StoreValues] = target[StoreValues] || {})[key] = (data as any)[key];
     }
+  }
+}
+
+export function setInitialValues(Class: ClassType, data: object) {
+  initialValues.set(Class, data);
+}
+
+export function cleanup() {
+  initialValues.clear();
+}
+
+function addKey(target: StoreContainer, key: string) {
+  (target[StoreKeys] = target[StoreKeys] || []).push(key);
+}
+
+function getInitialValue(Class: ClassType, key: string) {
+  const data = initialValues.get(Class);
+  if (typeof data !== "undefined") {
+    return (data as any || {})[key];
   }
 }

@@ -39,6 +39,7 @@
     "isolatedModules": true
   },
   "exclude": [
+    "node_modules",
     "./**/*.js"
   ],
   "include": [

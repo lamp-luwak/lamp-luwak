@@ -1,5 +1,5 @@
 import React from "react";
-import { StoreContainer } from "../store/interfaces";
+import { StoreContainer } from "../store/types";
 import { isStoreContainer, subscribe } from "../store/lib";
 
 interface Props {

@@ -1,6 +1,6 @@
 import { Component } from "react";
-import { ProvideContainer } from "../provide/interfaces";
-import { getKeys as getProvideKeys } from "../provide/lib";
+import { ProvideContainer } from "../di/types";
+import { getKeys as getProvideKeys } from "../di/lib";
 import { subscribe as storeSubscribe, isStoreContainer } from "../store/lib";
 
 export const StoreUnsubscribers = Symbol("Store unsubscribers");
