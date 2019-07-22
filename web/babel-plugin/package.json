@@ -1,0 +1,9 @@
+{
+  "name": "@sonata/babel-plugin-web-serialize",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.js",
+  "devDependencies": {
+    "@babel/core": "^7.5.5"
+  }
+}

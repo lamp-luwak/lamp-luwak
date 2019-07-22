@@ -36,6 +36,6 @@ export function reset() {
   dictionary.clear();
 }
 
-function register(id: string, Class: ClassType) {
+export function register(id: string, Class: ClassType) {
   dictionary.set(id, Class);
 }
