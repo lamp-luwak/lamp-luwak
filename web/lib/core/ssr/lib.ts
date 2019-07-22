@@ -39,7 +39,7 @@ export function register(id: string, Class: ClassType) {
 
 function pack(val: any): any {
   if (Array.isArray(val)) {
-    return ["...", (val as []).map(pack)];
+    return ["Array", (val as []).map(pack)];
   } else if (val && typeof val === "object") {
     const Ctor = val.constructor;
     switch (Ctor) {
@@ -72,7 +72,7 @@ function unpack(val: any): any {
   if (Array.isArray(val)) {
     const [ id, value ] = val;
     switch (id) {
-      case "...":
+      case "Array":
         return (value as []).map(unpack);
       case "Date":
         return new Date(value);
