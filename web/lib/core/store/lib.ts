@@ -72,11 +72,11 @@ export function set(target: StoreContainer, key: string, value: any) {
   }
 }
 
-export function serialize(target: StoreContainer) {
-  return target[StoreValues];
+export function values(target: StoreContainer) {
+  return target[StoreValues] || [];
 }
 
-export function unserialize(Ctor: ClassType, data: object) {
+export function factory(Ctor: ClassType, data: object) {
   const inst = new Ctor();
   for (const key of inst[StoreKeys] || []) {
     if (data.hasOwnProperty(key)) {
