@@ -11,7 +11,7 @@ export function serialize() {
     if (inst.constructor) {
       const id = search.get(inst.constructor);
       if (typeof id !== "undefined") {
-        data[id] = pack(values(inst))[1];
+        data[id] = pack(values(inst));
       }
     }
   }
@@ -52,7 +52,7 @@ function pack(val: any): any {
     }
     const id = search.get(Ctor);
     if (typeof id !== "undefined") {
-      return [id, pack(values(val))[1]];
+      return [id, pack(values(val))];
     }
     if (Ctor !== Object) {
       throw new Error("Invalid store data");
@@ -61,7 +61,7 @@ function pack(val: any): any {
     for (const key of Object.keys(val)) {
       packed[key] = pack(val[key]);
     }
-    return [":", packed];
+    return packed;
   } else if (typeof val === "function") {
     throw new Error("Invalid store data");
   }
@@ -74,12 +74,6 @@ function unpack(val: any): any {
     switch (id) {
       case "...":
         return (value as []).map(unpack);
-      case ":":
-        const unpacked: any = {};
-        for (const key of Object.keys(value)) {
-          unpacked[key] = unpack(value[key]);
-        }
-        return unpacked;
       case "Date":
         return new Date(value);
       case "Map":
@@ -89,8 +83,14 @@ function unpack(val: any): any {
     }
     const Class = dictionary.get(id);
     if (typeof Class !== "undefined") {
-      return factory(Class as any, unpack([":", value]));
+      return factory(Class as any, unpack(value));
     }
+  } else if (val && typeof val === "object") {
+    const unpacked: any = {};
+    for (const key of Object.keys(val)) {
+      unpacked[key] = unpack(val[key]);
+    }
+    return unpacked;
   }
   return val;
 }
