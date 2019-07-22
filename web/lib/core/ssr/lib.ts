@@ -11,18 +11,18 @@ export function serialize() {
     if (inst.constructor) {
       const id = search.get(inst.constructor);
       if (typeof id !== "undefined") {
-        data[id] = pack(values(inst));
+        data[id] = pack(values(inst))[1];
       }
     }
   }
   return data;
 }
 
-export function unserialize(data: object) {
+export function unserialize(data: any) {
   for (const key of Object.keys(data)) {
     const Class = dictionary.get(key);
     if (typeof Class !== "undefined") {
-      assign(Class, factory(Class as any, unpack((data as any)[key])));
+      assign(Class, unpack([key, data[key]]));
     }
   }
 }
@@ -52,7 +52,7 @@ function pack(val: any): any {
     }
     const id = search.get(Ctor);
     if (typeof id !== "undefined") {
-      return [id, pack(values(val))];
+      return [id, pack(values(val))[1]];
     }
     if (Ctor !== Object) {
       throw new Error("Invalid store data");
@@ -89,7 +89,7 @@ function unpack(val: any): any {
     }
     const Class = dictionary.get(id);
     if (typeof Class !== "undefined") {
-      return factory(Class as any, unpack(value));
+      return factory(Class as any, unpack([":", value]));
     }
   }
   return val;

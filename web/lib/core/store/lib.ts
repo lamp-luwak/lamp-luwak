@@ -76,18 +76,24 @@ export function values(target: StoreContainer) {
   return target[StoreValues] || [];
 }
 
-export function factory(Ctor: ClassType, data: object) {
-  const inst = new Ctor();
+export function factory(Class: ClassType, data: object) {
+  setInitialValues(Class, data);
+  const inst = new Class();
   for (const key of inst[StoreKeys] || []) {
     if (data.hasOwnProperty(key)) {
       (inst[StoreValues] = inst[StoreValues] || {})[key] = (data as any)[key];
     }
   }
+  unsetInitialValues(Class);
   return inst;
 }
 
 export function setInitialValues(Class: ClassType, data: object) {
   initialValues.set(Class, data);
+}
+
+export function unsetInitialValues(Class: ClassType) {
+  initialValues.delete(Class);
 }
 
 export function cleanup() {
