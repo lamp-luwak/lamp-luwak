@@ -1,12 +1,11 @@
 import React from "react";
-import { subscribe, provide, resolve } from "~/lib/core";
+import { provide, resolve } from "~/lib/core";
 import { Feed as FeedService } from "~/services/Feed";
 import { FetcherLoader } from "./FetcherLoader";
 import { FeedCreator } from "./FeedCreator";
 
 interface FeedProps {}
 
-@subscribe
 export class Feed extends React.PureComponent<FeedProps> {
   @provide public feedService: FeedService;
 

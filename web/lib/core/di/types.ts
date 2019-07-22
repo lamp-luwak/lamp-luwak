@@ -7,9 +7,3 @@ export enum DepResolvePhase {
 }
 
 export type PropertyKey = string;
-
-export const ProvidePropertyKeys = Symbol("Provide property keys");
-
-export interface ProvideContainer {
-  [ProvidePropertyKeys]?: PropertyKey[];
-}

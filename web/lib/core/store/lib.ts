@@ -50,7 +50,7 @@ export function notify(target: StoreContainer) {
 }
 
 export function isStoreContainer(target: StoreContainer) {
-  return !!target[StoreKeys];
+  return target && !!target[StoreKeys];
 }
 
 export function get(target: StoreContainer, key: string, initializer?: () => any) {

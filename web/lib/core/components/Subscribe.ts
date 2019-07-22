@@ -1,6 +1,7 @@
 import React from "react";
 import { StoreContainer } from "../store/types";
-import { isStoreContainer, subscribe } from "../store/lib";
+import { isStoreContainer } from "../store/lib";
+import { subscribe } from "../subscribe/lib";
 
 interface Props {
   children: () => React.ReactNode;
@@ -9,30 +10,18 @@ interface Props {
 
 export class Subscribe extends React.PureComponent<Props> {
 
-  public unsubscribers: Array<() => any>;
-
   constructor(props: Props, context?: any) {
     super(props, context);
 
-    const unsubscribers: Array<() => any> = this.unsubscribers = [];
-    const update = this.forceUpdate.bind(this);
-
-    const to = (this.props.to instanceof Array)
+    const to = Array.isArray(this.props.to)
       ? this.props.to
       : [ this.props.to ];
 
     for (const item of to) {
       const container = item as StoreContainer;
       if (isStoreContainer(container)) {
-        unsubscribers.push(subscribe(container, update));
+        subscribe(this, container);
       }
-
-    }
-  }
-
-  public componentWillUnmount() {
-    for (const unsubscriber of this.unsubscribers) {
-      unsubscriber();
     }
   }
 

@@ -1,49 +1,52 @@
 import { Component } from "react";
-import { ProvideContainer } from "../di/types";
-import { getKeys as getProvideKeys } from "../di/lib";
-import { subscribe as storeSubscribe, isStoreContainer } from "../store/lib";
+import { ClassType } from "../types";
+import { StoreContainer } from "../store/types";
+import { subscribe as storeSubscribe, isStoreContainer, notify } from "../store/lib";
 
-export const StoreUnsubscribers = Symbol("Store unsubscribers");
+export const Unsubscribers = Symbol("Unsubscribers");
+export const UnsubscribersRegistered = Symbol("Unsubscribers registered");
 
-export function subscribe<T extends new(...args: any[]) => Component>(Class: T) {
-  return class extends Class {
-    public static displayName = (Class as any).displayName || Class.name;
+export function subscribe(component: Component, storeContainer: StoreContainer): void;
+export function subscribe<T extends ClassType<Component>>(Class: T): T;
+export function subscribe(ClassOrComponent: any, storeContainer?: StoreContainer) {
+  if (ClassOrComponent instanceof Component) {
+    const component = ClassOrComponent as any;
+    if (!component[UnsubscribersRegistered]) {
+      component[UnsubscribersRegistered] = true;
+      component[Unsubscribers] = [];
+      const componentWillUnmount = component.componentWillUnmount;
+      component.componentWillUnmount = function() {
+        for (const unsubscriber of this[Unsubscribers]) {
+          unsubscriber();
+        }
+        if (componentWillUnmount) {
+          componentWillUnmount();
+        }
+      };
+    }
+    if (storeContainer && isStoreContainer(storeContainer)) {
+      component[Unsubscribers].push(
+        storeSubscribe(storeContainer, () => {
+          notify(component);
+        }),
+      );
+    }
+  }
+  if (typeof ClassOrComponent === "function") {
+    const Class = ClassOrComponent;
 
-    private [StoreUnsubscribers]: any[];
+    return class extends Class {
+      public static displayName = Class.displayName || Class.name;
 
-    [key: string]: any;
+      constructor(props: any, context?: any) {
+        super(props, context);
 
-    constructor(...args: any[]) {
-      super(...args);
-
-      const unsubscribers = (this[StoreUnsubscribers] = this[StoreUnsubscribers] || []);
-      const update = this.forceUpdate.bind(this);
-      const keys = getProvideKeys(this as ProvideContainer);
-
-      if (keys) {
-        for (const key of keys) {
-          if (isStoreContainer(this[key])) {
-            unsubscribers.push(storeSubscribe(this[key], update));
+        for (const name of Object.keys(props)) {
+          if (isStoreContainer(props[name])) {
+            subscribe(this as any, props[name]);
           }
         }
       }
-
-      const props = args.shift();
-
-      for (const name of Object.keys(props)) {
-        if (isStoreContainer(props[name])) {
-          unsubscribers.push(storeSubscribe(props[name], update));
-        }
-      }
-    }
-
-    public componentWillUnmount() {
-      if (typeof super.componentWillUnmount !== "undefined") {
-        super.componentWillUnmount();
-      }
-      for (const unsubscriber of this[StoreUnsubscribers]) {
-        unsubscriber();
-      }
-    }
-  };
+    };
+  }
 }

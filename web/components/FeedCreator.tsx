@@ -1,10 +1,9 @@
 import React from "react";
-import { subscribe, provide, Subscribe } from "~/lib/core";
+import { provide, Subscribe } from "~/lib/core";
 import { FeedCreator as FeedCreatorService, Draft } from "~/services/FeedCreator";
 
 interface FeedCreatorProps {}
 
-@subscribe
 export class FeedCreator extends React.PureComponent<FeedCreatorProps> {
   @provide public feedCreator: FeedCreatorService;
 
@@ -38,4 +37,3 @@ export class FeedCreator extends React.PureComponent<FeedCreatorProps> {
     );
   }
 }
-

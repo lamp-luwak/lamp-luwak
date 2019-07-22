@@ -1,6 +1,9 @@
 import "reflect-metadata";
+import { Component } from "react";
 import { getZoneId, getZoneParentId, onZoneDestroy } from "../zone/lib";
-import { ProvideContainer, PropertyKey, Dep, ProvidePropertyKeys, DepResolvePhase } from "./types";
+import { isStoreContainer } from "../store/lib";
+import { subscribe } from "../subscribe/lib";
+import { PropertyKey, Dep, DepResolvePhase } from "./types";
 import state from "./state";
 
 const { instances, overrides, resolvePhases } = state;
@@ -12,7 +15,6 @@ export function provide(target: object, propertyKey: PropertyKey): any {
   const Class = Reflect.getMetadata("design:type", target, propertyKey);
 
   ensureZoneDestroyListener();
-  addKey(target, propertyKey);
   return {
     get() {
       const instance = resolve(Class);
@@ -22,15 +24,14 @@ export function provide(target: object, propertyKey: PropertyKey): any {
         configurable: false,
         writable: false,
       });
+      if (this instanceof Component && isStoreContainer(instance)) {
+        subscribe(this, instance);
+      }
       return instance;
     },
     enumerable: true,
     configurable: true,
   };
-}
-
-export function getKeys(target: ProvideContainer) {
-  return target[ProvidePropertyKeys] || [];
 }
 
 export function resolve<T>(dep: Dep<T>): T {
@@ -114,10 +115,6 @@ function cleanupZone(zoneId: number) {
     resolvePhases[zoneId].clear();
     delete resolvePhases[zoneId];
   }
-}
-
-function addKey(target: ProvideContainer, key: PropertyKey) {
-  (target[ProvidePropertyKeys] = getKeys(target)).push(key);
 }
 
 function setResolvePhase(dep: Dep, phase: DepResolvePhase) {

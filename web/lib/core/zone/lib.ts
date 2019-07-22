@@ -5,7 +5,7 @@ import { DestroyListener } from "./types";
 const { index, parentIndex, destroyListeners } = state;
 
 export async function zone<T = void>(callback: () => T): Promise<T> {
-  const asyncHooks = (!process.browser) ? require("async_hooks") : null; // With love for Webpack
+  const asyncHooks = (!process.browser) ? require("async_hooks") : null; // With love to Webpack
   if (!asyncHooks) {
     return callback();
   }
@@ -26,7 +26,6 @@ export async function zone<T = void>(callback: () => T): Promise<T> {
       },
     }).enable();
   }
-  // tslint:disable-next-line: no-shadowed-variable
   return new Promise((resolve, reject) => {
     process.nextTick(async () => {
       const asyncId = asyncHooks.executionAsyncId();

@@ -1,10 +1,9 @@
 import React from "react";
-import { subscribe, provide, resolve } from "~/lib/core";
+import { provide, resolve } from "~/lib/core";
 import { Account } from "~/services/Account";
 import { FetcherLoader } from "./FetcherLoader";
 import { Feed } from "./Feed";
 
-@subscribe
 export class App extends React.PureComponent {
   @provide public account: Account;
 
