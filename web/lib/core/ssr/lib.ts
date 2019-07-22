@@ -1,41 +1,38 @@
 import { ClassType } from "../types";
-import { resolve } from "../di/lib";
-import { setInitialValues, serialize as serializeStoreContainer } from "../store/lib";
+import { getCurrentInstances, assign } from "../di/lib";
+import { serialize as storeSerialize, unserialize as storeUnserialize } from "../store/lib";
 import state from "./state";
 
-const { dictionary } = state;
-
-/**
- * Class decorator
- */
-export function ssr<T extends ClassType>(id: string) {
-  return (Class: T) => {
-    register(id, Class);
-    return Class;
-  };
-}
+const { dictionary, search } = state;
 
 export function serialize() {
   const data: any = {};
-  for (const [ id, Class ] of dictionary) {
-    data[id] = serializeStoreContainer(resolve(Class));
+  for (const inst of getCurrentInstances()) {
+    if (inst.constructor) {
+      const id = search.get(inst.constructor);
+      if (typeof id !== "undefined") {
+        data[id] = storeSerialize(inst);
+      }
+    }
   }
   return data;
 }
 
-export function setInitialState(data: object) {
+export function unserialize(data: object) {
   for (const key of Object.keys(data)) {
     const Class = dictionary.get(key);
     if (typeof Class !== "undefined") {
-      setInitialValues(Class, (data as any)[key]);
+      assign(Class, storeUnserialize(Class as any, (data as any)[key]));
     }
   }
 }
 
 export function reset() {
   dictionary.clear();
+  search.clear();
 }
 
 export function register(id: string, Class: ClassType) {
   dictionary.set(id, Class);
+  search.set(Class, id);
 }

@@ -36,7 +36,7 @@ function transformClassProperty(path) {
         }));
 
       } else if (t.isClassDeclaration(parent)) {
-        const tpl = template(`require("${LibCorePath}").${RegClassFunc}("${uniqid()}", CLASS_ID)`);
+        const tpl = template(`require("${LibCorePath}").${RegClassFunc}("${parent.id.name}_${uniqid()}", CLASS_ID)`);
         parentPath.insertAfter(tpl({
           CLASS_ID: parent.id,
         }));

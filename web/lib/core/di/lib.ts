@@ -71,6 +71,14 @@ export function assign(dep: Dep, instance: any) {
   }
 }
 
+export function getCurrentInstances() {
+  const zoneId = getZoneId();
+  if (typeof instances[zoneId] === "undefined") {
+    return [];
+  }
+  return instances[zoneId].values();
+}
+
 export function cleanup() {
   Object.keys(instances).forEach((id) => {
     instances[id].clear();

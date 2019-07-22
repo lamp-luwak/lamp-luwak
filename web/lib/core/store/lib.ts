@@ -76,12 +76,14 @@ export function serialize(target: StoreContainer) {
   return target[StoreValues];
 }
 
-export function unserialize(target: StoreContainer, data: object) {
-  for (const key of target[StoreKeys] || []) {
+export function unserialize(Ctor: ClassType, data: object) {
+  const inst = new Ctor();
+  for (const key of inst[StoreKeys] || []) {
     if (data.hasOwnProperty(key)) {
-      (target[StoreValues] = target[StoreValues] || {})[key] = (data as any)[key];
+      (inst[StoreValues] = inst[StoreValues] || {})[key] = (data as any)[key];
     }
   }
+  return inst;
 }
 
 export function setInitialValues(Class: ClassType, data: object) {

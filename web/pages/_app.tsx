@@ -1,6 +1,6 @@
 import React from "react";
 import NextApp, { Container, AppContext } from "next/app";
-import { serialize, setInitialState, zone } from "~/lib/core";
+import { serialize, unserialize, zone } from "~/lib/core";
 import { ThemeProvider } from "styled-components";
 
 const theme = {
@@ -31,7 +31,7 @@ export default class App extends NextApp {
     const { Component, pageProps } = this.props;
 
     if (pageProps[SerializedData]) {
-      setInitialState(pageProps[SerializedData]);
+      unserialize(pageProps[SerializedData]);
     }
 
     return (
