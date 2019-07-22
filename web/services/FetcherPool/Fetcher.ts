@@ -13,7 +13,7 @@ export type BeforeHandlerNext = () => boolean;
 export type BeforeHandler = (next: BeforeHandlerNext) => any;
 
 export class Fetcher {
-  @provide public config: Config;
+  @provide private config: Config;
 
   @store public status: FetcherStatus = FetcherStatus.Ok;
 

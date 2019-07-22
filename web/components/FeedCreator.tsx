@@ -5,7 +5,7 @@ import { FeedCreator as FeedCreatorService, Draft } from "~/services/FeedCreator
 interface FeedCreatorProps {}
 
 export class FeedCreator extends React.PureComponent<FeedCreatorProps> {
-  @provide public feedCreator: FeedCreatorService;
+  @provide private feedCreator: FeedCreatorService;
 
   public draft: Draft;
 

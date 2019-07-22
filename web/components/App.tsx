@@ -5,7 +5,7 @@ import { FetcherLoader } from "./FetcherLoader";
 import { Feed } from "./Feed";
 
 export class App extends React.PureComponent {
-  @provide public account: Account;
+  @provide private account: Account;
 
   public static async prefetch() {
     await resolve(Account).fetcher.fetch();

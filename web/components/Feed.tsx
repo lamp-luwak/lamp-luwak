@@ -7,7 +7,7 @@ import { FeedCreator } from "./FeedCreator";
 interface FeedProps {}
 
 export class Feed extends React.PureComponent<FeedProps> {
-  @provide public feedService: FeedService;
+  @provide private feedService: FeedService;
 
   public static async prefetch() {
     await resolve(FeedService).fetcher.fetch();

@@ -2,7 +2,7 @@ import { store, provide } from "~/lib/core";
 import { Feed } from "~/services/Feed";
 
 export class Draft {
-  @provide public feed: Feed;
+  @provide private feed: Feed;
   @store public text: string = "";
 
   public setText(text: string) {

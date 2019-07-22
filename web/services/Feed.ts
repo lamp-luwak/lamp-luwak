@@ -3,8 +3,8 @@ import { Fetcher, FetcherPool } from "./FetcherPool";
 import { Config } from "./Config";
 
 export class Feed {
-  @provide public fetcherPool: FetcherPool;
-  @provide public config: Config;
+  @provide private fetcherPool: FetcherPool;
+  @provide private config: Config;
 
   @store public list: any[] = [];
 

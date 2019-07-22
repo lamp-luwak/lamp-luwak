@@ -6,9 +6,9 @@ import { Config } from "./Config";
 const AccountStorageKey = "__account_token__";
 
 export class Account {
-  @provide public storage: SharedStorage;
-  @provide public fetcherPool: FetcherPool;
-  @provide public config: Config;
+  @provide private storage: SharedStorage;
+  @provide private fetcherPool: FetcherPool;
+  @provide private config: Config;
 
   @store public token: string | undefined;
   public fetcher: Fetcher;
