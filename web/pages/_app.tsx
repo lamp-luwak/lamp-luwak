@@ -9,7 +9,7 @@ const theme = {
   },
 };
 
-const SerializedData = "__SERIALIZED_DATA__";
+const SerializedDataKey = "__SERIALIZED_DATA__";
 
 export default class App extends NextApp {
   public static async getInitialProps({ Component, ctx }: AppContext) {
@@ -19,7 +19,7 @@ export default class App extends NextApp {
     }
     const prefetch = (Component as any).prefetch;
     if (prefetch) {
-      (pageProps as any)[SerializedData] = await zone(async () => {
+      (pageProps as any)[SerializedDataKey] = await zone(async () => {
         await prefetch();
         return serialize();
       });
@@ -30,8 +30,8 @@ export default class App extends NextApp {
   public render() {
     const { Component, pageProps } = this.props;
 
-    if (pageProps[SerializedData]) {
-      unserialize(pageProps[SerializedData]);
+    if (pageProps[SerializedDataKey]) {
+      unserialize(pageProps[SerializedDataKey]);
     }
 
     return (
