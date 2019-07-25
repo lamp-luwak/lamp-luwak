@@ -1,2 +1,2 @@
 export { bind } from "bind-decorator";
-export { provide } from "node-provide";
+export { provide } from "./provide";
