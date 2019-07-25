@@ -19,7 +19,9 @@ export class FeedRouter {
 
   @bind
   public async list() {
-    return { items: [1, 2, 3] };
+    const items = [1, 2, 3];
+    items.sort(() => 0 - Math.random() + 0.5);
+    return { items };
   }
 
 }

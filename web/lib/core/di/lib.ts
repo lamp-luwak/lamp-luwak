@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { Component } from "react";
-import { getZoneId, getZoneParentId, onZoneDestroy } from "../zone/lib";
+import { getZoneId, getZoneParentId } from "../zone/lib";
 import { isStoreContainer } from "../store/lib";
 import { subscribe } from "../subscribe/lib";
 import { PropertyKey, Dep, DepResolvePhase } from "./types";
@@ -14,7 +14,6 @@ const { instances, overrides, resolvePhases } = state;
 export function provide(target: object, propertyKey: PropertyKey): any {
   const Class = Reflect.getMetadata("design:type", target, propertyKey);
 
-  ensureZoneDestroyListener();
   return {
     get() {
       const instance = resolve(Class);
@@ -99,14 +98,7 @@ export function reset() {
   });
 }
 
-function ensureZoneDestroyListener() {
-  if (!state.zoneDestroyListenerAdded) {
-    onZoneDestroy(cleanupZone);
-    state.zoneDestroyListenerAdded = true;
-  }
-}
-
-function cleanupZone(zoneId: number) {
+export function cleanupZone(zoneId: number) {
   if (instances[zoneId]) {
     instances[zoneId].clear();
     delete instances[zoneId];

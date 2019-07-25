@@ -1,8 +1,8 @@
+import { cleanupZone } from "../di/lib";
 import { RootZoneId } from "./consts";
 import state from "./state";
-import { DestroyListener } from "./types";
 
-const { index, parentIndex, destroyListeners } = state;
+const { index, parentIndex } = state;
 
 export async function zone<T = void>(callback: () => T): Promise<T> {
   const asyncHooks = (!process.browser) ? require("async_hooks") : null; // With love to Webpack
@@ -38,7 +38,7 @@ export async function zone<T = void>(callback: () => T): Promise<T> {
         reject(error);
       }
       delete parentIndex[asyncId];
-      fireDestroy(asyncId);
+      cleanupZone(asyncId);
     });
   });
 }
@@ -49,12 +49,4 @@ export function getZoneId(): number {
 
 export function getZoneParentId(zoneId: number) {
   return parentIndex[zoneId];
-}
-
-export function onZoneDestroy(listener: DestroyListener) {
-  destroyListeners.push(listener);
-}
-
-function fireDestroy(zoneId: number) {
-  destroyListeners.forEach((listener) => listener(zoneId));
 }

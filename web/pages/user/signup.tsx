@@ -10,6 +10,7 @@ class Signup extends React.Component {
         <Head>
           <title>Signup page</title>
         </Head>
+        <Link route="home">Home</Link>
         <h1>Signup page</h1>
         <Link route="signin">Signin</Link>
       </React.Fragment>

@@ -1,5 +1,4 @@
 import { ObjectMap } from "../types";
-import { DestroyListener } from "./types";
 import { RootZoneId } from "./consts";
 
 export default {
@@ -7,5 +6,4 @@ export default {
   hook: null as any,
   index: {} as ObjectMap<number>,
   parentIndex: {} as ObjectMap<number>,
-  destroyListeners: [] as DestroyListener[],
 };

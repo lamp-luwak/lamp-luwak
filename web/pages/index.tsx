@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Head from "next/head";
 import { App } from "~/components/App";
+import { Link } from "~/routes";
 
 const Title = styled.h1`
   font-size: 50px;
@@ -21,6 +22,8 @@ class Index extends React.Component {
           <title>Welcome</title>
           <meta name="description" content="description for indexing bots" />
         </Head>
+        <Link route="signin">Signin</Link>
+        <Link route="signup">Signup</Link>
         <Title>Title</Title>
         <App />
       </React.Fragment>
