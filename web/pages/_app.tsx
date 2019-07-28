@@ -1,6 +1,7 @@
 import React from "react";
 import NextApp, { Container, AppContext } from "next/app";
 import { serialize, unserialize, zone } from "~/lib/core";
+import { ComponentPrefetchContext } from "~/lib/common";
 import { ThemeProvider } from "styled-components";
 
 const theme = {
@@ -20,7 +21,7 @@ export default class App extends NextApp {
     const prefetch = (Component as any).prefetch;
     if (prefetch) {
       (pageProps as any)[SerializedDataKey] = await zone(async () => {
-        await prefetch();
+        await prefetch(new ComponentPrefetchContext(ctx));
         return serialize();
       });
     }

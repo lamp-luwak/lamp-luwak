@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-import { Link } from "~/routes";
+import { Link } from "~/lib/router";
 
 class Signup extends React.Component {
 

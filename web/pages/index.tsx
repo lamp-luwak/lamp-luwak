@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Head from "next/head";
 import { App } from "~/components/App";
-import { Link } from "~/routes";
+import { Link } from "~/lib/router";
 
 const Title = styled.h1`
   font-size: 50px;
