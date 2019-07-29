@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "install": "./install.sh",
-    "watch": "next",
+    "watch": "node server/index.js",
     "build": "next build",
     "start": "next start",
     "tslint": "tslint -c tslint.json -p tsconfig.json",

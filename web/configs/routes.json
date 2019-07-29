@@ -1,5 +1,5 @@
 {
-  "home": "/",
-  "signin": "/user/signin",
-  "signup": "/user/signup"
+  "home": [ "/", "index" ],
+  "signin": [ "/user/signin", "/user/signin" ],
+  "signup": [ "/user/signup", "/user/signup" ]
 }

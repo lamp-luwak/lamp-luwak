@@ -6,9 +6,7 @@ const StoreDecoratorName = "store";
 const LibCorePath = "~/lib/core";
 const RegClassFunc = "register";
 
-const state = {
-  regClassMap: new WeakMap(),
-};
+const regClassMap = new WeakMap();
 
 function uniqid() {
   return process.hrtime.bigint().toString(32);
@@ -22,7 +20,6 @@ function transformClassProperty(path) {
       && node.expression.name === StoreDecoratorName)
     {
       const { parent, parentPath, } = path.parentPath;
-      const { regClassMap, } = state;
 
       if (regClassMap.has(parent)) {
         return;

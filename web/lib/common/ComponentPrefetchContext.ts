@@ -27,7 +27,10 @@ export class ComponentPrefetchContext {
     if (this.pathname === pathname) {
       return;
     }
-    this.ctx.res!.setHeader("Redirect", pathname);
-    // this.ctx.res!.end();
+    const { res } = this.ctx;
+    if (res) {
+      res.setHeader("Redirect", pathname);
+      // res.end();
+    }
   }
 }
