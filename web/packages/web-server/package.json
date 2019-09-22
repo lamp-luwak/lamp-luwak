@@ -1,0 +1,17 @@
+{
+  "name": "@sonata/web-server",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "build": "next build",
+    "start": "cross-env NODE_ENV=production node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "cross-env": "^6.0.0"
+  }
+}

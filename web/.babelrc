@@ -7,14 +7,14 @@
     [ "module-resolver", {
       "root": [ "." ],
       "alias": {
-        "~": ".",
-      },
+        "~": "."
+      }
     }],
     [ "@sonata/babel-plugin-web-serialize" ],
     [ "transform-typescript-metadata" ],
     [ "@babel/plugin-proposal-decorators", { "legacy": true } ],
     [ "@babel/plugin-proposal-class-properties", { "loose": true } ],
     [ "add-react-displayname" ],
-    [ "styled-components", { "ssr": true } ],
+    [ "styled-components", { "ssr": true } ]
   ]
 }

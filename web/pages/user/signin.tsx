@@ -1,13 +1,13 @@
 import React from "react";
 import Head from "next/head";
-import { ComponentPrefetchContext } from "~/lib/common";
+// import { ComponentPrefetchContext } from "~/lib/common";
 import { Link } from "~/lib/router";
 
 class Signin extends React.Component {
 
-  public static async prefetch(ctx: ComponentPrefetchContext) {
-    ctx.redirect("home");
-  }
+  // public static async prefetch(ctx: ComponentPrefetchContext) {
+  //   ctx.redirect("home");
+  // }
 
   public render() {
     return (

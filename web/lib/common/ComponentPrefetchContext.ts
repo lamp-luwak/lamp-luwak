@@ -1,5 +1,5 @@
 import { ServerResponse, IncomingMessage } from "http";
-import { findByName } from "~/lib/router";
+// import { findByName } from "~/lib/router";
 
 interface SourceContext {
   req?: IncomingMessage;
@@ -22,15 +22,15 @@ export class ComponentPrefetchContext {
     this.pathname = pathname;
   }
 
-  public redirect(name: string) {
-    const pathname = findByName(name).toPath();
-    if (this.pathname === pathname) {
-      return;
-    }
-    const { res } = this.ctx;
-    if (res) {
-      res.setHeader("Redirect", pathname);
-      // res.end();
-    }
-  }
+  // public redirect(name: string) {
+  //   const pathname = findByName(name).toPath();
+  //   if (this.pathname === pathname) {
+  //     return;
+  //   }
+  //   const { res } = this.ctx;
+  //   if (res) {
+  //     res.setHeader("Redirect", pathname);
+  //     // res.end();
+  //   }
+  // }
 }

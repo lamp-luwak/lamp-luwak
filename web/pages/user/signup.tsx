@@ -8,7 +8,7 @@ class Signup extends React.Component {
     return (
       <React.Fragment>
         <Head>
-          <title>Signup page</title>
+          <title>Signup page 222</title>
         </Head>
         <Link route="home">Home</Link>
         <h1>Signup page</h1>
