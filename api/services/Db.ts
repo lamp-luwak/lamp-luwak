@@ -23,7 +23,7 @@ export class Db {
   }
 
   private async getConnectedClient(): Promise<MongoClient> {
-    return MongoClient.connect(this.url, { useNewUrlParser: true });
+    return MongoClient.connect(this.url, { useNewUrlParser: true, useUnifiedTopology: true });
   }
 
   private async getConnectedDb(): Promise<MongoDb> {

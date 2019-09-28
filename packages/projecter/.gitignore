@@ -1,18 +1,10 @@
 *~
 *.swp
 tmp/
-npm-debug.log
 .DS_Store
-
-
-.build/*
-.next
 .vscode/
 node_modules/
-.coverage
-.env
-dist
-
+npm-debug.log
 yarn-error.log
 
 package-lock.json
