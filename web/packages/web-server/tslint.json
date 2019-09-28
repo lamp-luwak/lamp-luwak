@@ -1,0 +1,5 @@
+{
+  "extends": [
+    "@sonata/tslint-config-node"
+  ]
+}

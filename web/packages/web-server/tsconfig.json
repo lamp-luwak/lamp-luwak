@@ -1,0 +1,7 @@
+{
+  "extends": "./node_modules/@sonata/tsconfig-node/tsconfig.json",
+  "compilerOptions": {
+    "outDir": ".dist",
+    "baseUrl": "."
+  }
+}

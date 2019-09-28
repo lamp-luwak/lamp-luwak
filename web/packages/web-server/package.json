@@ -12,6 +12,9 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "cross-env": "^6.0.0"
+    "cross-env": "^6.0.0",
+    "@sonata/projecter": "file:../../../packages/projecter",
+    "@sonata/tslint-config-node": "file:../../../packages/tslint-config-node",
+    "@sonata/tsconfig-node": "file:../../../packages/tsconfig-node"
   }
 }
