@@ -1,0 +1,6 @@
+{
+  "name": "@sonata/tsconfig-node",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./tsconfig.json"
+}

@@ -40,7 +40,8 @@
     "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "@sonata/projecter": "file:../packages/projecter",
-    "@sonata/tslint-config-node": "file:../packages/tslint-config-node"
+    "@sonata/tslint-config-node": "file:../packages/tslint-config-node",
+    "@sonata/tsconfig-node": "file:../packages/tsconfig-node"
   },
   "_moduleAliases": {
     "~": ".dist"
