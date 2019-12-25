@@ -34,11 +34,7 @@ export function provide(target: object, propertyKey: PropertyKey): any {
 }
 
 export function resolve<T>(dep: Dep<T>): T {
-  let instance;
-  if (!dep) {
-    return dep;
-  }
-  instance = getInstance(dep);
+  let instance = getInstance(dep);
   if (!instance) {
     const OverrideDep = getOverride(dep);
     if (typeof OverrideDep !== "undefined") {
