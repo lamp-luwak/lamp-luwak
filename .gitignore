@@ -1,5 +1,5 @@
 # IDEs and editors
-/.idea
+.idea
 .project
 .classpath
 .c9/
@@ -14,6 +14,23 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# System Files
+# OS files
 .DS_Store
 Thumbs.db
+
+# dependencies
+node_modules
+
+# testing
+coverage
+
+# production
+.release
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# locks
+package-lock.json

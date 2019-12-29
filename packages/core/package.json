@@ -1,0 +1,46 @@
+{
+  "name": "@sonata/core",
+  "version": "0.1.0",
+  "description": "Modular Data-View binding mechanism for React",
+  "repository": {
+    "url": "https://github.com/betula/sonata"
+  },
+  "main": ".release/index.js",
+  "types": ".release/index.d.ts",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "npx jest --coverage",
+    "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "lint": "npx eslint ./src --ext ts",
+    "prepare": "npm run lint && npm run build && npm run test",
+    "clean": "npx rimraf ./.release"
+  },
+  "keywords": [
+    "react store"
+  ],
+  "author": "Viacheslav Bereza <mail@betula.co>",
+  "license": "MIT",
+  "dependencies": {},
+  "peerDependencies": {
+    "react": "*",
+    "reflect-metadata": "*"
+  },
+  "devDependencies": {
+    "react": "^16.12.0",
+    "reflect-metadata": "^0.1.13",
+    "@types/react": "^16.9.17",
+    "@types/node": "^13.1.1",
+    "typescript": "^3.7.4",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "eslint-plugin-import": "^2.19.1",
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "@types/jest": "^24.0.25",
+    "coveralls": "^3.0.9"
+  }
+}
