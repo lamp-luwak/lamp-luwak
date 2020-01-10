@@ -1,17 +1,23 @@
 module.exports = {
-  extends: ["airbnb"],
-  plugins: ["@typescript-eslint"],
-  parser: "@typescript-eslint/parser",
-  rules: {
-    "import/no-unresolved": 0,
-    // note you must disable the base rule as it can report incorrect errors
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", {
-      "vars": "all",
-      "args": "after-used",
-      "ignoreRestSiblings": false
-    }],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+		"project": "tsconfig.json",
+		"tsconfigRootDir": ".",
+	},
+  "plugins": ["@typescript-eslint"],
+  "rules": {
     "quotes": ["error", "double"],
-    "import/extensions": ["error", "never"],
-  }
+    "no-prototype-builtins": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/no-use-before-define": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "@typescript-eslint/await-thenable": 0
+  },
 };

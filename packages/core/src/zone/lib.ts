@@ -11,7 +11,6 @@ export async function zone<T = void>(callback: () => T): Promise<T> {
   }
   if (typeof state.hook === "undefined") {
     state.hook = asyncHooks.createHook({
-      // tslint:disable-next-line: variable-name
       init(asyncId: number, _type: any, triggerAsyncId: number) {
         const rootAsyncId = index[triggerAsyncId];
         if (rootAsyncId) {
@@ -32,7 +31,6 @@ export async function zone<T = void>(callback: () => T): Promise<T> {
       parentIndex[asyncId] = index[asyncId] || RootZoneId;
       state.currentId = index[asyncId] = asyncId;
       try {
-        // tslint:disable-next-line: await-promise
         resolve(await callback());
       } catch (error) {
         reject(error);

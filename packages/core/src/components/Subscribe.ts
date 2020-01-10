@@ -13,11 +13,11 @@ export class Subscribe extends React.PureComponent<Props> {
   constructor(props: Props, context?: any) {
     super(props, context);
 
-    const to = Array.isArray(this.props.to)
+    const items = Array.isArray(this.props.to)
       ? this.props.to
       : [ this.props.to ];
 
-    for (const item of to) {
+    for (const item of items) {
       const container = item as StoreContainer;
       if (isStoreContainer(container)) {
         subscribe(this, container);
