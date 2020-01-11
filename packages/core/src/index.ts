@@ -5,3 +5,4 @@ export { register, serialize, unserialize } from "./ssr/lib";
 export { subscribe } from "./subscribe/lib";
 export { Subscribe } from "./components/Subscribe";
 export { StoreContainer } from "./PropTypes/StoreContainer";
+export { cleanup } from "./cleanup";

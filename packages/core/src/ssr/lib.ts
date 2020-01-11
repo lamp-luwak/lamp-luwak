@@ -27,7 +27,7 @@ export function unserialize(data: any) {
   }
 }
 
-export function reset() {
+export function cleanup() {
   dictionary.clear();
   search.clear();
 }
