@@ -1,5 +1,5 @@
 const transform = require("@babel/core").transform;
-const plugin = require("./");
+const plugin = require("./src");
 
 const code = `
 @mut
