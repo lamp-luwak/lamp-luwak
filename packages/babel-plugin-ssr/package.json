@@ -1,0 +1,17 @@
+{
+  "name": "@impress/babel-plugin-ssr",
+  "description": "Babel plugin for automatic SSR",
+  "version": "0.0.1",
+  "author": "Viacheslav Bereza <mail@betula.co>",
+  "license": "MIT",
+  "main": "./index.js",
+  "files": [
+    "/index.js"
+  ],
+  "devDependencies": {
+    "@babel/core": "~7.8.3",
+    "eslint": "~6.8.0",
+    "jest": "~24.9.0",
+    "coveralls": "~3.0.9"
+  }
+}

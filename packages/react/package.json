@@ -1,16 +1,17 @@
 {
   "name": "@impress/react",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Modular Data-View binding mechanism for React",
   "repository": {
     "url": "https://github.com/betula/sonata"
   },
+  "source": "./src/index.ts",
   "main": "./release/index.js",
   "types": "./release/index.d.ts",
   "files": [
     "/release",
+    "/jest-cleanup-after-each.js",
     "/src",
-    "/index.ts",
     "/README.md"
   ],
   "scripts": {
@@ -33,18 +34,18 @@
     "reflect-metadata": "*"
   },
   "devDependencies": {
-    "@types/react": "^16.9.17",
-    "@types/node": "^13.1.1",
-    "@types/jest": "^24.0.25",
-    "reflect-metadata": "^0.1.13",
-    "react": "^16.12.0",
-    "typescript": "^3.7.4",
-    "eslint": "^6.8.0",
-    "@typescript-eslint/eslint-plugin": "^2.13.0",
-    "@typescript-eslint/parser": "^2.13.0",
-    "jest": "^24.9.0",
+    "@types/react": "~16.9.17",
+    "@types/node": "~13.1.6",
+    "@types/jest": "~24.0.25",
+    "reflect-metadata": "~0.1.13",
+    "react": "~16.12.0",
+    "typescript": "~3.7.4",
+    "eslint": "~6.8.0",
+    "@typescript-eslint/eslint-plugin": "~2.16.0",
+    "@typescript-eslint/parser": "~2.16.0",
+    "jest": "~24.9.0",
     "handlebars": "4.6.0",
-    "ts-jest": "^24.2.0",
-    "coveralls": "^3.0.9"
+    "ts-jest": "~24.3.0",
+    "coveralls": "~3.0.9"
   }
 }

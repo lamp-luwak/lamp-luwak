@@ -1,0 +1,12 @@
+{
+  "name": "@impress/lerna-root",
+  "private": true,
+  "author": "Viacheslav Bereza <mail@betula.co>",
+  "license": "MIT",
+  "scripts": {
+    "bootstrap": "npx lerna bootstrap"
+  },
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  }
+}
