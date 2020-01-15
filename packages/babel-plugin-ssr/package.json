@@ -1,16 +1,28 @@
 {
   "name": "@impress/babel-plugin-ssr",
-  "description": "Babel plugin for automatic SSR",
   "version": "0.0.1",
+  "description": "Babel plugin for automatic SSR",
+  "repository": {
+    "url": "https://github.com/betula/sonata"
+  },
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",
   "main": "./src/index.js",
   "files": [
-    "/src"
+    "/src",
+    "/README.md"
   ],
+  "scripts": {
+    "test": "npx jest --coverage",
+    "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "lint": "npx eslint ./src && npx eslint ./tests",
+    "clean": "npx rimraf ./coverage",
+    "prepublishOnly": "npm run lint && npm run test"
+  },
   "devDependencies": {
     "@babel/core": "~7.8.3",
     "eslint": "~6.8.0",
+    "eslint-plugin-jest": "~23.6.0",
     "jest": "~24.9.0",
     "coveralls": "~3.0.9"
   }

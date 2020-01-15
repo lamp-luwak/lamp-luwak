@@ -20,7 +20,7 @@
     "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
     "lint": "npx eslint ./src --ext ts",
     "clean": "npx rimraf ./release && npx rimraf ./coverage",
-    "prepublishOnly": "npm run clean && npm run lint && npm run build && npm run test"
+    "prepublishOnly": "npm run lint && npm run build && npm run test"
   },
   "keywords": [
     "react store",
