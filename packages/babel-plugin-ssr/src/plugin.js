@@ -4,13 +4,14 @@ const packageJson = require("../package.json");
 const uniqid = require("./uniqid");
 
 const StoreDecoratorName = "store";
-const LibCorePath = "~/lib/core";
+const LibCorePath = "@impress/react";
 const RegClassFunc = "register";
 
 const regClassMap = new WeakMap();
 
 function transformClassProperty(path) {
   const { decorators, } = path.node;
+
   for (const node of decorators || []) {
     if (t.isDecorator(node)
       && t.isIdentifier(node.expression)
@@ -42,7 +43,7 @@ function transformClassProperty(path) {
 module.exports = () => ({
   name: packageJson.name,
 
-  manipulateOptions(opts, parserOpts) {
+  manipulateOptions(_opts, parserOpts) {
     parserOpts.plugins.push(
       "decorators-legacy",
       "classProperties"
