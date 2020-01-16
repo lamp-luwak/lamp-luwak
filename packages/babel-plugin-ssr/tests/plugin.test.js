@@ -34,21 +34,42 @@ test("Should pass class without decorators", () => {
   expect(transform(code)).toBe(transformedCode);
 });
 
-test("Should add register function call for each store container", () => {
+test("Should pass class with another decorator", () => {
+  const code = `class C {
+  @some c;
+}`;
+
+  const transformedCode = `class C {
+  @some
+  c;
+}`;
+
+  expect(transform(code)).toBe(transformedCode);
+});
+
+test("Should work with class expression", () => {
+  const code = `hello(@mut class {
+  @store data;
+});`;
+
+  const transformedCode = `hello(require("${LIB}").register("${UNIQ_1}", @mut
+class {
+  @store
+  data;
+}));`;
+
+  expect(transform(code)).toBe(transformedCode);
+});
+
+test("Should work with class declaration", () => {
   const code = `
 @mut
 export class A {
   @store data;
 }
-hello(@mut class {
-  @store data;
-});
 class B {
   @store a;
   @store b;
-}
-class C {
-  @some c;
 }`;
 
   const transformedCode = `export @mut
@@ -57,13 +78,7 @@ class A {
   data;
 }
 
-require("${LIB}").register("A_${UNIQ_1}", A);
-
-hello(require("${LIB}").register("${UNIQ_2}", @mut
-class {
-  @store
-  data;
-}));
+require("${LIB}").register("A_${UNIQ_2}", A);
 
 class B {
   @store
@@ -72,12 +87,7 @@ class B {
   b;
 }
 
-require("${LIB}").register("B_${UNIQ_3}", B);
-
-class C {
-  @some
-  c;
-}`;
+require("${LIB}").register("B_${UNIQ_3}", B);`;
 
   expect(transform(code)).toBe(transformedCode);
 });

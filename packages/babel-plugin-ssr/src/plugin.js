@@ -4,7 +4,7 @@ const packageJson = require("../package.json");
 const uniqid = require("./uniqid");
 
 const StoreDecoratorName = "store";
-const LibCorePath = "@impress/react";
+const LibPath = "@impress/react";
 const RegClassFunc = "register";
 
 const regClassMap = new WeakMap();
@@ -17,23 +17,24 @@ function transformClassProperty(path) {
       && t.isIdentifier(node.expression)
       && node.expression.name === StoreDecoratorName)
     {
-      const { parent, parentPath, } = path.parentPath;
+      const { parentPath } = path;
+      const Class = parentPath.parent;
+      const ClassPath = parentPath.parentPath;
 
-      if (regClassMap.has(parent)) {
+      if (regClassMap.has(Class)) {
         return;
       }
-      regClassMap.set(parent, true);
+      regClassMap.set(Class, true);
 
-      if (t.isClassExpression(parent)) {
-        const tpl = template(`require("${LibCorePath}").${RegClassFunc}("${uniqid()}", CLASS_EXPR)`);
-        parentPath.replaceWith(tpl({
-          CLASS_EXPR: parent,
+      if (t.isClassDeclaration(Class)) {
+        const tpl = template(`require("${LibPath}").${RegClassFunc}("${Class.id.name}_${uniqid()}", CLASS_ID)`);
+        ClassPath.insertAfter(tpl({
+          CLASS_ID: Class.id,
         }));
-
-      } else if (t.isClassDeclaration(parent)) {
-        const tpl = template(`require("${LibCorePath}").${RegClassFunc}("${parent.id.name}_${uniqid()}", CLASS_ID)`);
-        parentPath.insertAfter(tpl({
-          CLASS_ID: parent.id,
+      } else { // if (t.isClassExpression(Class))
+        const tpl = template(`require("${LibPath}").${RegClassFunc}("${uniqid()}", CLASS_EXPR)`);
+        ClassPath.replaceWith(tpl({
+          CLASS_EXPR: Class,
         }));
       }
     }
