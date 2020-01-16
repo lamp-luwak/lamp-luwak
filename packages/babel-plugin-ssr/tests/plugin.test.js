@@ -5,12 +5,6 @@ const uniqidMock = require("../src/uniqid");
 const LIB = "@impress/react";
 const UNIQ_1 = "5m6";
 const UNIQ_2 = "5m7";
-const UNIQ_3 = "5m8";
-
-uniqidMock
-  .mockReturnValueOnce(UNIQ_1)
-  .mockReturnValueOnce(UNIQ_2)
-  .mockReturnValueOnce(UNIQ_3);
 
 function transform(code) {
   return require("@babel/core").transform(code, {
@@ -19,6 +13,13 @@ function transform(code) {
     ast: false,
   }).code;
 }
+
+beforeEach(() => {
+  uniqidMock
+  .mockReset()
+  .mockReturnValueOnce(UNIQ_1)
+  .mockReturnValueOnce(UNIQ_2);
+});
 
 test("Should pass class without decorators", () => {
   const code = `class A {
@@ -78,7 +79,7 @@ class A {
   data;
 }
 
-require("${LIB}").register("A_${UNIQ_2}", A);
+require("${LIB}").register("A_${UNIQ_1}", A);
 
 class B {
   @store
@@ -87,7 +88,7 @@ class B {
   b;
 }
 
-require("${LIB}").register("B_${UNIQ_3}", B);`;
+require("${LIB}").register("B_${UNIQ_2}", B);`;
 
   expect(transform(code)).toBe(transformedCode);
 });
