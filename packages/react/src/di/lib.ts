@@ -8,29 +8,19 @@ import state from "./state";
 
 const { instances, overrides, resolvePhases } = state;
 
-/**
- * Property decorator
- */
-export function provide(target: object, propertyKey: PropertyKey): any {
-  const Class = Reflect.getMetadata("design:type", target, propertyKey);
-
-  return {
-    get() {
-      const instance = resolve(Class);
-      Object.defineProperty(this, propertyKey, {
-        value: instance,
-        enumerable: true,
-        configurable: false,
-        writable: false,
-      });
-      if (this instanceof Component && isStoreContainer(instance)) {
-        subscribe(this, instance);
-      }
-      return instance;
-    },
-    enumerable: true,
-    configurable: true,
-  };
+export function provide(target: object, propertyKey: PropertyKey): any;
+export function provide(dep: Dep): (target: object, propertyKey: PropertyKey) => any;
+export function provide(targetOrDep: any, propertyKey?: any): any {
+  if (typeof propertyKey === "undefined") {
+    const dep: Dep = targetOrDep;
+    return (_target: object, propertyKey: PropertyKey): any => (
+      createProvideDescriptor(dep, propertyKey)
+    );
+  }
+  return createProvideDescriptor(
+    Reflect.getMetadata("design:type", targetOrDep, propertyKey!),
+    propertyKey!,
+  );
 }
 
 export function resolve<T>(dep: Dep<T>): T {
@@ -103,6 +93,26 @@ export function cleanupZone(zoneId: number) {
     resolvePhases[zoneId].clear();
     delete resolvePhases[zoneId];
   }
+}
+
+function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey) {
+  return {
+    get() {
+      const instance = resolve(dep);
+      Object.defineProperty(this, propertyKey, {
+        value: instance,
+        enumerable: true,
+        configurable: false,
+        writable: false,
+      });
+      if (this instanceof Component && isStoreContainer(instance)) {
+        subscribe(this, instance);
+      }
+      return instance;
+    },
+    enumerable: true,
+    configurable: true,
+  };
 }
 
 function setResolvePhase(dep: Dep, phase: DepResolvePhase) {
