@@ -2,9 +2,10 @@ import { Component } from "react";
 import { ClassType } from "../types";
 import { StoreContainer } from "../store/types";
 import { subscribe as storeSubscribe, isStoreContainer, notify } from "../store/lib";
-
-export const Unsubscribers = Symbol("Unsubscribers");
-export const UnsubscribersRegistered = Symbol("Unsubscribers registered");
+import {
+  Unsubscribers,
+  UnsubscribersRegistered
+} from "./types";
 
 export function subscribe(component: Component, storeContainer: StoreContainer): void;
 export function subscribe<T extends ClassType<Component>>(Class: T): T;

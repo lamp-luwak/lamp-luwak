@@ -1,7 +1,7 @@
 {
-  "name": "@impress/dispatcher",
+  "name": "@impress/em",
   "version": "0.0.1",
-  "description": "Dispatcher",
+  "description": "Event Emitter trait",
   "repository": {
     "url": "https://github.com/betula/sonata"
   },
@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run lint && npm run build && npm run test"
   },
   "keywords": [
-    "dispatcher"
+    "event emitter"
   ],
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",
