@@ -3,7 +3,8 @@ import { Component } from "react";
 import { getZoneId, getZoneParentId } from "../zone/lib";
 import { isStoreContainer } from "../store/lib";
 import { subscribe } from "../subscribe/lib";
-import { PropertyKey, Dep, DepResolvePhase } from "./types";
+import { PropertyKey } from "../types";
+import { Dep, DepResolvePhase } from "./types";
 import state from "./state";
 
 const { instances, overrides, resolvePhases } = state;

@@ -17,9 +17,7 @@ function transformClassProperty(path) {
       && t.isIdentifier(node.expression)
       && node.expression.name === StoreDecoratorName)
     {
-      const { parentPath } = path;
-      const Class = parentPath.parent;
-      const ClassPath = parentPath.parentPath;
+      const { parent: Class, parentPath: ClassPath } = path.parentPath;
 
       if (regClassMap.has(Class)) {
         return;

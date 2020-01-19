@@ -1,4 +1,4 @@
-import { ClassType } from "../types";
+import { ClassType, PropertyKey } from "../types";
 import React from "react";
 import {
   StoreUpdaters,
@@ -11,10 +11,7 @@ import state from "./state";
 
 const { initialValues } = state;
 
-/**
- * Property decorator
- */
-export function store(target: object, propertyKey: string, descriptor?: any): any {
+export function store(target: object, propertyKey: PropertyKey, descriptor?: any): any {
   const initializer = (descriptor || {}).initializer;
 
   addKey(target, propertyKey);

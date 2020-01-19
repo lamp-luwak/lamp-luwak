@@ -5,5 +5,3 @@ export enum DepResolvePhase {
   Start,
   Finish,
 }
-
-export type PropertyKey = string;
