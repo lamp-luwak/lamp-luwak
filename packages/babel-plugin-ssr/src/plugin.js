@@ -7,7 +7,7 @@ const StoreDecoratorName = "store";
 const LibPath = "@impress/react";
 const RegClassFunc = "register";
 
-const regClassMap = new WeakMap();
+const regClassSet = new WeakSet();
 
 function transformClassProperty(path) {
   const { decorators, } = path.node;
@@ -19,10 +19,10 @@ function transformClassProperty(path) {
     {
       const { parent: Class, parentPath: ClassPath } = path.parentPath;
 
-      if (regClassMap.has(Class)) {
+      if (regClassSet.has(Class)) {
         return;
       }
-      regClassMap.set(Class, true);
+      regClassSet.add(Class);
 
       if (t.isClassDeclaration(Class)) {
         const tpl = template(`require("${LibPath}").${RegClassFunc}("${Class.id.name}_${uniqid()}", CLASS_ID)`);

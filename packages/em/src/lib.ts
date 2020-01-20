@@ -3,7 +3,7 @@ import {
   Listeners
 } from "./types";
 
-export function emit(target: object, event: string, data: any) {
+export function emit(target: object, event: string, data: any): void {
   const listeners = ((target as any)?.[Listeners]?.[event] || []).slice();
   for (const listener of listeners) {
     try {
@@ -14,11 +14,11 @@ export function emit(target: object, event: string, data: any) {
   }
 }
 
-export function on(target: object, event: string, listener: EventListener) {
+export function on(target: object, event: string, listener: EventListener): () => void {
   const map: any = (target as any)[Listeners] = (target as any)[Listeners] || {};
   const listeners = map[event] = map[event] || [];
   listeners.push(listener);
-  return () => {
+  return (): void => {
     let index = 0;
     while (index < listeners.length) {
       if (listeners[index] === listener) {
@@ -30,7 +30,7 @@ export function on(target: object, event: string, listener: EventListener) {
   }
 }
 
-export function once(target: object, event: string, listener: EventListener) {
+export function once(target: object, event: string, listener: EventListener): () => void {
   const off = on(target, event, (data: any) => {
     try {
       listener(data);
@@ -40,4 +40,5 @@ export function once(target: object, event: string, listener: EventListener) {
       throw error;
     }
   });
+  return off;
 }

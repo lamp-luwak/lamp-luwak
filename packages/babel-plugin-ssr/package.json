@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Babel plugin for automatic SSR",
   "repository": {
-    "url": "https://github.com/betula/sonata"
+    "url": "https://github.com/betula/impress"
   },
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",

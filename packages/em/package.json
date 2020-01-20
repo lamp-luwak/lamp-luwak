@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Event Emitter trait",
   "repository": {
-    "url": "https://github.com/betula/sonata"
+    "url": "https://github.com/betula/impress"
   },
   "source": "./src/index.ts",
   "main": "./release/index.js",

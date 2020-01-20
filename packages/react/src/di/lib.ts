@@ -19,8 +19,8 @@ export function provide(targetOrDep: any, propertyKey?: any): any {
     );
   }
   return createProvideDescriptor(
-    Reflect.getMetadata("design:type", targetOrDep, propertyKey!),
-    propertyKey!,
+    Reflect.getMetadata("design:type", targetOrDep, propertyKey),
+    propertyKey,
   );
 }
 

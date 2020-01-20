@@ -3,8 +3,13 @@
   "private": true,
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/betula/impress"
+  },
   "scripts": {
-    "bootstrap": "npx lerna bootstrap"
+    "bootstrap": "npx lerna bootstrap",
+    "test": "npx lerna run test",
+    "lint": "npx lerna run lint"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
