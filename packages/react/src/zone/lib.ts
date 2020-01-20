@@ -1,4 +1,4 @@
-import { cleanupZone } from "../di/lib";
+import { resetZone } from "../di/lib";
 import { RootZoneId } from "./consts";
 import state from "./state";
 
@@ -36,7 +36,7 @@ export async function zone<T = void>(callback: () => T): Promise<T> {
         reject(error);
       }
       delete parentIndex[asyncId];
-      cleanupZone(asyncId);
+      resetZone(asyncId);
     });
   });
 }

@@ -85,7 +85,7 @@ export function reset() {
   });
 }
 
-export function cleanupZone(zoneId: number) {
+export function resetZone(zoneId: number) {
   if (instances[zoneId]) {
     instances[zoneId].clear();
     delete instances[zoneId];
@@ -93,6 +93,10 @@ export function cleanupZone(zoneId: number) {
   if (resolvePhases[zoneId]) {
     resolvePhases[zoneId].clear();
     delete resolvePhases[zoneId];
+  }
+  if (overrides[zoneId]) {
+    overrides[zoneId].clear();
+    delete overrides[zoneId];
   }
 }
 
