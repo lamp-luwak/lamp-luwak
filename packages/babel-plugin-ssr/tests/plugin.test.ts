@@ -1,21 +1,24 @@
-jest.mock("../src/uniqid");
+import { plugin } from "~/plugin";
+import { uniqid } from "~/uniqid";
 
-const uniqidMock = require("../src/uniqid");
+jest.mock("~/uniqid");
+
+const mockUniqid = uniqid as jest.MockedFunction<any>;
 
 const LIB = "@impress/react";
 const UNIQ_1 = "5m6";
 const UNIQ_2 = "5m7";
 
-function transform(code) {
+function transform(code: string) {
   return require("@babel/core").transform(code, {
-    plugins: [ require("../src") ],
+    plugins: [ plugin ],
     code: true,
     ast: false,
   }).code;
 }
 
 beforeEach(() => {
-  uniqidMock
+  mockUniqid
   .mockReset()
   .mockReturnValueOnce(UNIQ_1)
   .mockReturnValueOnce(UNIQ_2);

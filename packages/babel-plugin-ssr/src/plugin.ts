@@ -1,15 +1,14 @@
-const t = require("@babel/core").types;
-const template = require("@babel/core").template;
-const packageJson = require("../package.json");
-const uniqid = require("./uniqid");
+import { types as t, template } from "@babel/core";
+import { uniqid } from "./uniqid";
 
+const PluginName = "@impress/babel-plugin-ssr";
 const StoreDecoratorName = "store";
 const LibPath = "@impress/react";
 const RegClassFunc = "register";
 
 const regClassSet = new WeakSet();
 
-function transformClassProperty(path) {
+function transformClassProperty(path: any) {
   const { decorators, } = path.node;
 
   for (const node of decorators || []) {
@@ -39,23 +38,25 @@ function transformClassProperty(path) {
   }
 }
 
-module.exports = () => ({
-  name: packageJson.name,
+export function plugin() {
+  return {
+    name: PluginName,
 
-  manipulateOptions(_opts, parserOpts) {
-    parserOpts.plugins.push(
-      "decorators-legacy",
-      "classProperties"
-    );
-  },
-  visitor: {
-    Class(path) {
-      const body = path.get("body");
-      for (const path of body.get("body")) {
-        if (path.isClassProperty()) {
-          transformClassProperty(path);
-        }
-      }
+    manipulateOptions(_opts: any, parserOpts: any) {
+      parserOpts.plugins.push(
+        "decorators-legacy",
+        "classProperties"
+      );
     },
-  },
-});
+    visitor: {
+      Class(path: any) {
+        const body = path.get("body");
+        for (const path of body.get("body")) {
+          if (path.isClassProperty()) {
+            transformClassProperty(path);
+          }
+        }
+      },
+    },
+  };
+};
