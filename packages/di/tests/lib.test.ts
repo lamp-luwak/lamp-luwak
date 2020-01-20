@@ -4,20 +4,24 @@ import {
   override,
   assign,
   reset,
-  cleanup
-} from "~/di/lib";
-import { default as diState } from "~/di/state";
-import {
+  cleanup,
   zone,
   getZoneId
-} from "~/zone/lib";
-import { default as zoneState } from "~/zone/state";
-import { RootZoneId } from "~/zone/consts";
+} from "~/lib";
+import { RootZoneId } from "~/consts";
+import state from "~/state"
 
-const { instances, overrides } = diState;
-const { index: zoneIndex, parentIndex: zoneParentIndex } = zoneState;
+const { instances, overrides, zoneIndex, zoneParentIndex } = state;
 
-afterEach(reset);
+afterEach(() => {
+  reset();
+  state.zoneId = RootZoneId;
+  [zoneIndex, zoneParentIndex].forEach((table) => {
+    for (const key of Object.keys(table)) {
+      delete table[key];
+    }
+  });
+});
 
 test("Should be only one instance of provided class", () => {
   class A {

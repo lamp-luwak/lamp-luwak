@@ -1,5 +1,5 @@
-export { zone } from "./zone/lib";
 export {
+  zone,
   provideDecoratorFactory,
   provide,
   resolve,
@@ -8,5 +8,5 @@ export {
   getZoneInstances,
   cleanup,
   reset
-} from "./di/lib";
-export { ProvideInstanceSubscriber } from "./di/types";
+} from "./lib";
+export { ProvideInstanceSubscriber } from "./types";

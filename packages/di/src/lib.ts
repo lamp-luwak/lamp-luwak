@@ -1,10 +1,62 @@
 import "reflect-metadata";
-import { getZoneId, getZoneParentId } from "../zone/lib";
-import { PropertyKey } from "../types";
-import { Dep, DepResolvePhase, ProvideInstanceSubscriber } from "./types";
+import { PropertyKey, Dep, DepResolvePhase, ProvideInstanceSubscriber } from "./types";
+import { RootZoneId } from "./consts";
 import state from "./state";
 
-const { instances, overrides, resolvePhases } = state;
+const {
+  instances,
+  overrides,
+  resolvePhases,
+  zoneIndex,
+  zoneParentIndex
+} = state;
+
+export async function zone<T = void>(callback: () => T): Promise<void> {
+  const asyncHooks = (!(process as any).browser) ? require("async_hooks") : null; // With love to Webpack
+  if (!asyncHooks) {
+    await callback();
+    return;
+  }
+  if (typeof state.asyncHook === "undefined") {
+    state.asyncHook = asyncHooks.createHook({
+      init(asyncId: number, _type: any, triggerAsyncId: number) {
+        const rootAsyncId = zoneIndex[triggerAsyncId];
+        if (rootAsyncId) {
+          zoneIndex[asyncId] = rootAsyncId;
+        }
+      },
+      before(asyncId: number) {
+        state.zoneId = zoneIndex[asyncId] || RootZoneId;
+      },
+      destroy(asyncId: number) {
+        delete zoneIndex[asyncId];
+      },
+    }).enable();
+  }
+  return new Promise((resolve, reject) => {
+    process.nextTick(async () => {
+      const asyncId = asyncHooks.executionAsyncId();
+      zoneParentIndex[asyncId] = zoneIndex[asyncId] || RootZoneId;
+      state.zoneId = zoneIndex[asyncId] = asyncId;
+      try {
+        await callback();
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+      delete zoneParentIndex[asyncId];
+      resetZone(asyncId);
+    });
+  });
+}
+
+export function getZoneId(): number {
+  return state.zoneId;
+}
+
+export function getZoneParentId(zoneId: number) {
+  return zoneParentIndex[zoneId];
+}
 
 export function provideDecoratorFactory(subscriber?: ProvideInstanceSubscriber) {
   function provide(target: object, propertyKey: PropertyKey): any;
@@ -80,14 +132,6 @@ export function reset() {
   });
 }
 
-export function getZoneInstances() {
-  const zoneId = getZoneId();
-  if (typeof instances[zoneId] === "undefined") {
-    return [];
-  }
-  return [ ...instances[zoneId].values() ];
-}
-
 export function resetZone(zoneId: number) {
   if (instances[zoneId]) {
     instances[zoneId].clear();
@@ -101,6 +145,14 @@ export function resetZone(zoneId: number) {
     overrides[zoneId].clear();
     delete overrides[zoneId];
   }
+}
+
+export function getZoneInstances() {
+  const { zoneId } = state;
+  if (typeof instances[zoneId] === "undefined") {
+    return [];
+  }
+  return [ ...instances[zoneId].values() ];
 }
 
 function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey, subscriber?: ProvideInstanceSubscriber) {
@@ -124,7 +176,7 @@ function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey, subscriber?
 }
 
 function setResolvePhase(dep: Dep, phase: DepResolvePhase) {
-  const zoneId = getZoneId();
+  const { zoneId } = state;
   if (typeof resolvePhases[zoneId] === "undefined") {
     resolvePhases[zoneId] = new Map();
   }
@@ -140,7 +192,7 @@ function setResolvePhase(dep: Dep, phase: DepResolvePhase) {
 }
 
 function setInstance(dep: Dep, instance: any) {
-  const zoneId = getZoneId();
+  const { zoneId } = state;
   if (typeof instances[zoneId] === "undefined") {
     instances[zoneId] = new Map();
   }
@@ -148,14 +200,14 @@ function setInstance(dep: Dep, instance: any) {
 }
 
 function getInstance(dep: Dep): any {
-  const zoneId = getZoneId();
+  const { zoneId } = state;
   if (typeof instances[zoneId] !== "undefined") {
     return instances[zoneId].get(dep);
   }
 }
 
 function setOverride(from: Dep, to: Dep) {
-  const zoneId = getZoneId();
+  const { zoneId } = state;
   if (typeof overrides[zoneId] === "undefined") {
     overrides[zoneId] = new Map();
   }
@@ -163,7 +215,7 @@ function setOverride(from: Dep, to: Dep) {
 }
 
 function getOverride(from: Dep): Dep | undefined {
-  const zoneId = getZoneId();
+  const { zoneId } = state;
   let id = zoneId;
   while (typeof id !== "undefined") {
     if (typeof overrides[id] !== "undefined") {
@@ -172,6 +224,6 @@ function getOverride(from: Dep): Dep | undefined {
         return to;
       }
     }
-    id = getZoneParentId(id);
+    id = zoneParentIndex[id];
   }
 }
