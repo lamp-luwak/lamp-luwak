@@ -1,9 +1,9 @@
-import { cleanup as cleanupDiCaches } from "./di/lib";
-import { cleanup as cleanupStoreCaches } from "./store/lib";
-import { cleanup as cleanupSsrCaches } from "./ssr/lib";
+import { cleanup as cleanupDi } from "./di";
+import { cleanup as cleanupStore } from "./store";
+import { cleanup as cleanupSsr } from "./ssr";
 
 export function cleanup() {
-  cleanupDiCaches();
-  cleanupStoreCaches();
-  cleanupSsrCaches();
+  cleanupDi();
+  cleanupStore();
+  cleanupSsr();
 }

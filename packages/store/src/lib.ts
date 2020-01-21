@@ -121,6 +121,7 @@ export function factory(notifier?: Notifier) {
     isContainer,
     values,
     make,
+    notify,
     setInitialValues,
     unsetInitialValues,
     cleanup,

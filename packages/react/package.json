@@ -34,6 +34,8 @@
   },
   "devDependencies": {
     "@impress/di": "0.0.1",
+    "@impress/store": "0.0.1",
+    "@impress/ssr": "0.0.1",
     "@types/react": "~16.9.17",
     "@types/node": "~13.1.6",
     "@types/jest": "~24.0.25",

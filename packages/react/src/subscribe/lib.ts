@@ -1,12 +1,15 @@
 import { Component } from "react";
 import { ClassType } from "../types";
-import { StoreContainer } from "../store/types";
-import { subscribe as storeSubscribe, isStoreContainer, notify } from "../store/lib";
-import { Unsubscribers } from "./types";
+import {
+  subscribe as subscribeToContainer,
+  isContainer,
+  notify
+} from "../store/lib";
+import { Unsubscribers } from "./consts";
 
-export function subscribe(component: Component, storeContainer: StoreContainer): void;
+export function subscribe(component: Component, container: object): void;
 export function subscribe<T extends ClassType<Component>>(Class: T): T;
-export function subscribe(ClassOrComponent: any, storeContainer?: StoreContainer) {
+export function subscribe(ClassOrComponent: any, container?: object) {
   if (ClassOrComponent instanceof Component) {
     const component = ClassOrComponent as any;
     if (!component[Unsubscribers]) {
@@ -21,9 +24,9 @@ export function subscribe(ClassOrComponent: any, storeContainer?: StoreContainer
         }
       };
     }
-    if (storeContainer && isStoreContainer(storeContainer)) {
+    if (container && isContainer(container)) {
       component[Unsubscribers].push(
-        storeSubscribe(storeContainer, () => {
+        subscribeToContainer(container, () => {
           notify(component);
         }),
       );
@@ -39,7 +42,7 @@ export function subscribe(ClassOrComponent: any, storeContainer?: StoreContainer
         super(props, context);
 
         for (const name of Object.keys(props)) {
-          if (isStoreContainer(props[name])) {
+          if (isContainer(props[name])) {
             subscribe(this as any, props[name]);
           }
         }

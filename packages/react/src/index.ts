@@ -1,7 +1,6 @@
-export { zone } from "./zone/lib";
-export { provide, resolve } from "./di/lib";
-export { store } from "./store/lib";
-export { register, serialize, unserialize } from "./ssr/lib";
+export { zone, provide, resolve } from "./di";
+export { store } from "./store";
+export { register, serialize, unserialize } from "./ssr";
 export { subscribe } from "./subscribe/lib";
 export { Subscribe } from "./components/Subscribe";
 export { StoreContainer } from "./PropTypes/StoreContainer";

@@ -1,6 +1,5 @@
 import React from "react";
-import { StoreContainer } from "../store/types";
-import { isStoreContainer } from "../store/lib";
+import { isContainer } from "../store";
 import { subscribe } from "../subscribe/lib";
 
 interface Props {
@@ -18,9 +17,8 @@ export class Subscribe extends React.PureComponent<Props> {
       : [ this.props.to ];
 
     for (const item of items) {
-      const container = item as StoreContainer;
-      if (isStoreContainer(container)) {
-        subscribe(this, container);
+      if (item && isContainer(item)) {
+        subscribe(this, item);
       }
     }
   }

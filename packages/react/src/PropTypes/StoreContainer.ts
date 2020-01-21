@@ -1,9 +1,9 @@
-import { isStoreContainer } from "../store/lib";
+import { isContainer } from "../store/lib";
 
 const createTypeChecker = (isRequired = false) => {
   const checker = (props: any, propName: string, componentName: string) => {
     const propValue = props[propName];
-    if ((isRequired && !propValue) || (propValue && !isStoreContainer(propValue))) {
+    if ((isRequired && !propValue) || (propValue && !isContainer(propValue))) {
       return new Error(
         "Invalid prop `" + propName + "` supplied to"
         + " `" + componentName + "`. StoreContainer validation failed.",
