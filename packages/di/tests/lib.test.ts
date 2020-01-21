@@ -1,4 +1,7 @@
-import {
+import { factory } from "~/lib";
+import { RootZoneId } from "~/consts";
+
+const {
   provide,
   resolve,
   override,
@@ -7,12 +10,13 @@ import {
   cleanup,
   zone,
   getZoneId,
-  instances,
-  overrides,
-  zoneIndex,
-  zoneParentIndex
-} from "~/lib";
-import { RootZoneId } from "~/consts";
+  state: {
+    instances,
+    overrides,
+    zoneIndex,
+    zoneParentIndex
+  }
+} = factory();
 
 afterEach(reset);
 
