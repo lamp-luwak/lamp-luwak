@@ -1,0 +1,42 @@
+{
+  "name": "@impress/ssr",
+  "version": "0.0.1",
+  "description": "SSR library for impress",
+  "repository": {
+    "url": "https://github.com/betula/impress"
+  },
+  "source": "./src/index.ts",
+  "main": "./release/index.js",
+  "types": "./release/index.d.ts",
+  "files": [
+    "/release",
+    "/src",
+    "/README.md"
+  ],
+  "scripts": {
+    "build": "npx tsc --build tsconfig.release.json",
+    "test": "npx jest --coverage",
+    "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
+    "clean": "npx rimraf ./release && npx rimraf ./coverage",
+    "prepublishOnly": "npm run lint && npm run build && npm run test"
+  },
+  "keywords": [
+    "ssr"
+  ],
+  "author": "Viacheslav Bereza <mail@betula.co>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@impress/di": "0.0.1",
+    "@impress/store": "0.0.1",
+    "@types/jest": "~24.9.0",
+    "typescript": "~3.7.5",
+    "eslint": "~6.8.0",
+    "@typescript-eslint/eslint-plugin": "~2.16.0",
+    "@typescript-eslint/parser": "~2.16.0",
+    "jest": "~24.9.0",
+    "ts-jest": "~24.3.0",
+    "coveralls": "~3.0.9"
+  }
+}
