@@ -18,7 +18,7 @@
     "build": "npx tsc --build tsconfig.release.json",
     "test": "npx jest --coverage",
     "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
-    "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
+    "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts,tsx",
     "clean": "npx rimraf ./release && npx rimraf ./coverage",
     "prepublishOnly": "npm run lint && npm run build && npm run test"
   },
