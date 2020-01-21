@@ -27,6 +27,9 @@
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",
   "dependencies": {},
+  "peerDependencies": {
+    "reflect-metadata": "*"
+  },
   "devDependencies": {
     "@types/node": "~13.1.8",
     "@types/jest": "~24.9.0",

@@ -30,14 +30,13 @@
   "license": "MIT",
   "dependencies": {},
   "peerDependencies": {
-    "react": "*",
-    "reflect-metadata": "*"
+    "react": "*"
   },
   "devDependencies": {
+    "@impress/di": "0.0.1",
     "@types/react": "~16.9.17",
     "@types/node": "~13.1.6",
     "@types/jest": "~24.0.25",
-    "reflect-metadata": "~0.1.13",
     "react": "~16.12.0",
     "typescript": "~3.7.4",
     "eslint": "~6.8.0",

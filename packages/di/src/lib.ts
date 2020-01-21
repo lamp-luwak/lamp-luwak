@@ -9,7 +9,7 @@ export const {
   assign,
   cleanup,
   reset,
-  getZoneInstances,
+  getInstances,
   instances,
   overrides,
   zoneIndex,

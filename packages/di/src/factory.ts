@@ -107,6 +107,13 @@ export function factory(provideSubscriber?: ProvideSubscriber) {
     }
   }
 
+  function getInstances() {
+    if (typeof instances[zoneId] === "undefined") {
+      return [];
+    }
+    return [ ...instances[zoneId].values() ];
+  }
+
   function cleanup() {
     Object.keys(instances).forEach((id) => {
       instances[id].clear();
@@ -139,13 +146,6 @@ export function factory(provideSubscriber?: ProvideSubscriber) {
       overrides[zoneId].clear();
       delete overrides[zoneId];
     }
-  }
-
-  function getZoneInstances() {
-    if (typeof instances[zoneId] === "undefined") {
-      return [];
-    }
-    return [ ...instances[zoneId].values() ];
   }
 
   function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey) {
@@ -225,7 +225,7 @@ export function factory(provideSubscriber?: ProvideSubscriber) {
     assign,
     cleanup,
     reset,
-    getZoneInstances,
+    getInstances,
     instances,
     overrides,
     zoneIndex,

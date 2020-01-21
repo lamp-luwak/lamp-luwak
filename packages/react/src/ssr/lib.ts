@@ -1,5 +1,5 @@
 import { ClassType } from "../types";
-import { getCurrentInstances, assign } from "../di/lib";
+import { getInstances, assign } from "../di/lib";
 import { values, factory } from "../store/lib";
 import state from "./state";
 
@@ -7,7 +7,7 @@ const { dictionary, search } = state;
 
 export function serialize() {
   const data: any = {};
-  for (const inst of getCurrentInstances()) {
+  for (const inst of getInstances()) {
     if (inst.constructor) {
       const id = search.get(inst.constructor);
       if (typeof id !== "undefined") {

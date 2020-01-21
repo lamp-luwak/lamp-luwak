@@ -8,6 +8,6 @@ export {
   assign,
   cleanup,
   reset,
-  getZoneInstances
+  getInstances
 } from "./lib";
-export { ProvideSubscriber } from "./types";
+export { ProvideSubscriber, Dep } from "./types";
