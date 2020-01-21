@@ -10,4 +10,4 @@ export enum DepResolvePhase {
   Finish,
 }
 
-export type ProvideInstanceSubscriber<T = any> = (target: object, instance: Dep<T>) => void;
+export type ProvideSubscriber<T = any> = (target: object, instance: Dep<T>) => void;

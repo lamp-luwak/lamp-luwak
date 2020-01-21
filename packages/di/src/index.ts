@@ -1,12 +1,13 @@
+export { factory } from "./factory";
 export {
   zone,
-  provideDecoratorFactory,
+  getZoneId,
   provide,
   resolve,
   override,
   assign,
-  getZoneInstances,
   cleanup,
-  reset
+  reset,
+  getZoneInstances
 } from "./lib";
-export { ProvideInstanceSubscriber } from "./types";
+export { ProvideSubscriber } from "./types";

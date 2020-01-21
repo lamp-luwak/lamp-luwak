@@ -6,22 +6,15 @@ import {
   reset,
   cleanup,
   zone,
-  getZoneId
+  getZoneId,
+  instances,
+  overrides,
+  zoneIndex,
+  zoneParentIndex
 } from "~/lib";
 import { RootZoneId } from "~/consts";
-import state from "~/state"
 
-const { instances, overrides, zoneIndex, zoneParentIndex } = state;
-
-afterEach(() => {
-  reset();
-  state.zoneId = RootZoneId;
-  [zoneIndex, zoneParentIndex].forEach((table) => {
-    for (const key of Object.keys(table)) {
-      delete table[key];
-    }
-  });
-});
+afterEach(reset);
 
 test("Should be only one instance of provided class", () => {
   class A {
