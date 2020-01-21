@@ -1,7 +1,5 @@
-import {
-  EventListener,
-  Listeners
-} from "./types";
+import { EventListener } from "./types";
+import { Listeners } from "./consts";
 
 export function emit(target: object, event: string, data: any): void {
   const listeners = ((target as any)?.[Listeners]?.[event] || []).slice();

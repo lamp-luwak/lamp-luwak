@@ -2,18 +2,14 @@ import { Component } from "react";
 import { ClassType } from "../types";
 import { StoreContainer } from "../store/types";
 import { subscribe as storeSubscribe, isStoreContainer, notify } from "../store/lib";
-import {
-  Unsubscribers,
-  UnsubscribersRegistered
-} from "./types";
+import { Unsubscribers } from "./types";
 
 export function subscribe(component: Component, storeContainer: StoreContainer): void;
 export function subscribe<T extends ClassType<Component>>(Class: T): T;
 export function subscribe(ClassOrComponent: any, storeContainer?: StoreContainer) {
   if (ClassOrComponent instanceof Component) {
     const component = ClassOrComponent as any;
-    if (!component[UnsubscribersRegistered]) {
-      component[UnsubscribersRegistered] = true;
+    if (!component[Unsubscribers]) {
       component[Unsubscribers] = [];
       const { componentWillUnmount } = component;
       component.componentWillUnmount = function() {
