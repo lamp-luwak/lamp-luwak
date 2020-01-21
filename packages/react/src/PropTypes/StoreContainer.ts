@@ -1,4 +1,4 @@
-import { isContainer } from "../store/lib";
+import { isContainer } from "../store";
 
 const createTypeChecker = (isRequired = false) => {
   const checker = (props: any, propName: string, componentName: string) => {

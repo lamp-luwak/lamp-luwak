@@ -1,10 +1,10 @@
 import { Component } from "react";
-import { ClassType } from "../types";
+import { ClassType } from "./types";
 import {
   subscribe as subscribeToContainer,
   isContainer,
   notify
-} from "../store/lib";
+} from "../store";
 import { Unsubscribers } from "./consts";
 
 export function subscribe(component: Component, container: object): void;

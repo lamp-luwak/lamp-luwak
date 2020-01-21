@@ -1,7 +1,7 @@
 import { factory, Dep } from "@impress/di";
 import { Component } from "react";
-import { isContainer } from "../store/lib";
-import { subscribe } from "../subscribe/lib";
+import { isContainer } from "./store";
+import { subscribe } from "./subscribe/lib";
 
 export const {
   zone,

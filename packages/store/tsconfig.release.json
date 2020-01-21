@@ -7,6 +7,6 @@
     "emitDecoratorMetadata": false
   },
   "exclude": [
-    "**/*.test.ts"
+    "tests/**/*"
   ]
 }

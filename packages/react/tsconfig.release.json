@@ -1,6 +1,12 @@
 {
   "extends": "./tsconfig",
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "experimentalDecorators": false,
+    "emitDecoratorMetadata": false
+  },
   "exclude": [
-    "**/*.test.ts"
+    "tests/**/*"
   ]
 }

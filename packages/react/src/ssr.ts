@@ -1,6 +1,6 @@
 import { factory } from "@impress/ssr";
-import { make, values } from "../store/lib";
-import { assign, getInstances } from "../di/lib";
+import { make, values } from "./store";
+import { assign, getInstances } from "./di";
 
 export const {
   serialize,
