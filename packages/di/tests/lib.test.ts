@@ -35,7 +35,7 @@ test("Should be only one instance of provided class", () => {
 
 test("Should make instance of class only on demand", () => {
   class A {
-    method() {}
+    method() { return 0; }
   }
   class B {
     @provide a: A;
@@ -144,8 +144,6 @@ test("should work resolve with plain values", () => {
 test("Should work assign", () => {
   class A {}
   class B {}
-  class C {}
-  class D {}
   class E {}
   const j = {};
   override(A, B);
@@ -159,16 +157,16 @@ test("Should work assign", () => {
 
 test("Should work nested zone", async () => {
   const spy = jest.fn();
-  class A {};
-  class B {};
-  class C {};
-  class D {};
+  class A {}
+  class B {}
+  class C {}
+  class D {}
 
   await zone(async () => {
     override(A, B);
     await zone(async () => {
       override(B, C);
-      await zone(async () => {
+      await zone(() => {
         override(C, D);
         expect(resolve(A)).toBeInstanceOf(D);
         spy();
@@ -225,7 +223,7 @@ test("Should work getting current zone id", async () => {
 });
 
 test("Should destroy async context in zone", async () => {
-  let zoneId = getZoneId();
+  const zoneId = getZoneId();
   let isolateZoneId: number;
   const spy = jest.fn();
   await zone(() => {
@@ -246,7 +244,7 @@ test("Should destroy async context in zone", async () => {
 test("Should throw error when circular dependency detected", () => {
   class A {
     @provide(func) f: A;
-    action() {}
+    action() { return 0; }
     constructor() {
       this.f.action();
     }
