@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import { provide, store, Subscribe, resolve } from "@impress/react";
-import './App.css';
+import "./App.css";
 
 class User {
   @store name: string = "World";
