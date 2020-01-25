@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import { factory } from "~/lib";
 import { RootZoneId } from "~/consts";
 
@@ -17,6 +18,10 @@ const {
     zoneParentIndex
   }
 } = factory();
+
+beforeEach(() => {
+  (global as any).require = require;
+})
 
 afterEach(reset);
 

@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { ObjectMap, PropertyKey, Dep, DepResolvePhase, ProvideSubscriber } from "./types";
 import { RootZoneId } from "./consts";
 
@@ -16,7 +15,9 @@ export function factory(provideSubscriber?: ProvideSubscriber) {
 
 
   async function zone<T = void>(callback: () => T): Promise<void> {
-    const asyncHooks = (!(process as any).browser) ? require("async_hooks") : null; // With love to Webpack
+    const asyncHooks = (!(process as any).browser && typeof global !== "undefined")
+      ? (global as any)["require"]("async_hooks") // With love to Webpack
+      : null;
     if (!asyncHooks) {
       await callback();
       return;
@@ -67,10 +68,13 @@ export function factory(provideSubscriber?: ProvideSubscriber) {
         createProvideDescriptor(dep, propertyKey)
       );
     }
-    return createProvideDescriptor(
-      Reflect.getMetadata("design:type", targetOrDep, propertyKey),
-      propertyKey
-    );
+    const Reflect = (typeof global !== "undefined" && (global as any).Reflect)
+      || (typeof window !== "undefined" && (window as any).Reflect);
+    const dep = Reflect?.getMetadata("design:type", targetOrDep, propertyKey);
+    if (!dep) {
+      throw new Error(`Cannot resolve type of dependency by reflect metadata for key "${propertyKey}"`);
+    }
+    return createProvideDescriptor(dep, propertyKey);
   }
 
   function resolve<T>(dep: Dep<T>): T {

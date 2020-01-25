@@ -1,24 +1,42 @@
 import React from 'react';
-import logo from './logo.svg';
+import { provide, store, Subscribe, resolve } from "@impress/react";
 import './App.css';
 
+class User {
+  @store name: string = "World";
+}
+
+class UserNameEditor extends React.Component {
+  @provide(User) user: User;
+
+  render() {
+    const { user } = this;
+    return (
+      <input
+        onChange={(e: any) => user.name = e.target.value}
+        value={user.name}
+      />
+    )
+  }
+}
+
 const App: React.FC = () => {
+  const user = resolve(User);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App-box">
+      <div>
+        Name: <UserNameEditor />
+      </div>
+      <div>
+        <Subscribe to={user}>
+          {() => (
+            <React.Fragment>
+              {"Hello "}
+              <b>{user.name}!</b>
+            </React.Fragment>
+          )}
+        </Subscribe>
+      </div>
     </div>
   );
 }

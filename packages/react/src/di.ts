@@ -1,7 +1,7 @@
 import { factory, Dep } from "@impress/di";
-import { Component } from "react";
 import { isContainer } from "./store";
 import { subscribe } from "./subscribe/lib";
+import { isReactComponent } from "./utils";
 
 export const {
   zone,
@@ -13,7 +13,7 @@ export const {
   reset,
   getInstances
 } = factory((target: object, instance: Dep) => {
-  if (target instanceof Component && isContainer(instance)) {
+  if (isReactComponent(target) && isContainer(instance)) {
     subscribe(target, instance);
   }
 });

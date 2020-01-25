@@ -1,5 +1,5 @@
 import { factory } from "@impress/store";
-import React from "react";
+import { isReactComponent } from "./utils";
 
 export const {
   store,
@@ -12,7 +12,7 @@ export const {
   unsetInitialValues,
   cleanup,
 } = factory((target: object) => {
-  if (target instanceof React.Component) {
-    target.forceUpdate();
+  if (isReactComponent(target)) {
+    (target as any).forceUpdate();
   }
 });

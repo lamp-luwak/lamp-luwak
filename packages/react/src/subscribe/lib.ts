@@ -6,11 +6,12 @@ import {
   notify
 } from "../store";
 import { Unsubscribers } from "./consts";
+import { isReactComponent } from "../utils";
 
-export function subscribe(component: Component, container: object): void;
+export function subscribe(component: object, container: object): void;
 export function subscribe<T extends ClassType<Component>>(Class: T): T;
 export function subscribe(ClassOrComponent: any, container?: object) {
-  if (ClassOrComponent instanceof Component) {
+  if (isReactComponent(ClassOrComponent)) {
     const component = ClassOrComponent as any;
     if (!component[Unsubscribers]) {
       component[Unsubscribers] = [];

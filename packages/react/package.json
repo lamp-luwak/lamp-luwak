@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "npx tsc --build tsconfig.release.json",
+    "dev": "npx tsc --build tsconfig.release.json -w",
     "test": "npx jest --coverage",
     "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
     "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts,tsx",
@@ -52,6 +53,7 @@
     "ts-jest": "~24.3.0",
     "enzyme": "~3.11.0",
     "enzyme-adapter-react-16": "~1.15.2",
-    "coveralls": "~3.0.9"
+    "coveralls": "~3.0.9",
+    "reflect-metadata": "~0.1.13"
   }
 }
