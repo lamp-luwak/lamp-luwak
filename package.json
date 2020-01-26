@@ -7,11 +7,12 @@
     "url": "https://github.com/betula/impress"
   },
   "scripts": {
-    "bootstrap": "npx lerna bootstrap",
+    "bootstrap": "npx lerna bootstrap && npm run build",
+    "build": "npx lerna run build",
     "test": "npx lerna run test",
     "lint": "npx lerna run lint",
     "clean": "npx lerna run clean",
-    "publish": "npx lerna publish"
+    "publish": "npm run lint && npm run build && npm run test && npx lerna publish"
   },
   "devDependencies": {
     "lerna": "^3.20.2"

@@ -18,9 +18,7 @@
     "test": "npx jest --coverage",
     "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
     "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
-    "clean": "npx rimraf ./release && npx rimraf ./coverage",
-    "prepublishOnly": "npm run lint && npm run build && npm run test",
-    "prepare": "npm run build"
+    "clean": "npx rimraf ./release && npx rimraf ./coverage"
   },
   "keywords": [
     "ssr"
