@@ -10,7 +10,8 @@
     "bootstrap": "npx lerna bootstrap",
     "test": "npx lerna run test",
     "lint": "npx lerna run lint",
-    "clean": "npx lerna run clean"
+    "clean": "npx lerna run clean",
+    "publish": "npx lerna publish"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
