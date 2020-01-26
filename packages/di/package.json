@@ -1,6 +1,6 @@
 {
   "name": "@impress/di",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Dependency Indection",
   "repository": {
     "url": "https://github.com/betula/impress"
@@ -26,19 +26,17 @@
   ],
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",
-  "dependencies": {},
-  "peerDependencies": {},
   "devDependencies": {
-    "@types/node": "~13.1.8",
     "@types/jest": "~24.9.0",
-    "reflect-metadata": "~0.1.13",
-    "typescript": "~3.7.5",
-    "eslint": "~6.8.0",
+    "@types/node": "~13.1.8",
     "@typescript-eslint/eslint-plugin": "~2.16.0",
     "@typescript-eslint/parser": "~2.16.0",
+    "coveralls": "~3.0.9",
+    "eslint": "~6.8.0",
     "jest": "~24.9.0",
+    "reflect-metadata": "~0.1.13",
     "ts-jest": "~24.3.0",
-    "coveralls": "~3.0.9"
+    "typescript": "~3.7.5"
   },
   "publishConfig": {
     "access": "public"
