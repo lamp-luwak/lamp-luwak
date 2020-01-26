@@ -12,7 +12,7 @@
     "test": "npx lerna run test",
     "lint": "npx lerna run lint",
     "clean": "npx lerna run clean",
-    "publish": "npm run lint && npm run build && npm run test && npx lerna publish"
+    "publish": "npm run clean && npm run lint && npm run build && npm run test && npx lerna publish"
   },
   "devDependencies": {
     "lerna": "^3.20.2"
