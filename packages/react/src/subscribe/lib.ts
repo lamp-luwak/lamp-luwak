@@ -12,7 +12,7 @@ export function subscribe(component: object, container: object): void;
 export function subscribe<T extends ClassType<Component>>(Class: T): T;
 export function subscribe(ClassOrComponent: any, container?: object) {
   if (isReactComponent(ClassOrComponent)) {
-    const component = ClassOrComponent as any;
+    const component = ClassOrComponent;
     if (!component[Unsubscribers]) {
       component[Unsubscribers] = [];
       const { componentWillUnmount } = component;
