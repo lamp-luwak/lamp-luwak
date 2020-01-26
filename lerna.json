@@ -1,9 +1,5 @@
 {
   "version": "0.0.1",
-  "packages": [
-    "packages/*",
-    "examples/*"
-  ],
   "npmClient": "npm",
   "npmClientArgs": [
     "--no-package-lock"

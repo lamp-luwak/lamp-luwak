@@ -25,7 +25,7 @@ const App: React.FC = () => {
   return (
     <div className="App-box">
       <div>
-        Name: <UserNameEditor />
+        <label>Name</label> <UserNameEditor />
       </div>
       <div>
         <Subscribe to={user}>

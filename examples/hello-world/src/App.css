@@ -5,3 +5,6 @@
 .App-box input {
   font-size: 25px;
 }
+.App-box label::after {
+  content: ":";
+}

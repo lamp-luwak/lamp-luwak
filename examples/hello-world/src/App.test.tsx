@@ -1,9 +1,10 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import App from "./App";
 
 test("It Works", () => {
-  const { getByText } = render(<App />);
-  const content = getByText(/World/i);
-  expect(content).toBeInTheDocument();
+  const { getByText, getByRole } = render(<App />);
+  expect(getByText(/World/i)).toBeInTheDocument();
+  fireEvent.change(getByRole("textbox"), {target: {value: "Abc"}})
+  expect(getByText(/Abc/i)).toBeInTheDocument();
 });
