@@ -53,5 +53,8 @@
     "enzyme-adapter-react-16": "~1.15.2",
     "coveralls": "~3.0.9",
     "reflect-metadata": "~0.1.13"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
