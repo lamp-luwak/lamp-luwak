@@ -19,8 +19,8 @@ class Index extends React.Component {
     return (
       <React.Fragment>
         <Head>
-          <title>Welcome</title>
-          <meta name="description" content="description for indexing bots" />
+          <title>Real World Example</title>
+          <meta name="description" content="Real World @impress/react example" />
         </Head>
         <Link route="signin">Signin</Link>
         <Link route="signup">Signup</Link>

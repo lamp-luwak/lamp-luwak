@@ -1,5 +1,5 @@
 import React from "react";
-import NextApp, { Container, AppContext } from "next/app";
+import NextApp, { AppContext } from "next/app";
 import { serialize, unserialize, zone } from "~/lib/core";
 import { ComponentPrefetchContext } from "~/lib/common";
 import { ThemeProvider } from "styled-components";
@@ -20,9 +20,9 @@ export default class App extends NextApp {
     }
     const prefetch = (Component as any).prefetch;
     if (prefetch) {
-      (pageProps as any)[SerializedDataKey] = await zone(async () => {
+      await zone(async () => {
         await prefetch(new ComponentPrefetchContext(ctx));
-        return serialize();
+        (pageProps as any)[SerializedDataKey] = serialize();
       });
     }
     return { pageProps };
@@ -36,11 +36,9 @@ export default class App extends NextApp {
     }
 
     return (
-      <Container>
-        <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
-        </ThemeProvider>
-      </Container>
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
     );
   }
 

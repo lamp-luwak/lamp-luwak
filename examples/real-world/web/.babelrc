@@ -10,7 +10,7 @@
         "~": "."
       }
     }],
-    [ "@sonata/babel-plugin-web-serialize" ],
+    [ "@impress/babel-plugin-ssr" ],
     [ "transform-typescript-metadata" ],
     [ "@babel/plugin-proposal-decorators", { "legacy": true } ],
     [ "@babel/plugin-proposal-class-properties", { "loose": true } ],

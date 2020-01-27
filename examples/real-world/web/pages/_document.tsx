@@ -12,7 +12,7 @@ export default class Document extends NextDocument {
     const originalRenderPage = ctx.renderPage;
     try {
       ctx.renderPage = () => originalRenderPage({
-        enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />),
+        enhanceApp: (App: any) => (props: any) => sheet.collectStyles(<App {...props} />),
       });
 
       const initialProps = await NextDocument.getInitialProps(ctx);
@@ -33,9 +33,7 @@ export default class Document extends NextDocument {
   public render() {
     return (
       <Html>
-        <Head>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
-        </Head>
+        <Head />
         <body>
           <Main />
           <NextScript />

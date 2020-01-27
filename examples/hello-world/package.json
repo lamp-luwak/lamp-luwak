@@ -14,11 +14,11 @@
     "react-dom": "^16.12.0",
     "react-scripts": "^3.3.0",
     "typescript": "^3.7.5",
-    "@impress/react": "latest"
+    "@impress/react": "^0.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "test": "react-scripts test"
+    "dev": "react-scripts start",
+    "test": "npx cross-env CI=false react-scripts test --watchAll --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -1,8 +1,7 @@
-const WebServer = require("@sonata/web-server");
 const next = require("next");
 const Routes = require("next-routes");
 const config = require("./configs/routes.json");
-
+const { createServer, } = require("http");
 
 
 const app = next({
@@ -10,10 +9,7 @@ const app = next({
 });
 
 app.prepare().then(() => {
-
-  WebServer.runWithApp(getRouterRequestHandler(app), 3000);
-
-  // createServer(getRouterRequestHandler(app)).listen(3000);
+  createServer(getRouterRequestHandler(app)).listen(3000);
 });
 
 function getRouterRequestHandler(app) {
