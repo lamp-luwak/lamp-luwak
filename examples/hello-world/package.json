@@ -1,5 +1,5 @@
 {
-  "name": "@impress/hello-world-example",
+  "name": "@impress/hello-world",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -18,7 +18,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "test": "npx cross-env CI=false react-scripts test --watchAll --coverage"
+    "test": "CI=true react-scripts test --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"
