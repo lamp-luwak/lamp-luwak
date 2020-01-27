@@ -6,7 +6,7 @@ const createTypeChecker = (isRequired = false) => {
     if ((isRequired && !propValue) || (propValue && !isContainer(propValue))) {
       return new Error(
         "Invalid prop `" + propName + "` supplied to"
-        + " `" + componentName + "`. StoreContainer validation failed.",
+        + " `" + componentName + "`. Container with store props validation failed.",
       );
     }
   };
@@ -18,4 +18,4 @@ const createTypeChecker = (isRequired = false) => {
   return checker;
 };
 
-export const StoreContainer = createTypeChecker();
+export const ContainerType = createTypeChecker();
