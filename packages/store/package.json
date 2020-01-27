@@ -1,6 +1,6 @@
 {
   "name": "@impress/store",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Store system",
   "repository": {
     "url": "https://github.com/betula/impress"
