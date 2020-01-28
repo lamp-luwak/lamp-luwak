@@ -1,10 +1,9 @@
 {
-  "name": "@sonata/web",
+  "name": "@impress/real-world",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "watch": "node server.js",
-    "build": "next build",
     "start": "next start",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "clean": "npx rimraf .next"
@@ -17,7 +16,7 @@
     "styled-components": "^5.0.0",
     "isomorphic-fetch": "^2.2.1",
     "reflect-metadata": "^0.1.13",
-    "@impress/react": "file:../../../packages/react"
+    "@impress/react": "^0.1.2"
   },
   "devDependencies": {
     "@zeit/next-typescript": "^1.1.1",

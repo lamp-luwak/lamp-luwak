@@ -30,10 +30,10 @@ const App: React.FC = () => {
       <div>
         <Subscribe to={user}>
           {() => (
-            <React.Fragment>
+            <>
               {"Hello "}
               <b>{user.name}!</b>
-            </React.Fragment>
+            </>
           )}
         </Subscribe>
       </div>

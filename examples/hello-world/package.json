@@ -16,6 +16,7 @@
     "react-scripts": "^3.3.0",
     "typescript": "^3.7.5"
   },
+  "devDependencies": {},
   "scripts": {
     "dev": "react-scripts start",
     "test": "CI=true react-scripts test --coverage"

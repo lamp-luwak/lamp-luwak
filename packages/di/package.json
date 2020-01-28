@@ -5,6 +5,9 @@
   "repository": {
     "url": "https://github.com/betula/impress"
   },
+  "browser": {
+    "async_hooks": false
+  },
   "source": "./src/index.ts",
   "main": "./release/index.js",
   "types": "./release/index.d.ts",

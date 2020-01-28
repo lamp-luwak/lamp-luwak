@@ -15,15 +15,17 @@ export class Feed extends React.PureComponent<FeedProps> {
 
   public render() {
     return (
-      <React.Fragment>
+      <>
         <FeedCreator />
         <FetcherLoader
           fetcher={this.feedService.fetcher}
-          ok={() => this.feedService.list.map((item, index) => (
-            <div key={index}>{item}</div>
-          ))}
+          ok={() => (
+            this.feedService.list.map((item, index) => (
+              <div key={index}>{item}</div>
+            ))
+          )}
         />
-      </React.Fragment>
+      </>
     );
   }
 }
