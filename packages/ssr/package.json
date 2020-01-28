@@ -1,6 +1,6 @@
 {
   "name": "@impress/ssr",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "SSR library for impress",
   "repository": {
     "url": "https://github.com/betula/impress"
@@ -26,8 +26,8 @@
   "author": "Viacheslav Bereza <mail@betula.co>",
   "license": "MIT",
   "devDependencies": {
-    "@impress/di": "^0.1.2",
-    "@impress/store": "^0.1.2",
+    "@impress/di": "^0.2.0",
+    "@impress/store": "^0.2.0",
     "@types/jest": "~24.9.0",
     "@typescript-eslint/eslint-plugin": "~2.16.0",
     "@typescript-eslint/parser": "~2.16.0",

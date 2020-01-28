@@ -1,6 +1,6 @@
 {
   "name": "@impress/real-world",
-  "version": "0.0.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "watch": "node server.js",
@@ -9,37 +9,37 @@
     "clean": "npx rimraf .next"
   },
   "dependencies": {
+    "@impress/react": "^0.2.0",
+    "isomorphic-fetch": "^2.2.1",
     "next": "^9.2.1",
     "next-routes": "^1.4.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "styled-components": "^5.0.0",
-    "isomorphic-fetch": "^2.2.1",
     "reflect-metadata": "^0.1.13",
-    "@impress/react": "^0.1.2"
+    "styled-components": "^5.0.0"
   },
   "devDependencies": {
-    "@zeit/next-typescript": "^1.1.1",
+    "@babel/core": "^7.8.3",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@impress/babel-plugin-ssr": "^0.2.0",
+    "@types/isomorphic-fetch": "^0.0.35",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.8.4",
-    "@types/styled-components": "^4.4.2",
-    "@types/isomorphic-fetch": "^0.0.35",
     "@types/reflect-metadata": "^0.1.0",
-    "@babel/core": "^7.8.3",
-    "@babel/plugin-proposal-decorators": "^7.8.3",
-    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@types/styled-components": "^4.4.2",
+    "@zeit/next-typescript": "^1.1.1",
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-module-resolver": "^4.0.0",
-    "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "babel-plugin-styled-components": "^1.10.7",
-    "@impress/babel-plugin-ssr": "^0.1.0",
-    "tslint": "^5.18.0",
-    "tslint-config-standard": "^8.0.1",
-    "tslint-react": "^4.0.0",
+    "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "eslint": "^5.0.0",
     "eslint-config-node": "^4.0.0",
     "stylelint": "^10.1.0",
     "stylelint-config-recommended": "^2.2.0",
+    "tslint": "^5.18.0",
+    "tslint-config-standard": "^8.0.1",
+    "tslint-react": "^4.0.0",
     "typescript": "^3.7.5"
   }
 }

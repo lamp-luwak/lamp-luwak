@@ -1,9 +1,9 @@
 {
   "name": "@impress/hello-world",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
-    "@impress/react": "^0.1.2",
+    "@impress/react": "^0.2.0",
     "@testing-library/jest-dom": "^5.0.2",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.4",
@@ -16,7 +16,6 @@
     "react-scripts": "^3.3.0",
     "typescript": "^3.7.5"
   },
-  "devDependencies": {},
   "scripts": {
     "dev": "react-scripts start",
     "test": "CI=true react-scripts test --coverage"

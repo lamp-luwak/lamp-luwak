@@ -1,6 +1,6 @@
 {
   "name": "@impress/em",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Event Emitter trait",
   "repository": {
     "url": "https://github.com/betula/impress"
