@@ -1,9 +1,9 @@
 {
   "version": "0.3.0",
   "packages": [
+    "packages/*",
     "examples/*",
-    "examples/real-world/web",
-    "packages/*"
+    "examples/real-world/modules/*"
   ],
   "npmClient": "npm",
   "npmClientArgs": [

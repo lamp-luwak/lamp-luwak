@@ -30,7 +30,7 @@
     ],
     "paths": {
       "~/*": [
-        "*"
+        "src/*"
       ]
     },
     "forceConsistentCasingInFileNames": true,

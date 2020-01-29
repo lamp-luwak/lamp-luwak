@@ -16,7 +16,7 @@ export function factory(provideSubscriber?: ProvideSubscriber) {
 
   async function zone<T = void>(callback: () => T): Promise<void> {
     const asyncHooks = (typeof process !== "undefined" && !(process as any).browser)
-      ? require("async_hooks") // With love to Webpack
+      ? require("async_hooks")
       : null;
     if (!asyncHooks) {
       await callback();

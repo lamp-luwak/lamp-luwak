@@ -1,2 +1,1 @@
-
 afterEach(require(".").cleanup);

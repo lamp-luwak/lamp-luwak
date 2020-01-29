@@ -3,8 +3,7 @@
   "version": "0.3.0",
   "private": true,
   "scripts": {
-    "watch": "node server.js",
-    "start": "next start",
+    "dev": "node server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
     "clean": "npx rimraf .next"
   },

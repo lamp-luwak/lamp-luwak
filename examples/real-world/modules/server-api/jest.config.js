@@ -1,10 +1,10 @@
 module.exports = {
   globals: {
     "ts-jest": {
-      tsConfig: "tsconfig.json"
+      tsConfig: "tsconfig.test.json"
     }
   },
-  setupFilesAfterEnv: [ "node-provide/jest-cleanup-after-each" ],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup-after-each.ts"],
   transform: {
     "^.+\\.ts$": "ts-jest"
   },
@@ -12,8 +12,11 @@ module.exports = {
   moduleNameMapper: {
     "~/(.*)$": "<rootDir>/$1"
   },
-  testPathIgnorePatterns: [ '<rootDir>/.dist/', '<rootDir>/node_modules/' ],
-  moduleFileExtensions: ["ts", "js", "json"],
+  testPathIgnorePatterns: [
+    "<rootDir>/release/",
+    "<rootDir>/node_modules/"
+  ],
+  moduleFileExtensions: ["js", "ts"],
   testEnvironment: "node",
   verbose: true
 };
