@@ -1,4 +1,4 @@
-import { factory } from "@impress/store";
+import { factory } from "@impress/core-store";
 import { isReactComponent } from "./utils";
 
 export const {

@@ -1,7 +1,7 @@
 {
   "name": "@impress/babel-plugin-ssr",
   "version": "0.2.0",
-  "description": "Babel plugin for automatic SSR",
+  "description": "Babel plugin for Impress automatic SSR",
   "repository": {
     "url": "https://github.com/betula/impress"
   },

@@ -1,4 +1,4 @@
-import { factory } from "@impress/ssr";
+import { factory } from "@impress/core-ssr";
 import { make, values } from "./store";
 import { assign, getInstances } from "./di";
 

@@ -33,8 +33,8 @@
   },
   "dependencies": {
     "@impress/di": "^0.2.0",
-    "@impress/ssr": "^0.2.0",
-    "@impress/store": "^0.2.0"
+    "@impress/core-ssr": "^0.2.0",
+    "@impress/core-store": "^0.2.0"
   },
   "devDependencies": {
     "@types/enzyme": "~3.10.4",

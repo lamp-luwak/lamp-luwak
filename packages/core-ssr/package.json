@@ -1,7 +1,7 @@
 {
-  "name": "@impress/ssr",
+  "name": "@impress/core-ssr",
   "version": "0.2.0",
-  "description": "SSR library for impress",
+  "description": "SSR library for Impress",
   "repository": {
     "url": "https://github.com/betula/impress"
   },
