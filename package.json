@@ -7,6 +7,7 @@
     "url": "https://github.com/betula/impress"
   },
   "scripts": {
+    "update": "npx lerna bootstrap",
     "bootstrap": "npx lerna bootstrap && npm run build",
     "build": "npx lerna run build",
     "test": "npx lerna run test",

@@ -1,4 +1,4 @@
-import fetch from "isomorphic-fetch";
+import fetch from "isomorphic-unfetch";
 
 export const fetchJson = async (input: RequestInfo, init?: RequestInit) => {
   const response = await fetch(input, init);
