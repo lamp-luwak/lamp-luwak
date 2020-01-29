@@ -1,5 +1,5 @@
 {
-  "name": "@impress/real-world",
+  "name": "@impress/real-world-client-web",
   "version": "0.3.0",
   "private": true,
   "scripts": {
