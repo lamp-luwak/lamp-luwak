@@ -8,7 +8,7 @@
   },
   "scripts": {
     "update": "npx lerna bootstrap",
-    "bootstrap": "npx lerna bootstrap && npm run build",
+    "bootstrap": "npx lerna bootstrap && npm run build && npm run test",
     "build": "npx lerna run build",
     "test": "npx lerna run test",
     "lint": "npx lerna run lint",
