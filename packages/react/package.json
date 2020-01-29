@@ -1,6 +1,6 @@
 {
   "name": "@impress/react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Modular Data-View binding mechanism for React",
   "repository": {
     "url": "https://github.com/betula/impress"
@@ -32,9 +32,9 @@
     "react": "*"
   },
   "dependencies": {
-    "@impress/di": "^0.2.0",
-    "@impress/core-ssr": "^0.2.0",
-    "@impress/core-store": "^0.2.0"
+    "@impress/core-ssr": "^0.3.0",
+    "@impress/core-store": "^0.3.0",
+    "@impress/di": "^0.3.0"
   },
   "devDependencies": {
     "@types/enzyme": "~3.10.4",
