@@ -4,7 +4,6 @@ module.exports = {
       tsConfig: "tsconfig.json"
     }
   },
-  setupFilesAfterEnv: ["<rootDir>/jest.setup-after-each.ts"],
   transform: {
     "^.+\\.ts$": "ts-jest"
   },

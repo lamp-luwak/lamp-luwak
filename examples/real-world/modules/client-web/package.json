@@ -2,10 +2,11 @@
   "name": "@impress/real-world-client-web",
   "version": "0.3.0",
   "private": true,
+  "types": "./app.d.ts",
+  "main": "./app.js",
   "scripts": {
-    "dev": "node server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
-    "clean": "npx rimraf .next"
+    "clean": "npx rimraf build"
   },
   "dependencies": {
     "@impress/react": "^0.3.0",
