@@ -1,7 +1,0 @@
-{
-  "watch": [
-    "modules/server-api/release/index.js"
-  ],
-  "exec": "ts-node --project tsconfig.json src/start.ts",
-  "ext": "ts"
-}

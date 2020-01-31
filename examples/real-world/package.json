@@ -1,21 +1,13 @@
 {
-  "name": "@impress/real-world",
+  "name": "@impress/real-world-root",
   "version": "0.3.0",
   "private": true,
   "scripts": {
-    "dev": "npx nodemon",
-    "lint": "npx eslint ./src --ext ts"
-  },
-  "dependencies": {
-    "@impress/real-world-server-api": "^0.3.0",
-    "@impress/real-world-server-web": "^0.3.0"
+    "server-api": "npm run dev --prefix server-api",
+    "client-web": "npm run dev --prefix client-web",
+    "dev": "npx concurrently -k --names \"API,WEB\" -c \"white.bold,magenta.bold\" \"npm run server-api\" \"npm run client-web\""
   },
   "devDependencies": {
-    "nodemon": "^2.0.2",
-    "typescript": "^3.7.5",
-    "ts-node": "^8.6.2",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
-    "eslint": "^6.8.0"
+    "concurrently": "^5.1.0"
   }
 }

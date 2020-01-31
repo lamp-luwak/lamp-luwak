@@ -1,9 +1,10 @@
 module.exports = {
   globals: {
     "ts-jest": {
-      tsConfig: "tsconfig.json"
+      tsConfig: "tsconfig.test.json"
     }
   },
+  setupFilesAfterEnv: ["<rootDir>/jest.setup-after-each.ts"],
   transform: {
     "^.+\\.ts$": "ts-jest"
   },
