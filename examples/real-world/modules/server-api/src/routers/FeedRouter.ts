@@ -11,14 +11,14 @@ export class FeedRouter {
   }
 
   @bind
-  public async create(req: Request, res: Response) {
+  public create(req: Request, res: Response) {
     console.log(
       req, res,
     );
   }
 
   @bind
-  public async list() {
+  public list() {
     const items = [1, 2, 3];
     items.sort(() => 0 - Math.random() + 0.5);
     return { items };

@@ -1,0 +1,20 @@
+{
+  "name": "@impress/real-world",
+  "version": "0.3.0",
+  "private": true,
+  "scripts": {
+    "dev": "npx nodemon",
+    "lint": "npx eslint ./src --ext ts"
+  },
+  "dependencies": {
+    "@impress/real-world-server-api": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "typescript": "^3.7.5",
+    "ts-node": "^8.6.2",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0"
+  }
+}

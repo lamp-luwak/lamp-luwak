@@ -4,9 +4,9 @@ import BodyParser from "body-parser";
 import { provide } from "~/lib/core";
 import { Logger } from "~/services/Logger";
 
-export interface Request extends Express.Request { }
-export interface Response extends Express.Response { }
-export type RequestHandler = (req: Request, res: Response) => Promise<any>;
+export type Request = Express.Request;
+export type Response = Express.Response;
+export type RequestHandler = (req: Request, res: Response) => Promise<any> | any;
 
 export class Server {
   @provide public logger: Logger;
@@ -38,7 +38,7 @@ export class Server {
         this.logger.log(req.method, req.url);
 
         try {
-          const ret = await handler(req as Request, res as Response);
+          const ret = await handler(req, res);
           if (typeof ret === "number") {
             res.status(ret).end();
           } else {

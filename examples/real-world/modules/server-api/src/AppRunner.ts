@@ -2,7 +2,7 @@ import { provide } from "~/lib/core";
 import { App } from "~/app/App";
 import { Logger } from "~/services/Logger";
 
-class AppRunner {
+export class AppRunner {
   @provide public app: App;
   @provide public logger: Logger;
 
@@ -23,6 +23,3 @@ class AppRunner {
     }
   }
 }
-
-// tslint:disable-next-line: no-floating-promises
-new AppRunner().start();

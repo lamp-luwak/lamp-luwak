@@ -1,5 +1,0 @@
-{
-  "watch": ["src"],
-  "exec": "ts-node --project tsconfig.release.json -r tsconfig-paths/register src/cli/start.ts",
-  "ext": "ts"
-}
