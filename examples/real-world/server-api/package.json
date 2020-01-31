@@ -1,6 +1,6 @@
 {
   "name": "@impress/real-world-server-api",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "dev": "npx nodemon",
@@ -9,33 +9,33 @@
     "clean": "npx rimraf ./release && npx rimraf ./coverage"
   },
   "dependencies": {
-    "express": "^4.17.1",
-    "cors": "^2.8.5",
+    "@impress/di": "^0.3.1",
+    "bind-decorator": "^1.0.11",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
-    "nanoid": "^2.1.10",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "mongodb": "^3.3.2",
-    "bind-decorator": "^1.0.11",
-    "@impress/di": "^0.3.0"
+    "nanoid": "^2.1.10"
   },
   "devDependencies": {
-    "@types/express": "^4.17.2",
-    "@types/cors": "^2.8.6",
     "@types/body-parser": "^1.17.1",
     "@types/compression": "^1.0.1",
-    "@types/nanoid": "^2.1.0",
-    "@types/mongodb": "^3.3.15",
-    "@types/node": "^12.7.8",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.2",
     "@types/jest": "^25.1.0",
-    "typescript": "^3.7.5",
-    "reflect-metadata": "^0.1.13",
-    "ts-node": "^8.6.2",
-    "tsconfig-paths": "^3.9.0",
-    "nodemon": "^2.0.2",
-    "jest": "^25.1.0",
-    "ts-jest": "^24.1.0",
+    "@types/mongodb": "^3.3.15",
+    "@types/nanoid": "^2.1.0",
+    "@types/node": "^12.7.8",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
-    "eslint": "^6.8.0"
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "reflect-metadata": "^0.1.13",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^8.6.2",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.7.5"
   }
 }

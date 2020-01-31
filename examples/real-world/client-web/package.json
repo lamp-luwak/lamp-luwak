@@ -1,6 +1,6 @@
 {
   "name": "@impress/real-world-client-web",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "dev": "node server.js",
@@ -8,7 +8,7 @@
     "clean": "npx rimraf build"
   },
   "dependencies": {
-    "@impress/react": "^0.3.0",
+    "@impress/react": "^0.3.1",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.2.1",
     "next-routes": "^1.4.2",
