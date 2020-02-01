@@ -1,6 +1,7 @@
 "use strict";
 import typescript from "rollup-plugin-typescript2";
 import transformPaths from "@zerollup/ts-transform-paths"
+import { terser } from "rollup-plugin-terser";
 import pkg, { dependencies, peerDependencies } from "./package.json";
 
 export default {
@@ -8,7 +9,7 @@ export default {
   output: [{
     file: pkg.main,
     format: "cjs",
-    sourcemap: false,
+    sourcemap: true,
   }],
   external: [
     ...Object.keys(dependencies),
@@ -21,6 +22,7 @@ export default {
         (service) => transformPaths(service.getProgram())
       ]
       // verbosity: 3,
-    })
+    }),
+    terser()
   ]
 }

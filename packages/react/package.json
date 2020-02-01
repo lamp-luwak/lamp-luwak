@@ -55,8 +55,5 @@
     "reflect-metadata": "~0.1.13",
     "ts-jest": "~24.3.0",
     "typescript": "~3.7.4"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }
