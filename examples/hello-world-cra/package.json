@@ -1,5 +1,5 @@
 {
-  "name": "@impress/hello-world",
+  "name": "@impress/hello-world-cra",
   "version": "0.3.1",
   "private": true,
   "dependencies": {
