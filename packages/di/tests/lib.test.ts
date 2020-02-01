@@ -19,10 +19,6 @@ const {
   }
 } = factory();
 
-beforeEach(() => {
-  (global as any).require = require;
-})
-
 afterEach(reset);
 
 test("Should be only one instance of provided class", () => {
