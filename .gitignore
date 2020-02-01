@@ -29,3 +29,10 @@ lerna-debug.log*
 
 # locks
 package-lock.json
+
+# testing
+/coverage
+
+# production
+/release
+

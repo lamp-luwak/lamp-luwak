@@ -1,5 +1,6 @@
 {
-  "name": "@impress/react",
+  "name": "@impress/react-0",
+  "private": true,
   "version": "0.3.1",
   "description": "Modular Data-View binding mechanism for React",
   "repository": {
