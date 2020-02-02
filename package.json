@@ -1,6 +1,6 @@
 {
   "name": "@impress/react",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Modular Data-View binding mechanism for React",
   "repository": {
     "url": "https://github.com/betula/impress"
