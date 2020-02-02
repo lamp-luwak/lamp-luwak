@@ -55,7 +55,7 @@
     "async_hooks": false
   },
   "peerDependencies": {
-    "react": "*"
+    "react": ">=15.3.0"
   },
   "devDependencies": {
     "@types/enzyme": "^3.10.4",
