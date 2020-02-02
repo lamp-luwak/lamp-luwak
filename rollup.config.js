@@ -2,7 +2,7 @@
 import typescript from "rollup-plugin-typescript2";
 import transformPaths from "@zerollup/ts-transform-paths"
 import { terser } from "rollup-plugin-terser";
-import pkg, { dependencies, peerDependencies } from "./package.json";
+import pkg, { peerDependencies } from "./package.json";
 
 export default {
   input: pkg.source,
@@ -11,10 +11,7 @@ export default {
     format: "cjs",
     sourcemap: true,
   }],
-  external: [
-    ...Object.keys(dependencies),
-    ...Object.keys(peerDependencies)
-  ],
+  external: Object.keys(peerDependencies),
   plugins: [
     typescript({
       tsconfig: "./tsconfig.release.json",
