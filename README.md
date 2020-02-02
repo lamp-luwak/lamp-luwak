@@ -6,7 +6,7 @@
 
 Modular Data-View binding mechanism for React
 
-[![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react)
+[![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react) [![code coverage](https://img.shields.io/coveralls/github/betula/impress?style=flat-square)](https://coveralls.io/github/betula/impress) [![build status](https://img.shields.io/travis/betula/impress?style=flat-square)](https://travis-ci.org/betula/impress)
 
 </div>
 
@@ -16,7 +16,7 @@ Modular Data-View binding mechanism for React
 
 ### Example
 
-```TypeScript
+```typescript
 import { store, provide } from "@impress/react";
 
 class User {
