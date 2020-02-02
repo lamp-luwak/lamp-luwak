@@ -4,7 +4,8 @@
 
 ![@impress/react logo](https://betula.github.io/impress/logo.png)
 
-Modular Data-View binding mechanism for
+Modular Data-View binding mechanism for React
+
 [![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react)
 
 </div>
