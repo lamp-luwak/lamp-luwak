@@ -1,0 +1,20 @@
+{
+  "presets": [
+    "next/babel",
+    "@zeit/next-typescript/babel"
+  ],
+  "plugins": [
+    [ "module-resolver", {
+      "root": [ "." ],
+      "alias": {
+        "~": "./src"
+      }
+    }],
+    [ "@impress/babel-plugin-ssr" ],
+    [ "transform-typescript-metadata" ],
+    [ "@babel/plugin-proposal-decorators", { "legacy": true } ],
+    [ "@babel/plugin-proposal-class-properties", { "loose": true } ],
+    [ "add-react-displayname" ],
+    [ "styled-components", { "ssr": true } ]
+  ]
+}
