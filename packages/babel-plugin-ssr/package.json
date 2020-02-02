@@ -19,7 +19,6 @@
     "build": "npx rollup -c",
     "dev": "npx rollup -cw",
     "test": "npx jest --coverage",
-    "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
     "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
     "clean": "npx rimraf ./release && npx rimraf ./coverage"
   },
@@ -29,12 +28,14 @@
   "dependencies": {
     "@babel/core": "^7.8.4"
   },
+  "peerDependencies": {
+    "@impress/react": "^1.0.2"
+  },
   "devDependencies": {
     "@types/jest": "^25.1.1",
     "@types/node": "^13.7.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
-    "coveralls": "^3.0.9",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
     "rollup": "^1.31.0",
