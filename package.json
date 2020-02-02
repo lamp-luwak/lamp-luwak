@@ -5,30 +5,32 @@
   "repository": {
     "url": "https://github.com/betula/impress"
   },
-  "source": "./src/index.ts",
-  "main": "./release/index.js",
-  "types": "./release/index.d.ts",
-  "files": [
-    "/release",
-    "/src",
-    "/jest-cleanup-after-each.js",
-    "/README.md"
-  ],
+  "bugs": {
+    "url": "https://github.com/betula/impress/issues"
+  },
+  "license": "MIT",
   "scripts": {
     "build": "npx rollup -c",
     "dev": "npx rollup -cw",
     "test": "npx jest --coverage",
-    "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts,tsx",
     "clean": "npx rimraf ./release && npx rimraf ./coverage",
     "lerna:update": "npx lerna bootstrap",
-    "lerna:bootstrap": "npm i && npx lerna bootstrap && npm run lerna:build && npm run lerna:test",
+    "lerna:bootstrap": "npx lerna bootstrap && npm run lerna:build && npm run lerna:test",
     "lerna:build": "npx lerna run build",
     "lerna:test": "npx lerna run test",
     "lerna:lint": "npx lerna run lint",
     "lerna:clean": "npx lerna run clean",
     "lerna:publish": "npm run lerna:clean && npm run lerna:lint && npm run lerna:build && npm run lerna:test && npx lerna publish"
   },
+  "author": "Viacheslav Bereza <mail@betula.co> (http://betula.co)",
+  "maintainers": [
+    "Viacheslav Bereza <mail@betula.co> (http://betula.co)"
+  ],
+  "contributors": [
+    "Sergey Sova <mail@sergeysova.com> (https://sergeysova.com)"
+  ],
   "keywords": [
     "react store",
     "data view binding",
@@ -40,8 +42,15 @@
     "store",
     "flux"
   ],
-  "author": "Viacheslav Bereza <mail@betula.co>",
-  "license": "MIT",
+  "source": "./src/index.ts",
+  "main": "./release/index.js",
+  "types": "./release/index.d.ts",
+  "files": [
+    "/release",
+    "/src",
+    "/jest-cleanup-after-each.js",
+    "/README.md"
+  ],
   "browser": {
     "async_hooks": false
   },
