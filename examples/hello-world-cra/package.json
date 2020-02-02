@@ -1,13 +1,13 @@
 {
   "name": "@impress/hello-world-cra",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "scripts": {
     "dev": "react-scripts start",
     "test": "npx cross-env CI=true react-scripts test --coverage"
   },
   "dependencies": {
-    "@impress/react": "^1.0.4",
+    "@impress/react": "^1.0.5",
     "@testing-library/jest-dom": "^5.0.2",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.0.4",
