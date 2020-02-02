@@ -1,6 +1,6 @@
 {
   "name": "@impress/react",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "description": "Modular Data-View binding mechanism for React",
   "repository": {
     "url": "https://github.com/betula/impress"
@@ -48,30 +48,29 @@
   "peerDependencies": {
     "react": "*"
   },
-  "dependencies": {},
   "devDependencies": {
     "@types/enzyme": "^3.10.4",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/jest": "^24.0.25",
     "@types/node": "^13.7.0",
     "@types/react": "^16.9.19",
-    "typescript": "^3.7.5",
-    "rollup": "^1.31.0",
-    "rollup-plugin-typescript2": "^0.25.3",
-    "@zerollup/ts-transform-paths": "^1.7.11",
-    "rollup-plugin-terser": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
-    "eslint": "^6.8.0",
-    "jest": "^25.1.0",
-    "ts-jest": "^25.1.0",
+    "@zerollup/ts-transform-paths": "^1.7.11",
+    "coveralls": "^3.0.9",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
-    "coveralls": "^3.0.9",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "lerna": "^3.20.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "reflect-metadata": "^0.1.13",
-    "lerna": "^3.20.2"
+    "rollup": "^1.31.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5"
   },
   "publishConfig": {
     "access": "public"
