@@ -1,3 +1,0 @@
-- I want write alternative React SSR renderer such as I wrote for Icons8 project. Useful references:
-  - https://github.com/facebook/react/tree/master/packages/react-noop-renderer
-- I want write plugin for babel who transform `new Class(...)` construction to `__createClassInstance(Class, ...)` for possibily to make mocks for these classes in tests wuthout hacking standard require mechanism as Jest.

@@ -1,7 +1,7 @@
 "use strict";
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
-import pkg, { dependencies, peerDependencies } from "./package.json";
+import pkg from "./package.json";
 
 export default {
   input: pkg.source,
@@ -10,10 +10,6 @@ export default {
     format: "cjs",
     sourcemap: true,
   }],
-  external: [
-    ...Object.keys(dependencies),
-    ...Object.keys(peerDependencies)
-  ],
   plugins: [
     typescript({
       tsconfig: "./tsconfig.release.json",
