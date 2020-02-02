@@ -16,14 +16,17 @@
     "/README.md"
   ],
   "scripts": {
-    "build": "npx tsc --build tsconfig.release.json",
+    "build": "npx rollup -c",
+    "dev": "npx rollup -cw",
     "test": "npx jest --coverage",
     "test-with-coveralls": "npx jest --coverage && cat ./coverage/lcov.info | coveralls",
     "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
     "clean": "npx rimraf ./release && npx rimraf ./coverage"
   },
+  "dependencies": {
+    "@babel/core": "~7.8.3"
+  },
   "devDependencies": {
-    "@babel/core": "~7.8.3",
     "@types/jest": "~24.0.25",
     "@types/node": "^13.5.1",
     "@typescript-eslint/eslint-plugin": "~2.16.0",
