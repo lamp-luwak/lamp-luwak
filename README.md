@@ -6,7 +6,7 @@
 
 Modular Data-View binding mechanism for React
 
-[![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react) [![code coverage](https://img.shields.io/coveralls/github/betula/impress?style=flat-square)](https://coveralls.io/github/betula/impress)
+[![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react) [![build status](https://img.shields.io/github/workflow/status/betula/impress/Tests?style=flat-square)](https://github.com/betula/impress/actions?workflow=Tests) [![code coverage](https://img.shields.io/coveralls/github/betula/impress?style=flat-square)](https://coveralls.io/github/betula/impress)
 
 </div>
 
