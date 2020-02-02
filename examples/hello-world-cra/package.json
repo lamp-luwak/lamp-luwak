@@ -2,6 +2,10 @@
   "name": "@impress/hello-world-cra",
   "version": "1.0.3",
   "private": true,
+  "scripts": {
+    "dev": "react-scripts start",
+    "test": "npx cross-env CI=true react-scripts test --coverage"
+  },
   "dependencies": {
     "@impress/react": "^1.0.3",
     "@testing-library/jest-dom": "^5.0.2",
@@ -14,11 +18,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "^3.3.0",
-    "typescript": "^3.7.5"
-  },
-  "scripts": {
-    "dev": "react-scripts start",
-    "test": "CI=true react-scripts test --coverage"
+    "typescript": "^3.7.5",
+    "cross-env": "^7.0.0"
   },
   "eslintConfig": {
     "extends": "react-app"
