@@ -1,6 +1,6 @@
 import { ClassType, PropertyKey, Container, Updater } from "./types";
 import { Updaters, Keys, Values } from "./consts";
-import { isReactComponent } from "~/utils";
+import { isReactComponent, reactComponentInvalidate } from "~/utils";
 
 const initialValues = new Map<ClassType, object>();
 export const state = { initialValues };
@@ -77,7 +77,7 @@ export function notify(target: object) {
     }
   }
   if (isReactComponent(target)) {
-    (target as any).forceUpdate();
+    reactComponentInvalidate(target);
   }
 }
 
