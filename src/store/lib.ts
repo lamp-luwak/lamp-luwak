@@ -1,6 +1,6 @@
 import { ClassType, PropertyKey, Container, Updater } from "./types";
 import { Updaters, Keys, Values } from "./consts";
-import { isReactComponent, reactComponentInvalidate } from "~/utils";
+import { isReactComponent, reactComponentInvalidate } from "~/driver";
 
 const initialValues = new Map<ClassType, object>();
 export const state = { initialValues };

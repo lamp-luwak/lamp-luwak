@@ -1,13 +1,13 @@
-import React from "react";
+import { PureComponent, ReactNode } from "~/driver";
 import { isContainer } from "~/store";
 import { subscribe } from "~/subscribe";
 
 interface Props {
-  children: () => React.ReactNode;
+  children: () => ReactNode;
   to?: object | object[];
 }
 
-export class Subscribe extends React.PureComponent<Props> {
+export class Subscribe extends PureComponent<Props> {
 
   constructor(props: Props, context?: any) {
     super(props, context);

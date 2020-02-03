@@ -1,12 +1,11 @@
-import { Component } from "react";
 import { ClassType } from "./types";
 import {
   subscribe as subscribeToContainer,
   isContainer,
   notify
-} from "../store";
+} from "~/store";
 import { Unsubscribers } from "./consts";
-import { isReactComponent } from "../utils";
+import { isReactComponent, Component } from "~/driver";
 
 export function subscribe(component: object, container: object): void;
 export function subscribe<T extends ClassType<Component>>(Class: T): T;

@@ -2,7 +2,7 @@ import { ObjectMap, PropertyKey, Dep, DepResolvePhase } from "./types";
 import { RootZoneId } from "./consts";
 import { isContainer } from "~/store";
 import { subscribe } from "~/subscribe";
-import { isReactComponent } from "~/utils";
+import { isReactComponent } from "~/driver";
 
 const instances: ObjectMap<Map<Dep, any>> = {};
 const resolvePhases: ObjectMap<Map<Dep, DepResolvePhase>> = {};
