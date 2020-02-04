@@ -1,5 +1,5 @@
 import { types as t, template } from "@babel/core";
-import { uniqid } from "./uniqid";
+import { FileUniqid } from "./FileUniqid";
 
 const PluginName = "@impress/babel-plugin-ssr";
 const StoreDecoratorName = "store";
@@ -7,6 +7,7 @@ const LibPath = "@impress/react";
 const RegClassFunc = "register";
 
 const regClassSet = new WeakSet();
+const uniqid = new FileUniqid();
 
 function transformClassProperty(path: any) {
   const { decorators, } = path.node;
@@ -24,12 +25,12 @@ function transformClassProperty(path: any) {
       regClassSet.add(Class);
 
       if (t.isClassDeclaration(Class)) {
-        const tpl = template(`require("${LibPath}").${RegClassFunc}("${Class.id.name}_${uniqid()}", CLASS_ID)`);
+        const tpl = template(`require("${LibPath}").${RegClassFunc}("${Class.id.name}_${uniqid.next()}", CLASS_ID)`);
         ClassPath.insertAfter(tpl({
           CLASS_ID: Class.id,
         }));
       } else { // if (t.isClassExpression(Class))
-        const tpl = template(`require("${LibPath}").${RegClassFunc}("${uniqid()}", CLASS_EXPR)`);
+        const tpl = template(`require("${LibPath}").${RegClassFunc}("${uniqid.next()}", CLASS_EXPR)`);
         ClassPath.replaceWith(tpl({
           CLASS_EXPR: Class,
         }));
@@ -49,6 +50,9 @@ export function plugin() {
       );
     },
     visitor: {
+      Program(_path: any, state: any) {
+        uniqid.reset(state.file.opts.filename);
+      },
       Class(path: any) {
         const body = path.get("body");
         for (const path of body.get("body")) {

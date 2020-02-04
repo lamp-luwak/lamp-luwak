@@ -1,13 +1,8 @@
 import { plugin } from "~/plugin";
-import { uniqid } from "~/uniqid";
-
-jest.mock("~/uniqid");
-
-const mockUniqid = uniqid as jest.MockedFunction<any>;
 
 const LIB = "@impress/react";
-const UNIQ_1 = "5m6";
-const UNIQ_2 = "5m7";
+const UNIQ_1 = "1B2M2Y8AsgTpgAmY7PhCfg0";
+const UNIQ_2 = "1B2M2Y8AsgTpgAmY7PhCfg1";
 
 function transform(code: string) {
   return require("@babel/core").transform(code, {
@@ -16,13 +11,6 @@ function transform(code: string) {
     ast: false,
   }).code;
 }
-
-beforeEach(() => {
-  mockUniqid
-  .mockReset()
-  .mockReturnValueOnce(UNIQ_1)
-  .mockReturnValueOnce(UNIQ_2);
-});
 
 test("Should pass class without decorators", () => {
   const code = `class A {
@@ -35,6 +23,7 @@ test("Should pass class without decorators", () => {
   m() {}
 
 }`;
+
   expect(transform(code)).toBe(transformedCode);
 });
 
