@@ -1,0 +1,45 @@
+{
+  "name": "@impress/immutable",
+  "version": "1.0.6",
+  "description": "Immutable trait",
+  "repository": {
+    "url": "https://github.com/betula/impress"
+  },
+  "author": "Viacheslav Bereza <mail@betula.co>",
+  "license": "MIT",
+  "source": "./src/index.ts",
+  "main": "./release/index.js",
+  "types": "./release/index.d.ts",
+  "files": [
+    "/release",
+    "/src",
+    "/README.md"
+  ],
+  "scripts": {
+    "build": "npx rollup -c",
+    "dev": "npx rollup -cw",
+    "test": "npx jest --coverage",
+    "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
+    "clean": "npx rimraf ./release && npx rimraf ./coverage"
+  },
+  "keywords": [
+    "immutable trait",
+    "impress immutable trait"
+  ],
+  "devDependencies": {
+    "@impress/react": "^1.0.6",
+    "@types/jest": "^25.1.1",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0",
+    "rollup": "^1.31.0",
+    "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.25.3",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
