@@ -1,14 +1,10 @@
 import { ClassType } from "./types";
-import {
-  subscribe as subscribeToContainer,
-  isContainer,
-  notify
-} from "~/store";
+import { subscribe as subscribeToContainer, isContainer, notify } from "~/store";
 import { Unsubscribers } from "./consts";
-import { isReactComponent, Component } from "~/driver";
+import { isReactComponent, Component, PureComponent } from "~/driver";
 
 export function subscribe(component: object, container: object): void;
-export function subscribe<T extends ClassType<Component>>(Class: T): T;
+export function subscribe<T extends ClassType<Component | PureComponent>>(Class: T): T;
 export function subscribe(ClassOrComponent: any, container?: object) {
   if (isReactComponent(ClassOrComponent)) {
     const component = ClassOrComponent;
