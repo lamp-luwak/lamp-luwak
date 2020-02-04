@@ -1,6 +1,7 @@
 import { PureComponent } from "react";
-import { subscribe, store } from "~/lib/core";
+import { subscribe, store, update } from "~/lib/core";
 import { Item as TodoItemType } from "~/services/Todo/Item";
+import { EnterKeyCode } from "~/lib/consts";
 
 @subscribe
 export class TodoItem extends PureComponent<{ item: TodoItemType }> {
@@ -18,16 +19,33 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
   }
 
   private handleEditDoubleClick = () => {
-    this.store = {
-      ...this.store,
-      editing: true
-    }
+    this.store = update(this.store, {
+      editing: true,
+      label: this.props.item.label
+    });
+  }
 
-    this.store = update(this.store, { editing: false });
+  private handleEditInputChange = (event: any) => {
+    this.store = update(this.store, {
+      label: event.target.value
+    });
+  }
+
+  private handleEditInputKeyDown = (event: any) => {
+    if (event.keyCode !== EnterKeyCode) {
+      return;
+    }
+    const label = this.store.label.trim();
+    if (label) {
+      this.props.item.setLabel(label);
+      this.store = update(this.store, {
+        editing: false
+      });
+    }
   }
 
   private getLiClassName() {
-    if (this.editing) {
+    if (this.store.editing) {
       return "editing";
     }
     if (this.props.item.completed) {
@@ -37,6 +55,7 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
 
   public render() {
     const { item } = this.props;
+    const { label } = this.store;
 
     return (
       <li className={this.getLiClassName()}>
@@ -52,7 +71,9 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
         </div>
         <input
           className="edit"
-          value="Create a TodoMVC template"
+          value={label}
+          onChange={this.handleEditInputChange}
+          onKeyDown={this.handleEditInputKeyDown}
         />
       </li>
     )

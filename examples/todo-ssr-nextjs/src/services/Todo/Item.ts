@@ -1,17 +1,6 @@
-import { store, dispatch } from "~/lib/core";
+import { store, dispatch, update } from "~/lib/core";
 import { uniqid } from "~/lib/uniqid";
 import { RemoveItem } from "../Todo";
-
-type Partial<T> = {
-  [P in keyof T]?: T[P];
-}
-
-function update<T>(store: T, upd: Partial<T>): T {
-  return {
-    ...store,
-    ...upd
-  };
-}
 
 export class Item {
   @store store: {
@@ -39,23 +28,15 @@ export class Item {
   }
 
   public toggle() {
-    const { store } = this;
-    this.store = {
-      ...store,
-      completed: !store.completed
-    };
-
-    update(this.store, {
-      completed: !this.store.completed
-    });
-
     this.store = update(this.store, {
       completed: !this.store.completed
     });
+  }
 
-    // this.store = update(this.store, {
-    //   completed: !this.store.completed
-    // });
+  public setLabel(label: string) {
+    this.store = update(this.store, {
+      label
+    });
   }
 
   public destroy() {
