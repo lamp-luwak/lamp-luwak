@@ -14,8 +14,6 @@ import {
 
 const { instances, overrides, zoneIndex } = state;
 
-afterEach(reset);
-
 test("Should be only one instance of provided class", () => {
   class A {
     value = "value";

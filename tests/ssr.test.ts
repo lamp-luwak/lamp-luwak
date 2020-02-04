@@ -1,7 +1,5 @@
 import { serialize, unserialize, register } from "~/ssr";
-import { store, resolve, cleanup } from "~/.";
-
-afterEach(cleanup);
+import { store, resolve } from "~/.";
 
 test("Should be work serialize", () => {
   class A {

@@ -3,21 +3,28 @@ import { make, values } from "~/store";
 import { assign, getInstances } from "~/di";
 
 const dictionary = new Map<string, ClassType>();
-const search = new Map<ClassType, string>();
+const searchIndex = new Map<ClassType, string>();
 
-export const state = { dictionary, search };
+export const state = { dictionary, searchIndex };
 
 export function serialize() {
-  const data: any = {};
-  for (const inst of getInstances()) {
-    if (inst.constructor) {
-      const id = search.get(inst.constructor);
-      if (typeof id !== "undefined") {
-        data[id] = pack(values(inst));
+  makeSearchIndex(); // The reason is the autoreload client components on the server without restart
+  try {
+    const data: any = {};
+    for (const inst of getInstances()) {
+      if (inst.constructor) {
+        const id = searchIndex.get(inst.constructor);
+        if (typeof id !== "undefined") {
+          data[id] = pack(values(inst));
+        }
       }
     }
+    destroySearchIndex();
+    return data;
+  } catch(e) {
+    destroySearchIndex();
+    throw e;
   }
-  return data;
 }
 
 export function unserialize(data: any) {
@@ -29,14 +36,23 @@ export function unserialize(data: any) {
   }
 }
 
-export function cleanup() {
+export function reset() {
   dictionary.clear();
-  search.clear();
+  destroySearchIndex();
 }
 
 export function register(id: string, Class: ClassType) {
   dictionary.set(id, Class);
-  search.set(Class, id);
+}
+
+function makeSearchIndex() {
+  for (const [id, Class] of dictionary) {
+    searchIndex.set(Class, id);
+  }
+}
+
+function destroySearchIndex() {
+  searchIndex.clear();
 }
 
 function pack(val: any): any {
@@ -52,7 +68,7 @@ function pack(val: any): any {
       case Set:
         return ["Set", pack([...(val as Set<any>).values()])];
     }
-    const id = search.get(Ctor);
+    const id = searchIndex.get(Ctor);
     if (typeof id !== "undefined") {
       return [id, pack(values(val))];
     }

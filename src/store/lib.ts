@@ -47,26 +47,19 @@ export function values(target: object) {
 
 export function make(Class: ClassType, data: object) {
   setInitialValues(Class, data);
-  const inst = new Class();
-  for (const key of inst[Keys] || []) {
-    if (data.hasOwnProperty(key)) {
-      (inst[Values] = inst[Values] || {})[key] = (data as any)[key];
+  try {
+    const inst = new Class();
+    for (const key of inst[Keys] || []) {
+      if (data.hasOwnProperty(key)) {
+        (inst[Values] = inst[Values] || {})[key] = (data as any)[key];
+      }
     }
+    unsetInitialValues(Class);
+    return inst;
+  } catch(e) {
+    unsetInitialValues(Class);
+    throw e;
   }
-  unsetInitialValues(Class);
-  return inst;
-}
-
-export function setInitialValues(Class: ClassType, data: object) {
-  initialValues.set(Class, data);
-}
-
-export function unsetInitialValues(Class: ClassType) {
-  initialValues.delete(Class);
-}
-
-export function cleanup() {
-  initialValues.clear();
 }
 
 export function notify(target: object) {
@@ -79,6 +72,19 @@ export function notify(target: object) {
   if (isReactComponent(target)) {
     reactComponentInvalidate(target);
   }
+}
+
+export function reset() {
+  initialValues.clear();
+}
+
+
+function setInitialValues(Class: ClassType, data: object) {
+  initialValues.set(Class, data);
+}
+
+function unsetInitialValues(Class: ClassType) {
+  initialValues.delete(Class);
 }
 
 function addKey(target: object, key: string) {

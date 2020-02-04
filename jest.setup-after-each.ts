@@ -1,4 +1,4 @@
 /// <reference types="@types/jest" />
-import { cleanup } from "~/.";
+import { reset } from "~/.";
 
-afterEach(cleanup);
+afterEach(reset);
