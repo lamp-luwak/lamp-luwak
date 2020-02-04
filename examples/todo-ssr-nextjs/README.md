@@ -1,4 +1,4 @@
-# TODO SSR example
+# Todo SSR example
 
 This project was bootstrapped with [next.js](https://github.com/zeit/next.js).
 

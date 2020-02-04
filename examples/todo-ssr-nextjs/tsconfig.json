@@ -12,8 +12,9 @@
       ]
     },
     "esModuleInterop": true,
-    "experimentalDecorators": false,
+    "experimentalDecorators": true,
     "emitDecoratorMetadata": false,
+    "strictPropertyInitialization": false,
     "lib": [
       "dom",
       "dom.iterable",

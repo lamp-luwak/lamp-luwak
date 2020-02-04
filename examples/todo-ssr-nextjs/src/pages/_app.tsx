@@ -1,20 +1,25 @@
-import React from "react";
-import NextApp from "next/app";
-import { ThemeProvider } from "styled-components";
+import "todomvc-app-css/index.css";
+import { serialize, unserialize, zone, cleanup } from "@impress/react";
 
-const theme = {
-  colors: {
-    primary: "#0070f3",
-  },
-};
+const SerializedDataKey = "__SERIALIZED_DATA__";
 
-export default class App extends NextApp {
-  public render() {
-    const { Component, pageProps } = this.props;
-    return (
-      <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
-      </ThemeProvider>
-    );
+export default function App({ Component, pageProps }: any) {
+  if (!(process as any).browser) {
+    cleanup();
   }
+  if (pageProps[SerializedDataKey]) {
+    unserialize(pageProps[SerializedDataKey]);
+  }
+  return <Component {...pageProps} />
 }
+
+App.getInitialProps = async ({ Component, ctx }: any) => {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    await zone(async () => {
+      pageProps = await Component.getInitialProps(ctx) || {};
+      (pageProps as any)[SerializedDataKey] = serialize();
+    });
+  }
+  return { pageProps };
+};
