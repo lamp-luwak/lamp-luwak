@@ -13,6 +13,7 @@ module.exports = {
   "plugins": ["@typescript-eslint"],
   "rules": {
     "quotes": ["error", "double"],
+    "no-empty": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/explicit-function-return-type": 0
   },

@@ -1,6 +1,6 @@
 import { action, listen, dispatch } from "~/lib";
 
-test("Should works", () => {
+test("Should work action dispatching", () => {
   const spy1 = jest.fn();
   const spy2 = jest.fn();
 

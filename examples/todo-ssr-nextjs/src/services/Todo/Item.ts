@@ -1,16 +1,24 @@
-import { store } from "~/lib/core";
+import { store, dispatch } from "~/lib/core";
 import { uniqid } from "~/lib/uniqid";
-import { Todo } from "../Todo";
+import { RemoveItem } from "../Todo";
 
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+}
 
-interface ItemStore {
-  key: string;
-  label: string;
-  completed: boolean;
+function update<T>(store: T, upd: Partial<T>): T {
+  return {
+    ...store,
+    ...upd
+  };
 }
 
 export class Item {
-  @store store: ItemStore;
+  @store store: {
+    key: string;
+    label: string;
+    completed: boolean;
+  };
 
   constructor(label: string) {
     this.store = {
@@ -36,11 +44,22 @@ export class Item {
       ...store,
       completed: !store.completed
     };
+
+    update(this.store, {
+      completed: !this.store.completed
+    });
+
+    this.store = update(this.store, {
+      completed: !this.store.completed
+    });
+
+    // this.store = update(this.store, {
+    //   completed: !this.store.completed
+    // });
   }
 
   public destroy() {
-    // dispatch(Todo.RemoveAction, this);
-    // this.todo.remove(this);
+    dispatch(RemoveItem, this);
   }
 
 }

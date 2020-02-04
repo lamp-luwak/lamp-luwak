@@ -1,6 +1,6 @@
 import { emit, on, once } from "~/lib";
 
-test("Should works", () => {
+test("Should work event emitting", () => {
   const spy1 = jest.fn();
   const spy2 = jest.fn();
   const spy3 = jest.fn();

@@ -24,7 +24,9 @@
   },
   "keywords": [
     "event emitter",
-    "impress event emitter"
+    "event emitter trait",
+    "impress event emitter",
+    "impress event emitter trait"
   ],
   "devDependencies": {
     "@impress/react": "^1.0.6",
