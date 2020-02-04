@@ -1,10 +1,6 @@
-import {
-  emit,
-  on,
-  once
-} from "~/lib";
+import { emit, on, once } from "~/lib";
 
-test("It works", () => {
+test("Should works", () => {
   const spy1 = jest.fn();
   const spy2 = jest.fn();
   const spy3 = jest.fn();

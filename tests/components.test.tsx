@@ -1,9 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import {
-  Subscribe,
-  store
-} from "~/.";
+import { Subscribe, store } from "~/.";
 
 test("Should update Subscribe children", () => {
   class A {

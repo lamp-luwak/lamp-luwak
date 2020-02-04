@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@impress/react": "^1.0.6",
+    "@impress/dispatcher": "^1.0.6",
     "next": "^9.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",

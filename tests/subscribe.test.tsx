@@ -1,10 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import {
-  subscribe,
-  provide,
-  store
-} from "~/.";
+import { subscribe, provide, store } from "~/.";
 
 test("Should subscribe on provided services", () => {
   class A {

@@ -1,7 +1,7 @@
 {
-  "name": "@impress/em",
-  "version": "1.0.3",
-  "description": "Event Emitter trait",
+  "name": "@impress/dispatcher",
+  "version": "1.0.6",
+  "description": "Dispatcher for impress",
   "repository": {
     "url": "https://github.com/betula/impress"
   },
@@ -23,9 +23,12 @@
     "clean": "npx rimraf ./release && npx rimraf ./coverage"
   },
   "keywords": [
-    "event emitter",
-    "impress event emitter"
+    "dispatcher",
+    "impress dispatcher"
   ],
+  "peerDependencies": {
+    "@impress/react": ">=1.0.0"
+  },
   "devDependencies": {
     "@impress/react": "^1.0.6",
     "@types/jest": "^25.1.1",
