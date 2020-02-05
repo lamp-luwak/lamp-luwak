@@ -10,6 +10,9 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
     label: ""
   };
 
+  private editInputSetFocusNeeded = false;
+  private editInputNodeElement?: HTMLInputElement;
+
   private handleDestroyClick = () => {
     this.props.item.destroy();
   }
@@ -23,6 +26,7 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
       editing: true,
       label: this.props.item.label
     });
+    this.editInputSetFocusNeeded = true;
   }
 
   private handleEditInputChange = (event: any) => {
@@ -44,6 +48,20 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
     }
   }
 
+  private handleEditNodeReference = (node: HTMLInputElement) => {
+    this.editInputNodeElement = node;
+  }
+
+  private handleDocumentMouseDown = (event: any) => {
+    const node = this.editInputNodeElement;
+    if (!node) return;
+    if (!node.contains(event.target)) {
+      this.store = update(this.store, {
+        editing: false
+      });
+    }
+  }
+
   private getLiClassName() {
     if (this.store.editing) {
       return "editing";
@@ -51,6 +69,24 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
     if (this.props.item.completed) {
       return "completed";
     }
+  }
+
+  public componentDidUpdate() {
+    if (this.store.editing && this.editInputSetFocusNeeded) {
+      const node = this.editInputNodeElement;
+      if (!node) return;
+
+      node.focus();
+      node.setSelectionRange(node.value.length, node.value.length);
+    }
+  }
+
+  public componentDidMount() {
+    document.addEventListener("mousedown", this.handleDocumentMouseDown);
+  }
+
+  public componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleDocumentMouseDown);
   }
 
   public render() {
@@ -74,6 +110,7 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
           value={label}
           onChange={this.handleEditInputChange}
           onKeyDown={this.handleEditInputKeyDown}
+          ref={this.handleEditNodeReference}
         />
       </li>
     )
