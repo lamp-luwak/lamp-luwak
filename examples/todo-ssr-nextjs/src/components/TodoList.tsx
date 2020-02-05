@@ -1,26 +1,21 @@
-import { PureComponent } from "react";
-import { provide } from "~/lib/core";
+import { memo } from "react";
+import { useProvide } from "~/lib/core";
 import { Todo } from "~/services/Todo";
 import { TodoItem } from "./TodoItem";
+import { ToggleAllButton } from "./ToggleAllButton";
 
-export class TodoList extends PureComponent {
-  @provide todo: Todo;
-
-  public render() {
-    const { todo } = this;
-
-    if (todo.isEmpty()) {
-      return null;
-    }
-
-    return (
-      <section className="main">
-        <input id="toggle-all" className="toggle-all" type="checkbox" />
-        <label htmlFor="toggle-all">Mark all as complete</label>
-        <ul className="todo-list">
-          {todo.getAllList().map((item) => <TodoItem item={item} key={item.key} />)}
-        </ul>
-      </section>
-    )
+export const TodoList = memo(() => {
+  const todo = useProvide(Todo);
+  if (todo.isEmpty()) {
+    return null;
   }
-}
+
+  return (
+    <section className="main">
+      <ToggleAllButton />
+      <ul className="todo-list">
+        {todo.getAllList().map((item) => <TodoItem item={item} key={item.key} />)}
+      </ul>
+    </section>
+  )
+});

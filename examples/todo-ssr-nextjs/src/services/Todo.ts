@@ -1,4 +1,4 @@
-import { store, action, listen, update, notify } from "~/lib/core";
+import { store, action, listen, update, notify, lock, unlock } from "~/lib/core";
 import { Item } from "./Todo/Item";
 
 export const RemoveItem = action();
@@ -33,6 +33,30 @@ export class Todo {
     notify(this);
   }
 
+  public clearCompleted() {
+    this.list = this.list.filter(({ completed }) => !completed);
+    this.refreshComputed();
+  }
+
+  public toggleAll() {
+    lock(RefreshComputed);
+    if (this.computed.active.length > 0) {
+      for (const item of this.list) {
+        if (!item.completed) {
+          item.toggle();
+        }
+      }
+    } else {
+      for (const item of this.list) {
+        if (item.completed) {
+          item.toggle();
+        }
+      }
+    }
+    unlock(RefreshComputed);
+    this.refreshComputed();
+  }
+
   public getAllList() {
     return this.list;
   }
@@ -51,5 +75,9 @@ export class Todo {
 
   public getActiveCounter() {
     return this.computed.active.length;
+  }
+
+  public getCompletedCounter() {
+    return this.computed.completed.length;
   }
 }

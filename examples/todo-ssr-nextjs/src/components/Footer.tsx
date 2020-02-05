@@ -1,8 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { useProvide } from "~/lib/core";
 import { Todo } from "~/services/Todo";
+import { ClearCompletedButton } from "./ClearCompletedButton";
 
-export const Footer = () => {
+export const Footer = memo(() => {
   const todo = useProvide(Todo);
 
   return (
@@ -22,8 +23,7 @@ export const Footer = () => {
           <a href="#/completed">Completed</a>
         </li>
       </ul>
-      {/* <!-- Hidden if no completed items are left ↓ --> */}
-      <button className="clear-completed">Clear completed</button>
+      <ClearCompletedButton />
     </footer>
   );
-}
+})
