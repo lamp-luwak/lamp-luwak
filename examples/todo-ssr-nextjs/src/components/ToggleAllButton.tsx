@@ -12,7 +12,7 @@ export const ToggleAllButton = memo(() => {
         className="toggle-all"
         type="checkbox"
         checked={todo.getActiveCounter() === 0}
-        onClick={() => todo.toggleAll()}
+        onChange={() => todo.toggleAll()}
       />
       <label htmlFor="toggle-all">Mark all as complete</label>
     </>

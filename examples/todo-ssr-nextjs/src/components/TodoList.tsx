@@ -14,7 +14,7 @@ export const TodoList = memo(() => {
     <section className="main">
       <ToggleAllButton />
       <ul className="todo-list">
-        {todo.getAllList().map((item) => <TodoItem item={item} key={item.key} />)}
+        {todo.getFilteredList().map((item) => <TodoItem item={item} key={item.key} />)}
       </ul>
     </section>
   )

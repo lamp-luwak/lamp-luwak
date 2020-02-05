@@ -6,6 +6,7 @@ export const RefreshComputed = action();
 
 export class Todo {
   @store list: Item[] = [];
+  @store filter = "all";
 
   private computed = {
     completed: [] as Item[],
@@ -79,5 +80,17 @@ export class Todo {
 
   public getCompletedCounter() {
     return this.computed.completed.length;
+  }
+
+  public setFilter(filter: string) {
+    this.filter = filter;
+  }
+
+  public getFilteredList() {
+    switch(this.filter) {
+      case "active": return this.getActiveList();
+      case "completed": return this.getCompletedList();
+      default: return this.getAllList();
+    }
   }
 }

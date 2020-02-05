@@ -1,26 +1,33 @@
 import React, { memo } from "react";
 import { useProvide } from "~/lib/core";
+import Link from "next/link";
 import { Todo } from "~/services/Todo";
 import { ClearCompletedButton } from "./ClearCompletedButton";
 
 export const Footer = memo(() => {
   const todo = useProvide(Todo);
+  if (todo.isEmpty()) {
+    return null;
+  }
 
   return (
-    /* <!-- This footer should hidden by default and shown when there are todos --> */
     <footer className="footer">
-      {/* <!-- This should be `0 items left` by default --> */}
       <span className="todo-count"><strong>{todo.getActiveCounter()}</strong> item left</span>
-      {/* <!-- Remove this if you don't implement routing --> */}
       <ul className="filters">
         <li>
-          <a className="selected" href="#/">All</a>
+          <Link href="/">
+            <a className={todo.filter === "all" ? "selected" : ""}>All</a>
+          </Link>
         </li>
         <li>
-          <a href="#/active">Active</a>
+          <Link href="/active">
+            <a className={todo.filter === "active" ? "selected" : ""}>Active</a>
+          </Link>
         </li>
         <li>
-          <a href="#/completed">Completed</a>
+          <Link href="/completed">
+            <a className={todo.filter === "completed" ? "selected" : ""}>Completed</a>
+          </Link>
         </li>
       </ul>
       <ClearCompletedButton />
