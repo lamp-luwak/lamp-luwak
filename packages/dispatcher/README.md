@@ -1,3 +1,3 @@
-# @impress/em
+# @impress/dispatcher
 
-Event Emitter trait.
+Dispatcher for impress.

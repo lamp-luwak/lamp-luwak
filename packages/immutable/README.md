@@ -1,3 +1,3 @@
-# @impress/em
+# @impress/immutable
 
-Event Emitter trait.
+Immutable trait.

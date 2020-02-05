@@ -6,7 +6,7 @@ class User {
   @store name: string = "World";
 }
 
-class UserNameEditor extends React.Component {
+class UserNameEditor extends React.PureComponent {
   @provide(User) user: User;
 
   render() {
