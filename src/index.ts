@@ -1,5 +1,5 @@
 export { zone, provide, resolve, cleanup } from "~/di";
-export { store } from "~/store";
+export { store, notify } from "~/store";
 export { register, serialize, unserialize } from "~/ssr";
 export { subscribe } from "~/subscribe";
 export { Subscribe } from "~/components";
