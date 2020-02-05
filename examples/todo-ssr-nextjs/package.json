@@ -1,6 +1,6 @@
 {
   "name": "@impress/todo-ssr-nextjs",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next",
@@ -8,31 +8,31 @@
     "clean": "npx rimraf build"
   },
   "dependencies": {
-    "@impress/react": "^1.0.6",
-    "@impress/dispatcher": "^1.0.6",
-    "@impress/immutable": "^1.0.6",
+    "@impress/dispatcher": "^2.0.0",
+    "@impress/immutable": "^2.0.0",
+    "@impress/react": "^2.0.0",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^9.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "reflect-metadata": "^0.1.13",
-    "isomorphic-unfetch": "^3.0.0",
     "todomvc-app-css": "^2.3.0"
   },
   "devDependencies": {
-    "@impress/babel-plugin-ssr": "^1.0.6",
     "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
+    "@impress/babel-plugin-ssr": "^2.0.0",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@types/reflect-metadata": "0.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "@zeit/next-typescript": "^1.1.1",
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "eslint": "^6.8.0",
-    "@typescript-eslint/eslint-plugin": "^2.18.0",
-    "@typescript-eslint/parser": "^2.18.0",
     "typescript": "^3.7.5"
   }
 }
