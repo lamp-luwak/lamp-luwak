@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "react-scripts start",
-    "test": "npx cross-env CI=true react-scripts test --coverage"
+    "test": "npx cross-env CI=true react-scripts test --coverage",
+    "clean": "npx react-scripts test --clearCache"
   },
   "dependencies": {
     "@impress/react": "^1.0.6",
-    "@testing-library/jest-dom": "^5.0.2",
+    "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^9.4.0",
-    "@testing-library/user-event": "^8.0.4",
+    "@testing-library/user-event": "^8.1.0",
     "@types/jest": "^24.9.1",
     "@types/node": "^13.5.0",
     "@types/react": "^16.9.19",
@@ -18,7 +19,7 @@
     "cross-env": "^7.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.3.1",
     "typescript": "^3.7.5"
   },
   "eslintConfig": {
