@@ -3,6 +3,8 @@ import { Updaters, Keys, Values } from "./consts";
 import { isReactComponent, invalidateReactComponent } from "~/driver";
 
 const initialValues = new Map<ClassType, object>();
+let notifyLocked = false;
+
 export const state = { initialValues };
 
 export function store(target: object, propertyKey: PropertyKey, descriptor?: any): any {
@@ -62,7 +64,21 @@ export function make(Class: ClassType, data: object) {
   }
 }
 
+export function quiet(code: () => any) {
+  notifyLocked = true;
+  try {
+    code();
+    notifyLocked = false;
+  } catch(e) {
+    notifyLocked = false;
+    throw e;
+  }
+}
+
 export function notify(target: object) {
+  if (notifyLocked) {
+    return;
+  }
   const container = target as Container;
   if (container[Updaters]) {
     for (const updater of container[Updaters]!) {
@@ -73,11 +89,6 @@ export function notify(target: object) {
     invalidateReactComponent(target);
   }
 }
-
-export function reset() {
-  initialValues.clear();
-}
-
 
 function setInitialValues(Class: ClassType, data: object) {
   initialValues.set(Class, data);

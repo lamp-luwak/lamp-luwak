@@ -38,7 +38,6 @@ export function unserialize(data: any) {
 
 export function reset() {
   dictionary.clear();
-  destroySearchIndex();
 }
 
 export function register(id: string, Class: ClassType) {
