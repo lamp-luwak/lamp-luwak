@@ -16,7 +16,7 @@ export function subscribe(ClassOrComponent: any, container?: object) {
           unsubscriber();
         }
         if (componentWillUnmount) {
-          componentWillUnmount();
+          componentWillUnmount.call(this);
         }
       };
     }
