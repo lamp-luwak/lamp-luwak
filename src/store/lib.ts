@@ -1,6 +1,6 @@
 import { ClassType, PropertyKey, Container, Updater } from "./types";
 import { Updaters, Keys, Values } from "./consts";
-import { isReactComponent, reactComponentInvalidate } from "~/driver";
+import { isReactComponent, invalidateReactComponent } from "~/driver";
 
 const initialValues = new Map<ClassType, object>();
 export const state = { initialValues };
@@ -21,7 +21,7 @@ export function store(target: object, propertyKey: PropertyKey, descriptor?: any
   };
 }
 
-export function subscribe(target: object, updater: Updater) {
+export function subscribe(target: any, updater: Updater) {
   const container = target as Container;
   const updaters = container[Updaters] = container[Updaters] || [];
   updaters.push(updater);
@@ -37,7 +37,7 @@ export function subscribe(target: object, updater: Updater) {
   };
 }
 
-export function isContainer(target: object) {
+export function isContainer(target: any) {
   return target && !!(target as Container)[Keys];
 }
 
@@ -70,7 +70,7 @@ export function notify(target: object) {
     }
   }
   if (isReactComponent(target)) {
-    reactComponentInvalidate(target);
+    invalidateReactComponent(target);
   }
 }
 
