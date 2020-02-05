@@ -1,6 +1,6 @@
 import { store, dispatch, update } from "~/lib/core";
 import { uniqid } from "~/lib/uniqid";
-import { RemoveItem } from "../Todo";
+import { RemoveItem, RefreshComputed } from "../Todo";
 
 export class Item {
   @store store: {
@@ -31,6 +31,7 @@ export class Item {
     this.store = update(this.store, {
       completed: !this.store.completed
     });
+    dispatch(RefreshComputed);
   }
 
   public setLabel(label: string) {
