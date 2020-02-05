@@ -1,14 +1,12 @@
 import { PureComponent } from "react";
-import { subscribe, store, update } from "~/lib/core";
+import { subscribe, store } from "~/lib/core";
 import { Item as TodoItemType } from "~/services/Todo/Item";
 import { EnterKeyCode } from "~/lib/consts";
 
 @subscribe
 export class TodoItem extends PureComponent<{ item: TodoItemType }> {
-  @store store = {
-    editing: false,
-    label: ""
-  };
+  @store editing = false;
+  @store labelEditorText = "";
 
   private editInputSetFocusNeeded = false;
   private editInputNodeElement?: HTMLInputElement;
@@ -22,29 +20,23 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
   }
 
   private handleEditDoubleClick = () => {
-    this.store = update(this.store, {
-      editing: true,
-      label: this.props.item.label
-    });
+    this.editing = true;
+    this.labelEditorText = this.props.item.label;
     this.editInputSetFocusNeeded = true;
   }
 
   private handleEditInputChange = (event: any) => {
-    this.store = update(this.store, {
-      label: event.target.value
-    });
+    this.labelEditorText = event.target.value;
   }
 
   private handleEditInputKeyDown = (event: any) => {
     if (event.keyCode !== EnterKeyCode) {
       return;
     }
-    const label = this.store.label.trim();
+    const label = this.labelEditorText.trim();
     if (label) {
       this.props.item.setLabel(label);
-      this.store = update(this.store, {
-        editing: false
-      });
+      this.editing = false;
     }
   }
 
@@ -56,23 +48,17 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
     const node = this.editInputNodeElement;
     if (!node) return;
     if (!node.contains(event.target)) {
-      this.store = update(this.store, {
-        editing: false
-      });
+      this.editing = false;
     }
   }
 
   private getLiClassName() {
-    if (this.store.editing) {
-      return "editing";
-    }
-    if (this.props.item.completed) {
-      return "completed";
-    }
+    if (this.editing) return "editing";
+    if (this.props.item.completed) return "completed";
   }
 
   public componentDidUpdate() {
-    if (this.store.editing && this.editInputSetFocusNeeded) {
+    if (this.editing && this.editInputSetFocusNeeded) {
       const node = this.editInputNodeElement;
       if (!node) return;
 
@@ -91,7 +77,7 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
 
   public render() {
     const { item } = this.props;
-    const { label } = this.store;
+    const { labelEditorText } = this;
 
     return (
       <li className={this.getLiClassName()}>
@@ -107,7 +93,7 @@ export class TodoItem extends PureComponent<{ item: TodoItemType }> {
         </div>
         <input
           className="edit"
-          value={label}
+          value={labelEditorText}
           onChange={this.handleEditInputChange}
           onKeyDown={this.handleEditInputKeyDown}
           ref={this.handleEditNodeReference}
