@@ -3,9 +3,7 @@ import { provide } from "~/lib/core";
 import { Todo } from "~/services/Todo";
 import { TodoItem } from "./TodoItem";
 
-
 export class TodoList extends PureComponent {
-
   @provide todo: Todo;
 
   public render() {
