@@ -4,21 +4,21 @@ import { RemoveItem, RefreshComputed } from "../Todo";
 
 export class Item {
   @store store: {
-    key: string;
+    id: string;
     label: string;
     completed: boolean;
   };
 
-  constructor(label: string) {
+  constructor(label: string, completed?: boolean) {
     this.store = {
-      key: uniqid(),
+      id: uniqid(),
       label,
-      completed: false
+      completed: completed || false
     };
   }
 
-  public get key() {
-    return this.store.key;
+  public get id() {
+    return this.store.id;
   }
   public get completed() {
     return this.store.completed;

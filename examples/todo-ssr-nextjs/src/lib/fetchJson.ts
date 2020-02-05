@@ -1,7 +1,8 @@
 import fetch from "isomorphic-unfetch";
+import { baseUrl } from "~/config.json";
 
-export const fetchJson = async (input: RequestInfo, init?: RequestInit) => {
-  const response = await fetch(input, init);
+export const fetchJson = async (url: string) => {
+  const response = await fetch(baseUrl + url);
   const contentType = response.headers.get("content-type");
   if (contentType && contentType.includes("application/json")) {
     return response.json();
