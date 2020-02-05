@@ -1,1 +1,1 @@
-export const Listeners = Symbol("Event Emitter listeners");
+export const Listeners = Symbol("Event Emitter::listeners");
