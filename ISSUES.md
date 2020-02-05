@@ -1,0 +1,2 @@
+- React renderer to string for server but as daemon for another type ssr semantic.
+- Babel plugin for convert decorators to plain code for decrease code init cpu time.
