@@ -1,4 +1,4 @@
-import { action, listen, dispatch } from "~/lib";
+import { action, listen, dispatch, lock, unlock } from "~/lib";
 
 test("Should work action dispatching", () => {
   const spy1 = jest.fn();
@@ -26,4 +26,25 @@ test("Should work action dispatching", () => {
   expect(spy1).toBeCalledTimes(2);
   expect(spy2).toBeCalledTimes(1);
   expect(spy1).lastCalledWith("B", "C");
+});
+
+test("Should work lock/unlock", () => {
+  const spy1 = jest.fn();
+  const T = action();
+  class A {
+    @listen(T)
+    handler() {
+      spy1();
+    }
+  }
+
+  dispatch(T);
+  expect(spy1).toBeCalledTimes(1);
+  lock(T);
+  dispatch(T);
+  dispatch(T);
+  expect(spy1).toBeCalledTimes(1);
+  unlock(T);
+  dispatch(T);
+  expect(spy1).toBeCalledTimes(2);
 });

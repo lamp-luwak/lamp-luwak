@@ -1,13 +1,11 @@
-import { Listeners } from "./consts";
+import { Listeners, Locked } from "./consts";
 import { Action, PropertyKey } from "./types";
 import { resolve } from "@impress/react";
 
 export function action(): Action {
-  return Object.defineProperty({}, Listeners, {
-    value: [],
-    enumerable: false,
-    configurable: false
-  });
+  return {
+    [Listeners]: []
+  };
 }
 
 export function listen(action: Action) {
@@ -19,7 +17,18 @@ export function listen(action: Action) {
 }
 
 export function dispatch(action: Action, ...args: any[]) {
+  if (action[Locked]) {
+    return;
+  }
   for (const [Class, key] of action[Listeners]) {
     resolve(Class)?.[key]?.(...args);
   }
+}
+
+export function lock(action: Action) {
+  action[Locked] = true;
+}
+
+export function unlock(action: Action) {
+  action[Locked] = false;
 }
