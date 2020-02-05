@@ -1,8 +1,9 @@
+import { memo } from "react";
 import { TodoList } from "./TodoList";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
-export const App = () => (
+export const App = memo(() => (
   <>
     <section className="todoapp">
       <Header />
@@ -14,4 +15,4 @@ export const App = () => (
       <p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
     </footer>
   </>
-);
+));

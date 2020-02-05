@@ -16,7 +16,8 @@
     "react-dom": "^16.12.0",
     "reflect-metadata": "^0.1.13",
     "isomorphic-unfetch": "^3.0.0",
-    "todomvc-app-css": "^2.3.0"
+    "todomvc-app-css": "^2.3.0",
+    "react-router": "^5.1.2"
   },
   "devDependencies": {
     "@impress/babel-plugin-ssr": "^1.0.6",
@@ -30,7 +31,7 @@
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-plugin-transform-typescript-metadata": "^0.2.2",
-    "eslint": "^5.0.0",
+    "eslint": "^6.8.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "typescript": "^3.7.5"
