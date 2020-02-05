@@ -1,5 +1,5 @@
 import "todomvc-app-css/index.css";
-import { serialize, unserialize, zone, cleanup } from "~/lib/ssr";
+import { serialize, unserialize, zone } from "~/lib/ssr";
 import { resolve } from "~/lib/core";
 import { Todo } from "~/services/Todo";
 
