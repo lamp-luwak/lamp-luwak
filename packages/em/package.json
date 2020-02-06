@@ -1,6 +1,6 @@
 {
   "name": "@impress/em",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Event Emitter trait",
   "repository": {
     "url": "https://github.com/betula/impress"
@@ -31,7 +31,7 @@
     "impress event emitter trait"
   ],
   "devDependencies": {
-    "@impress/react": "^2.0.1",
+    "@impress/react": "^2.0.2",
     "@types/jest": "^25.1.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
