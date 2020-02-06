@@ -11,9 +11,6 @@ export default {
   }],
   external: Object.keys(devDependencies),
   plugins: [
-    typescript({
-      tsconfig: "./tsconfig.release.json",
-      // verbosity: 3,
-    })
+    typescript({ tsconfig: "./tsconfig.release.json" })
   ]
 }
