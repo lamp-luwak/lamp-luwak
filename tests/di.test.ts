@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { RootZoneId } from "~/di/consts";
 import {
   provide,
@@ -9,6 +8,7 @@ import {
   reset,
   zone,
   getZoneId,
+  getInstances,
   state
 } from "~/di";
 
@@ -218,6 +218,18 @@ test("Should destroy async context in zone", async () => {
   expect(spy).toBeCalled();
 });
 
+test("Should pass zone code in browser", async () => {
+  const spy = jest.fn();
+  const _browser = process.browser;
+  (process as any).browser = true;
+  await zone(() => {
+    expect(getZoneId()).toBe(RootZoneId);
+    spy();
+  });
+  expect(spy).toBeCalled();
+  (process as any).browser = _browser;
+});
+
 test("Should throw error when circular dependency detected", () => {
   class A {
     @provide(func) f: A;
@@ -230,4 +242,47 @@ test("Should throw error when circular dependency detected", () => {
     return resolve(A);
   }
   expect(() => resolve(A)).toThrow("Circular dependency detected");
+});
+
+test("Should throw error when reflect metadata is not defined", () => {
+  const _getMetadata = Reflect.getMetadata;
+  (Reflect as any).getMetadata = null;
+  class D {}
+  expect(() => {
+    class A { @provide d: D; }
+  }).toThrowError("Cannot resolve type of dependency by reflect metadata for key \"d\"");
+  (Reflect as any).getMetadata = _getMetadata;
+});
+
+test("Should throw error when decorator metadata is not emitted", () => {
+  const _getMetadata = Reflect.getMetadata;
+  (Reflect as any).getMetadata = () => void 0;
+  class D {}
+  expect(() => {
+    class A { @provide d: D; }
+  }).toThrowError("Cannot resolve type of dependency by reflect metadata for key \"d\"");
+  (Reflect as any).getMetadata = _getMetadata;
+});
+
+test("Should get instances list correctly", async () => {
+  const spy = jest.fn();
+  class A {}
+  class B {}
+  expect(getInstances().length).toBe(0);
+  const a = resolve(A);
+  expect(getInstances()).toContain(a);
+  await zone(() => {
+    expect(getInstances().length).toBe(0);
+    const [a, b] = [A, B].map(resolve);
+    expect(getInstances().length).toBe(2);
+    expect(getInstances()).toContain(a);
+    expect(getInstances()).toContain(b);
+    spy();
+  });
+  expect(spy).toBeCalled();
+  expect(getInstances().length).toBe(1);
+  expect(getInstances()).toContain(a);
+  const b = resolve(B);
+  expect(getInstances().length).toBe(2);
+  expect(getInstances()).toContain(b);
 });

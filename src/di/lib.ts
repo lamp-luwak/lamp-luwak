@@ -71,13 +71,13 @@ export function provide(targetOrDep: any, propertyKey?: any): any {
       createProvideDescriptor(dep, propertyKey)
     );
   }
-  const Reflect = (typeof global !== "undefined" && (global as any).Reflect)
-    || (typeof window !== "undefined" && (window as any).Reflect);
-  const dep = Reflect?.getMetadata("design:type", targetOrDep, propertyKey);
-  if (!dep) {
-    throw new Error(`Cannot resolve type of dependency by reflect metadata for key "${propertyKey}"`);
+  if (typeof Reflect !== "undefined" && typeof Reflect.getMetadata === "function") {
+    const dep = Reflect.getMetadata("design:type", targetOrDep, propertyKey);
+    if (dep) {
+      return createProvideDescriptor(dep, propertyKey);
+    }
   }
-  return createProvideDescriptor(dep, propertyKey);
+  throw new Error(`Cannot resolve type of dependency by reflect metadata for key "${propertyKey}"`);
 }
 
 export function resolve<T>(dep: Dep<T>): T {
