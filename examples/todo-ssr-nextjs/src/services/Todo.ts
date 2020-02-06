@@ -8,7 +8,6 @@ export const RefreshComputed = action();
 export class Todo {
   @store list: Item[] = [];
   @store filter = "all";
-  @store prefetched = false;
 
   private computed = {
     completed: [] as Item[],
@@ -17,6 +16,13 @@ export class Todo {
 
   constructor() {
     this.refreshComputed();
+  }
+
+  public async prefetch() {
+    const todos = await fetchJson("/api/todos");
+    for (const { label, completed } of todos) {
+      this.append(label, completed);
+    }
   }
 
   public append(label: string, completed?: boolean) {
@@ -99,14 +105,5 @@ export class Todo {
       case "completed": return this.getCompletedList();
       default: return this.getAllList();
     }
-  }
-
-  public async prefetch() {
-    if (this.prefetched) return;
-    const todos = await fetchJson("/api/todos");
-    for (const { label, completed } of todos) {
-      this.append(label, completed);
-    }
-    this.prefetched = true;
   }
 }
