@@ -21,7 +21,8 @@
     "lerna:test": "npx lerna run test",
     "lerna:lint": "npx lerna run lint",
     "lerna:clean": "npx lerna run clean",
-    "lerna:publish": "npm run lerna:clean && npm run lerna:lint && npm run lerna:build && npm run lerna:test && npx lerna publish"
+    "lerna:publish": "npm run lerna:clean && npm run lerna:lint && npm run lerna:build && npm run lerna:test && npx lerna publish",
+    "site:build": "npx marked README.md -o index.html"
   },
   "author": "Viacheslav Bereza <mail@betula.co> (http://betula.co)",
   "maintainers": [
