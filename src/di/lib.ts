@@ -71,8 +71,8 @@ export function provide(targetOrDep: any, propertyKey?: any): any {
       createProvideDescriptor(dep, propertyKey)
     );
   }
-  if (typeof Reflect !== "undefined" && typeof Reflect.getMetadata === "function") {
-    const dep = Reflect.getMetadata("design:type", targetOrDep, propertyKey);
+  if (typeof Reflect !== "undefined" && typeof (Reflect as any).getMetadata === "function") {
+    const dep = (Reflect as any).getMetadata("design:type", targetOrDep, propertyKey);
     if (dep) {
       return createProvideDescriptor(dep, propertyKey);
     }
