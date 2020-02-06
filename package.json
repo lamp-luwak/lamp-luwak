@@ -45,6 +45,7 @@
   "main": "./release/index.js",
   "types": "./release/index.d.ts",
   "module": "./release/index.mjs",
+  "sideEffects": false,
   "files": [
     "/release",
     "/src",
