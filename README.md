@@ -36,3 +36,22 @@ class UserNameEditor extends React.PureComponent {
     )
   }
 }
+```
+
+```typescript
+import { store, useProvide } from "@impress/react";
+
+class User {
+  @store name = "John";
+}
+
+const UserNameEditor = React.memo(() => {
+  const user = useProvide(User);
+  return (
+    <input
+      onChange={(e: any) => user.name = e.target.value}
+      value={user.name}
+    />
+  )
+});
+```
