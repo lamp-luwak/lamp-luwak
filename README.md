@@ -17,28 +17,6 @@ Modular Data-View binding mechanism for React
 ### Example
 
 ```typescript
-import { store, provide } from "@impress/react";
-
-class User {
-  @store name = "John";
-}
-
-class UserNameEditor extends React.PureComponent {
-  @provide user: User;
-
-  render() {
-    const { user } = this;
-    return (
-      <input
-        onChange={(e: any) => user.name = e.target.value}
-        value={user.name}
-      />
-    )
-  }
-}
-```
-
-```typescript
 import { store, useProvide } from "@impress/react";
 
 class User {
@@ -55,3 +33,6 @@ const UserNameEditor = React.memo(() => {
   )
 });
 ```
+
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/pedantic-jang-l10nj)
+
