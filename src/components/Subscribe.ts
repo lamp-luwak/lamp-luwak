@@ -3,7 +3,7 @@ import { isContainer } from "~/store";
 import { subscribe } from "~/subscribe";
 
 interface Props {
-  children: () => ReactNode;
+  children: (to?: any) => ReactNode;
   to?: object | object[];
 }
 
@@ -24,6 +24,6 @@ export class Subscribe extends PureComponent<Props> {
   }
 
   public render() {
-    return this.props.children();
+    return this.props.children(this.props.to);
   }
 }
