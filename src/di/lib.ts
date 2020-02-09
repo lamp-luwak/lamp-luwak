@@ -162,7 +162,7 @@ function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey) {
         writable: false,
       });
       if (isReactComponent(this) && isContainer(instance)) {
-        subscribe(this, instance);
+        subscribe(this as any, instance);
       }
       return instance;
     },
