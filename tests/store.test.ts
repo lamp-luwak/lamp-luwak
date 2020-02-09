@@ -55,3 +55,26 @@ test("Should work quiet with pass exception", () => {
   notify({ [Updaters]: [spy1] });
   expect(spy1).toBeCalled();
 });
+
+test("Should work several unsubscribers", () => {
+  const spy1 = jest.fn();
+  const spy2 = jest.fn();
+  const spy3 = jest.fn();
+
+  const obj = {} as any;
+  const u1 = subscribe(obj, spy1);
+  const u2 = subscribe(obj, spy2);
+  const u3 = subscribe(obj, spy3);
+  notify(obj);
+  expect(spy1).toBeCalledTimes(1);
+  expect(spy2).toBeCalledTimes(1);
+  expect(spy3).toBeCalledTimes(1);
+  u3();
+  u1();
+  notify(obj);
+  expect(spy1).toBeCalledTimes(1);
+  expect(spy2).toBeCalledTimes(2);
+  expect(spy3).toBeCalledTimes(1);
+  u2();
+  expect(obj[Updaters].length).toBe(0);
+});

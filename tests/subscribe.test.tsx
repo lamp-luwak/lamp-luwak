@@ -1,6 +1,10 @@
+/**
+ * @jest-environment jsdom
+*/
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import { subscribe, provide, store } from "~/.";
+import { Unsubscribers } from "~/subscribe/consts";
 
 test("Should subscribe on provided services", () => {
   class A {
@@ -42,4 +46,33 @@ test("Should work subscribe decorator with props", () => {
   expect(cmp.find("p").text()).toBe("D");
   a.d = "DD";
   expect(cmp.find("p").text()).toBe("DD");
+});
+
+test("Should work component will unmount", () => {
+  const spy1 = jest.fn();
+  const spy2 = jest.fn();
+  const spy3 = jest.fn();
+
+  class C extends React.PureComponent {
+    constructor(props: any) {
+      super(props);
+      subscribe(this);
+      (this as any)[Unsubscribers].push(spy1);
+    }
+    componentWillUnmount() {
+      spy2();
+    }
+    render() {
+      spy3();
+      return <p />
+    }
+  }
+  const w = mount(<C />);
+  expect(spy1).toBeCalledTimes(0);
+  expect(spy2).toBeCalledTimes(0);
+  expect(spy3).toBeCalledTimes(1);
+  w.unmount();
+  expect(spy1).toBeCalledTimes(1);
+  expect(spy2).toBeCalledTimes(1);
+  expect(spy3).toBeCalledTimes(1);
 });
