@@ -1,6 +1,5 @@
-import { store, subscribe, isContainer, make, state, quiet, notify } from "~/store";
+import { store, subscribe, isContainer, make, quiet, notify } from "~/store";
 import { Updaters } from "~/store/consts";
-const { initialValues } = state;
 
 test("Should notify after store value changed", () => {
   const spy = jest.fn();
@@ -30,19 +29,6 @@ test("Should work make", () => {
   }
   const a = make(A, { d: "11" });
   expect(a.d).toBe("11");
-});
-
-test("Should work transit throw from make and clear initial values", () => {
-  class A {
-    @store d = "10";
-    constructor() {
-      throw new Error("AA");
-    }
-  }
-  expect(() => {
-    make(A, { d: "11" });
-  }).toThrowError("AA");
-  expect(initialValues.has(A)).toBeFalsy();
 });
 
 test("Should work quiet", () => {

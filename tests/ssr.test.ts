@@ -1,7 +1,7 @@
-import { serialize, unserialize, register } from "~/ssr";
+import { serialize, unserialize, register, DidUnserialize } from "~/ssr";
 import { store, resolve } from "~/.";
 
-test("Should be work serialize", () => {
+test("Should work serialize", () => {
   class A {
     @store d = "D";
   }
@@ -10,7 +10,7 @@ test("Should be work serialize", () => {
   expect(JSON.stringify(serialize())).toBe(JSON.stringify({A:{d:"D"}}));
 });
 
-test("should be work unserialize", () => {
+test("should work unserialize", () => {
   class A {
     @store d = "D";
   }
@@ -19,4 +19,19 @@ test("should be work unserialize", () => {
     A: {d:"DD"}
   });
   expect(resolve(A).d).toBe("DD");
+});
+
+test("Should work DidSerialize handler", () => {
+  class A {
+    @store d = "10";
+    m: string;
+    [DidUnserialize]() {
+      this.m = "M" + this.d;
+    }
+  }
+  register("A", A);
+  unserialize({
+    A: {d:"11"}
+  });
+  expect(resolve(A).m).toBe("M11");
 });

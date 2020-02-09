@@ -1,4 +1,4 @@
-import { store, action, listen, update, notify, lock, unlock } from "~/lib/core";
+import { store, action, listen, update, notify, lock, unlock, DidUnserialize } from "~/lib/core";
 import { fetchJson } from "~/lib/fetchJson";
 import { Item } from "./Todo/Item";
 
@@ -14,7 +14,7 @@ export class Todo {
     active: [] as Item[]
   };
 
-  constructor() {
+  [DidUnserialize]() {
     this.refreshComputed();
   }
 

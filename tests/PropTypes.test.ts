@@ -1,6 +1,6 @@
 import { store, ContainerType } from "~/.";
 
-test("Should be work with containers", () => {
+test("Should work with containers", () => {
   class A {
     @store d = "D";
   }
@@ -12,7 +12,7 @@ test("Should be work with containers", () => {
 
 });
 
-test("Should be work isRequired", () => {
+test("Should work isRequired", () => {
   class A {
     @store d = "D";
   }

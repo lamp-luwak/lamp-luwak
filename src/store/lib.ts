@@ -2,10 +2,7 @@ import { ClassType, PropertyKey, Container, Updater } from "./types";
 import { Updaters, Keys, Values } from "./consts";
 import { isReactComponent, invalidateReactComponent } from "~/driver";
 
-const initialValues = new Map<ClassType, object>();
 let notifyLocked = false;
-
-export const state = { initialValues };
 
 export function store(target: object, propertyKey: PropertyKey, descriptor?: any): any {
   const initializer = (descriptor || {}).initializer;
@@ -48,20 +45,13 @@ export function values(target: object) {
 }
 
 export function make(Class: ClassType, data: object) {
-  setInitialValues(Class, data);
-  try {
-    const inst = new Class();
-    for (const key of inst[Keys] || []) {
-      if (data.hasOwnProperty(key)) {
-        (inst[Values] = inst[Values] || {})[key] = (data as any)[key];
-      }
+  const inst = new Class();
+  for (const key of inst[Keys] || []) {
+    if (data.hasOwnProperty(key)) {
+      (inst[Values] = inst[Values] || {})[key] = (data as any)[key];
     }
-    unsetInitialValues(Class);
-    return inst;
-  } catch(e) {
-    unsetInitialValues(Class);
-    throw e;
   }
+  return inst;
 }
 
 export function quiet(code: () => any) {
@@ -90,14 +80,6 @@ export function notify(target: object) {
   }
 }
 
-function setInitialValues(Class: ClassType, data: object) {
-  initialValues.set(Class, data);
-}
-
-function unsetInitialValues(Class: ClassType) {
-  initialValues.delete(Class);
-}
-
 function addKey(target: object, key: string) {
   const container = target as Container;
   (container[Keys] = container[Keys] || []).push(key);
@@ -108,10 +90,7 @@ function get(target: object, key: string, initializer?: () => any) {
   if (container[Values] && container[Values].hasOwnProperty(key)) {
     return container[Values][key];
   } else {
-    const initialValue = getInitialValue((target as any).constructor, key);
-    return (container[Values] = container[Values] || {})[key] = (typeof initialValue !== "undefined")
-      ? initialValue
-      : initializer && initializer();
+    return (container[Values] = container[Values] || {})[key] = initializer && initializer();
   }
 }
 
@@ -121,12 +100,5 @@ function set(target: object, key: string, value: any) {
   if (values[key] !== value) {
     values[key] = value;
     notify(target);
-  }
-}
-
-function getInitialValue(Class: ClassType, key: string) {
-  const data = initialValues.get(Class);
-  if (typeof data !== "undefined") {
-    return (data as any || {})[key];
   }
 }

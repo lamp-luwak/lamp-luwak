@@ -1,5 +1,9 @@
-export { Component, PureComponent, ReactNode } from "react";
 import React from "react";
+
+export type ReactNode = React.ReactNode;
+export type PureComponent = React.PureComponent;
+export type Component = React.Component;
+export const PureComponent = React.PureComponent;
 
 export function isReactComponent(instance: any) {
   return instance && typeof instance === "object" && instance.isReactComponent;

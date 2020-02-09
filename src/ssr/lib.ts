@@ -1,4 +1,5 @@
 import { ClassType } from "./types";
+import { DidUnserialize } from "./consts";
 import { make, values } from "~/store";
 import { assign, getInstances } from "~/di";
 
@@ -8,7 +9,8 @@ const searchIndex = new Map<ClassType, string>();
 export const state = { dictionary, searchIndex };
 
 export function serialize() {
-  makeSearchIndex(); // The reason is the autoreload client components on the server without restart
+  // The reason is the autoreload client components on the server without restart
+  makeSearchIndex();
   try {
     const data: any = {};
     for (const inst of getInstances()) {
@@ -52,6 +54,15 @@ function makeSearchIndex() {
 
 function destroySearchIndex() {
   searchIndex.clear();
+}
+
+function factory(Class: ClassType, data: any) {
+  const instance = make(Class, data);
+  const fn = instance[DidUnserialize];
+  if (fn) {
+    fn.call(instance);
+  }
+  return instance;
 }
 
 function pack(val: any): any {
@@ -100,7 +111,7 @@ function unpack(val: any): any {
     }
     const Class = dictionary.get(id);
     if (typeof Class !== "undefined") {
-      return make(Class as any, unpack(value));
+      return factory(Class as any, unpack(value));
     }
   } else if (val && typeof val === "object") {
     const unpacked: any = {};
