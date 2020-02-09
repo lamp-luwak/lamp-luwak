@@ -10,7 +10,6 @@
   "source": "./src/index.ts",
   "main": "./release/index.js",
   "types": "./release/index.d.ts",
-  "sideEffects": false,
   "files": [
     "/release",
     "/src",
