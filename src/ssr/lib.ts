@@ -83,7 +83,7 @@ function pack(val: any): any {
       return [id, pack(values(val))];
     }
     if (Ctor !== Object) {
-      throw new Error("Invalid store data");
+      throw new Error("Supported only registered store containers as serializable class instances");
     }
     const packed: any = {};
     for (const key of Object.keys(val)) {
@@ -91,7 +91,7 @@ function pack(val: any): any {
     }
     return packed;
   } else if (typeof val === "function") {
-    throw new Error("Invalid store data");
+    throw new Error("Functions unsupported");
   }
   return val;
 }
