@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "react-scripts start",
     "test": "npx cross-env CI=true react-scripts test --coverage",
-    "clean": "npx react-scripts test --clearCache"
+    "jest:clean": "npx react-scripts test --clearCache"
   },
   "dependencies": {
     "@impress/react": "^2.1.0",
