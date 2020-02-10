@@ -14,7 +14,7 @@ export function serialize() {
   try {
     const data: any = {};
     for (const inst of getInstances()) {
-      if (inst.constructor) {
+      if (inst && inst.constructor) {
         const id = searchIndex.get(inst.constructor);
         if (typeof id !== "undefined") {
           data[id] = pack(values(inst));
@@ -34,6 +34,8 @@ export function unserialize(data: any) {
     const Class = dictionary.get(key);
     if (typeof Class !== "undefined") {
       assign(Class, unpack([key, data[key]]));
+    } else {
+      throw new Error(`Registered class id "${key}" not found`);
     }
   }
 }
@@ -113,6 +115,7 @@ function unpack(val: any): any {
     if (typeof Class !== "undefined") {
       return factory(Class as any, unpack(value));
     }
+    throw new Error(`Registered class id "${id}" not found`);
   } else if (val && typeof val === "object") {
     const unpacked: any = {};
     for (const key of Object.keys(val)) {

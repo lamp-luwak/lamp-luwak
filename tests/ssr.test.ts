@@ -147,3 +147,27 @@ test("Should support standard data structures", () => {
   expect(resolve(A).d).toEqual(new Set(set));
   expect(resolve(A).d.has("D")).toBeTruthy();
 });
+
+test("Should pass non class instance in serialize correctly", () => {
+  class A { @store d = 10; }
+  register("A", A);
+  resolve(A);
+  resolve({});
+  resolve(() => void 0);
+  expect(serialize()).toEqual({A:{d:10}});
+});
+
+test("Should throw unexistence class id in unserialize", () => {
+  class B { @store d = 10; }
+  register("B", B);
+
+  expect(() => {
+    unserialize({A: {}});
+  }).toThrowError("Registered class id \"A\" not found");
+
+  expect(() => {
+    unserialize({B: {
+      d: ["__INCORRECT_DATA__"]
+    }});
+  }).toThrowError("Registered class id \"__INCORRECT_DATA__\" not found");
+});
