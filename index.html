@@ -9,22 +9,19 @@
 <h3 id="install">Install</h3>
 <p><code>npm i @impress/react</code></p>
 <h3 id="example">Example</h3>
-<pre><code class="language-typescript">import { store, provide } from &quot;@impress/react&quot;;
+<pre><code class="language-typescript">import { store, useProvide } from &quot;@impress/react&quot;;
 
 class User {
   @store name = &quot;John&quot;;
 }
 
-class UserNameEditor extends React.PureComponent {
-  @provide user: User;
-
-  render() {
-    const { user } = this;
-    return (
-      &lt;input
-        onChange={(e: any) =&gt; user.name = e.target.value}
-        value={user.name}
-      /&gt;
-    )
-  }
-}</code></pre>
+const UserNameEditor = React.memo(() =&gt; {
+  const user = useProvide(User);
+  return (
+    &lt;input
+      onChange={(e: any) =&gt; user.name = e.target.value}
+      value={user.name}
+    /&gt;
+  )
+});</code></pre>
+<p><a href="https://codesandbox.io/s/pedantic-jang-l10nj"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="Example on codesandbox"></a></p>
