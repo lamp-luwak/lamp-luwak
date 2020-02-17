@@ -102,6 +102,10 @@ export function resolve<T>(dep: Dep<T>): T {
   return instance;
 }
 
+export function has(dep: Dep): boolean {
+  return !!getInstance(dep);
+}
+
 export function override(from: Dep, to: Dep) {
   setOverride(from, to);
 }

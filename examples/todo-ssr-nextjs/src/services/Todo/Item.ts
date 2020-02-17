@@ -1,6 +1,8 @@
-import { store, dispatch, update } from "~/lib/core";
+import { store, dispatch, action } from "~/lib/core";
 import { uniqid } from "~/lib/uniqid";
-import { RemoveItem, RefreshComputed } from "../Todo";
+import { RemoveItem } from "../Todo";
+
+export const ItemCompletedChanged = action();
 
 export class Item {
   @store store: {
@@ -28,16 +30,12 @@ export class Item {
   }
 
   public toggle() {
-    this.store = update(this.store, {
-      completed: !this.store.completed
-    });
-    dispatch(RefreshComputed);
+    this.store = { ...this.store, completed: !this.store.completed };
+    dispatch(ItemCompletedChanged, this);
   }
 
   public setLabel(label: string) {
-    this.store = update(this.store, {
-      label
-    });
+    this.store = { ...this.store, label };
   }
 
   public destroy() {

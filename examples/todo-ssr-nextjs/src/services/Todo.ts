@@ -1,6 +1,6 @@
-import { store, action, listen, update, notify, lock, unlock, DidUnserialize } from "~/lib/core";
+import { store, action, on, notify, lock, unlock, DidUnserialize } from "~/lib/core";
 import { fetchJson } from "~/lib/fetchJson";
-import { Item } from "./Todo/Item";
+import { Item, ItemCompletedChanged } from "./Todo/Item";
 
 export const RemoveItem = action();
 export const RefreshComputed = action();
@@ -26,22 +26,22 @@ export class Todo {
   }
 
   public append(label: string, completed?: boolean) {
-    this.list = update(this.list, [
+    this.list = this.list.concat([
       new Item(label, completed)
     ]);
     this.refreshComputed();
   }
 
-  @listen(RefreshComputed)
+  @on(ItemCompletedChanged)
   public refreshComputed() {
-    this.computed = update(this.computed, {
+    this.computed = {
       completed: this.list.filter(({ completed }) => completed),
       active: this.list.filter(({ completed }) => !completed),
-    });
+    };
     notify(this);
   }
 
-  @listen(RemoveItem)
+  @on(RemoveItem)
   public remove(item: Item) {
     this.list = this.list.filter((_item) => item !== _item);
     this.refreshComputed();
@@ -53,7 +53,7 @@ export class Todo {
   }
 
   public toggleAll() {
-    lock(RefreshComputed);
+    lock(ItemCompletedChanged);
     if (this.computed.active.length > 0) {
       for (const item of this.list) {
         if (!item.completed) {
@@ -67,7 +67,7 @@ export class Todo {
         }
       }
     }
-    unlock(RefreshComputed);
+    unlock(ItemCompletedChanged);
     this.refreshComputed();
   }
 

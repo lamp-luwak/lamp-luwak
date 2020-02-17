@@ -2,6 +2,7 @@ import { RootZoneId } from "~/di/consts";
 import {
   provide,
   resolve,
+  has,
   override,
   assign,
   cleanup,
@@ -69,6 +70,24 @@ test("Should work resolve function", () => {
   const [a, b] = [A, B].map(resolve);
   expect(a).toBe(c.a);
   expect(b).toBe(c.b);
+});
+
+test("Should work has function", () => {
+  class A {}
+  class B {}
+  class C {
+    @provide a: A;
+    @provide b: B;
+  }
+  const c = new C();
+  expect(has(A)).toBeFalsy();
+  expect(has(B)).toBeFalsy();
+  expect(resolve(A)).toBe(c.a);
+  expect(has(A)).toBeTruthy();
+  expect(has(B)).toBeFalsy();
+  [A, B].map(resolve);
+  expect(has(A)).toBeTruthy();
+  expect(has(B)).toBeTruthy();
 });
 
 test("Should work with override", () => {

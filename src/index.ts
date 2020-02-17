@@ -1,4 +1,4 @@
-export { zone, provide, resolve, cleanup } from "~/di";
+export { zone, provide, resolve, has, cleanup } from "~/di";
 export { store, notify, quiet } from "~/store";
 export { register, serialize, unserialize, DidUnserialize } from "~/ssr";
 export { subscribe } from "~/subscribe";

@@ -1,6 +1,6 @@
 import { Listeners, Locked } from "./consts";
-import { Action, PropertyKey } from "./types";
-import { resolve } from "@impress/react";
+import { Action, PropertyKey, ActionListener, ListenerRemover } from "./types";
+import { resolve, has } from "@impress/react";
 
 export function action(): Action {
   return {
@@ -8,20 +8,43 @@ export function action(): Action {
   };
 }
 
-export function listen(action: Action) {
-  return (target: any, key: PropertyKey) => {
-    action[Listeners].push([
-      target.constructor, key
-    ]);
+export function on(action: Action, listener?: ActionListener): any {
+  if (typeof listener !== "undefined") {
+    return add(action, listener);
   }
+  function fn(listener: ActionListener): ListenerRemover;
+  function fn(target: any, key: PropertyKey): void;
+  function fn(targetOrListener: any, key?: PropertyKey) {
+    if (typeof key === "undefined") {
+      return add(action, targetOrListener);
+    }
+    add(action, [ targetOrListener.constructor, key ]);
+  }
+  return fn;
 }
 
-export function dispatch(action: Action, ...args: any[]) {
+export function once(action: Action, listener?: ActionListener): any {
+  if (typeof listener !== "undefined") {
+    return add(action, onceDecorator(action, listener));
+  }
+  function fn(listener: ActionListener): ListenerRemover;
+  function fn(target: any, key: PropertyKey): void;
+  function fn(targetOrListener: any, key?: PropertyKey) {
+    if (typeof key === "undefined") {
+      return add(action, onceDecorator(action, targetOrListener));
+    }
+    add(action, onceDecorator(action, [ targetOrListener.constructor, key ]));
+  }
+  return fn;
+}
+
+export function dispatch(action: Action, ...values: any[]) {
   if (action[Locked]) {
     return;
   }
-  for (const [Class, key] of action[Listeners]) {
-    resolve(Class)?.[key]?.(...args);
+  const listeners = action[Listeners].slice();
+  for (const listener of listeners) {
+    call(listener, values);
   }
 }
 
@@ -32,3 +55,44 @@ export function lock(action: Action) {
 export function unlock(action: Action) {
   action[Locked] = false;
 }
+
+function add(action: Action, listener: ActionListener): ListenerRemover {
+  action[Listeners].push(listener);
+  return () => off(action, listener);
+}
+
+function off(action: Action, listener: ActionListener) {
+  let index = 0;
+  const listeners = action[Listeners];
+  while (index < listeners.length) {
+    if (listeners[index] === listener) {
+      listeners.splice(index, 1);
+    } else {
+      index++;
+    }
+  }
+}
+
+function call(listener: ActionListener, values: any) {
+  if (typeof listener === "function") {
+    listener(...values);
+  } else {
+    const [Class, key] = listener;
+    if (has(Class)) {
+      resolve(Class)[key](...values);
+    }
+  }
+}
+
+function onceDecorator(action: Action, listener: ActionListener): ActionListener {
+  return function onceListener(...values: any[]) {
+    try {
+      call(listener, values);
+      off(action, onceListener);
+    } catch (e) {
+      off(action, onceListener);
+      throw e;
+    }
+  }
+}
+
