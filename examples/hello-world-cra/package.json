@@ -1,6 +1,6 @@
 {
   "name": "@impress/hello-world-cra",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "scripts": {
     "dev": "react-scripts start",
@@ -8,7 +8,7 @@
     "jest:clean": "npx react-scripts test --clearCache"
   },
   "dependencies": {
-    "@impress/react": "^2.1.0",
+    "@impress/react": "^2.2.0",
     "@testing-library/jest-dom": "^5.1.1",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.1.0",
