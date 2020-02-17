@@ -1,3 +1,0 @@
-# @impress/immutable
-
-Immutable trait.
