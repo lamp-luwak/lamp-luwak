@@ -1,4 +1,4 @@
-import { store, subscribe, isContainer, make, quiet, notify } from "~/store";
+import { store, subscribe, isContainer, make, quiet, notify, values } from "~/store";
 import { Updaters } from "~/store/consts";
 
 test("Should notify after store value changed", () => {
@@ -77,4 +77,30 @@ test("Should work several unsubscribers", () => {
   expect(spy3).toBeCalledTimes(1);
   u2();
   expect(obj[Updaters].length).toBe(0);
+});
+
+test("Should work values for non store containers", () => {
+  expect(values({a: 10})).toMatchObject({});
+});
+
+test("Should make non store container correctly", () => {
+  class A {}
+  const a = make(A, {});
+  expect(a instanceof A).toBeTruthy();
+});
+
+test("Should work make for different key sets", () => {
+  class A {
+    @store d = "D";
+    @store m = "M";
+  }
+  expect(make(A, {m: "11"})).toMatchObject({d:"D", m:"11"});
+});
+
+test("Should work inititializer in store decorator", () => {
+  const target = {} as any;
+  const descriptor = store(target, "a", { initializer: () => "A" });
+  Object.defineProperty(target, "a", descriptor);
+  expect(target.a).toBe("A");
+  expect(values(target)).toMatchObject({a:"A"});
 });

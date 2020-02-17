@@ -89,8 +89,9 @@ function get(target: object, key: string, initializer?: () => any) {
   const container = target as Container;
   if (container[Values] && container[Values].hasOwnProperty(key)) {
     return container[Values][key];
-  } else {
-    return (container[Values] = container[Values] || {})[key] = initializer && initializer();
+  }
+  if (initializer) {
+    return (container[Values] = container[Values] || {})[key] = initializer();
   }
 }
 

@@ -102,7 +102,7 @@ export function resolve<T>(dep: Dep<T>): T {
   return instance;
 }
 
-export function has(dep: Dep): boolean {
+export function resolved(dep: Dep): boolean {
   return !!getInstance(dep);
 }
 

@@ -1,6 +1,6 @@
 import { Listeners, Locked } from "./consts";
 import { Action, PropertyKey, ActionListener, ListenerRemover } from "./types";
-import { resolve, has } from "@impress/react";
+import { resolve, resolved } from "@impress/react";
 
 export function action(): Action {
   return {
@@ -78,7 +78,7 @@ function call(listener: ActionListener, values: any) {
     listener(...values);
   } else {
     const [Class, key] = listener;
-    if (has(Class)) {
+    if (resolved(Class)) {
       resolve(Class)[key](...values);
     }
   }
