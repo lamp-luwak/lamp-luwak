@@ -5,3 +5,4 @@ export { subscribe } from "~/subscribe";
 export { Subscribe } from "~/components";
 export { ContainerType } from "~/PropTypes";
 export { useProvide } from "~/hooks";
+export { reset } from "~/reset";
