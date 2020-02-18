@@ -53,7 +53,7 @@ export async function zone<T = void>(callback: () => T): Promise<void> {
       } catch (error) {
         reject(error);
       }
-      cleanupZone(asyncId);
+      resetZone(asyncId);
     });
   });
 }
@@ -144,7 +144,7 @@ export function reset() {
   });
 }
 
-function cleanupZone(zoneId: number) {
+function resetZone(zoneId: number) {
   if (instances[zoneId]) {
     instances[zoneId].clear();
     delete instances[zoneId];
@@ -152,6 +152,10 @@ function cleanupZone(zoneId: number) {
   if (resolvePhases[zoneId]) {
     resolvePhases[zoneId].clear();
     delete resolvePhases[zoneId];
+  }
+  if (overrides[zoneId]) {
+    overrides[zoneId].clear();
+    delete overrides[zoneId];
   }
 }
 
