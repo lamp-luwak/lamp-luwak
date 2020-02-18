@@ -1,10 +1,10 @@
-import { ClassType, PropertyKey, Container, Updater } from "./types";
+import { ClassType, StorePropertyKey, Container, Updater } from "./types";
 import { Updaters, Keys, Values } from "./consts";
 import { isReactComponent, invalidateReactComponent } from "~/driver";
 
 let notifyLocked = false;
 
-export function store(target: object, propertyKey: PropertyKey, descriptor?: any): any {
+export function store(target: object, propertyKey: StorePropertyKey, descriptor?: any): any {
   const initializer = (descriptor || {}).initializer;
   if (typeof propertyKey !== "string") {
     throw new Error("Only string key supported for store property");
