@@ -3,6 +3,7 @@
 */
 import React from "react";
 import { shallow, mount } from "enzyme";
+import { act } from "react-dom/test-utils";
 import { subscribe, provide, store, resolve } from "~/.";
 import { Unsubscribers } from "~/subscribe/consts";
 
@@ -119,4 +120,86 @@ test("Should pass non store containers props in subscribed components", () => {
   const cmp = shallow(<Cmp a="M" />);
   expect(cmp.find("p").text()).toBe("M");
   expect(spy).toBeCalled();
+});
+
+test("Should work as property decorator", () => {
+  class A {
+    @store a = "A"
+  }
+  class B {
+    @store b = "B"
+  }
+  let _a: any;
+  let _b: any;
+  class Cmp extends React.PureComponent {
+    @subscribe a = new A;
+    b: B;
+
+    constructor(props: any) {
+      super(props);
+      subscribe(this, this.b = new B);
+      _a = this.a;
+      _b = this.b;
+    }
+    render() {
+      return (
+        <>
+          <a>{this.a.a}</a>
+          <b>{this.b.b}</b>
+        </>
+      );
+    }
+  }
+  const cmp = shallow(<Cmp />);
+  expect(cmp.find("a").text()).toBe("A");
+  expect(cmp.find("b").text()).toBe("B");
+  _a.a = "AA";
+  expect(cmp.find("a").text()).toBe("AA");
+  _b.b = "BB";
+  expect(cmp.find("b").text()).toBe("BB");
+});
+
+test("Should throw redefine exception as property decorator", () => {
+  class A {}
+  class Cmp extends React.PureComponent {
+    @subscribe a = new A;
+
+    constructor(props: any) {
+      super(props);
+      this.a = new A;
+    }
+    render() {
+      return <a/>;
+    }
+  }
+  expect(() => {
+    shallow(<Cmp />);
+  }).toThrowError("Cannot redefine subscribed property");
+});
+
+test("Should work inititializer in subscribe decorator", () => {
+  class A {
+    @store a = "A";
+  }
+  let _a: any;
+  class Cmp extends React.PureComponent {
+    constructor(props: any) {
+      super(props);
+      const descriptor = subscribe({}, "a", { initializer: () => _a = new A });
+      Object.defineProperty(this, "a", descriptor);
+    }
+    render() {
+      return <a>{(this as any).a.a}</a>;
+    }
+  }
+  const cmp = shallow(<Cmp />);
+  expect(cmp.find("a").text()).toBe("A");
+  _a.a = "AA";
+  expect(cmp.find("a").text()).toBe("AA");
+});
+
+test("Should work without errors", () => {
+  expect(() => {
+    subscribe({} as any);
+  }).not.toThrow();
 });

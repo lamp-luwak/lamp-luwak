@@ -6,7 +6,9 @@ let notifyLocked = false;
 
 export function store(target: object, propertyKey: PropertyKey, descriptor?: any): any {
   const initializer = (descriptor || {}).initializer;
-
+  if (typeof propertyKey !== "string") {
+    throw new Error("Only string key supported for store property");
+  }
   addKey(target, propertyKey);
   return {
     get() {

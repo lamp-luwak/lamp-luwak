@@ -5,9 +5,32 @@ import { isReactComponent, Component, PureComponent } from "~/driver";
 
 export function subscribe(component: Component | PureComponent, container?: object): void;
 export function subscribe<T extends ClassType<Component | PureComponent>>(Class: T): T;
-export function subscribe(ClassOrComponent: any, container?: object) {
-  if (isReactComponent(ClassOrComponent)) {
-    const component = ClassOrComponent;
+export function subscribe(target: object, propertyKey: PropertyKey, descriptor?: any): any;
+export function subscribe(target: any, subject?: any, descriptor?: any) {
+  if (descriptor || (subject && typeof subject !== "object")) {
+    const initializer = (descriptor || {}).initializer;
+    let value: any;
+    return {
+      get() {
+        if (typeof value === "undefined" && initializer) {
+          subscribe(this, value = initializer());
+        }
+        return value;
+      },
+      set(v: any) {
+        if (typeof value !== "undefined") {
+          throw new Error("Cannot redefine subscribed property");
+        }
+        subscribe(this, value = v);
+      },
+      configurable: false,
+      enumerable: true,
+    };
+  }
+  else if (isReactComponent(target)) {
+    const component = target;
+    const container = subject;
+
     if (!component[Unsubscribers]) {
       component[Unsubscribers] = [];
       const { componentWillUnmount } = component;
@@ -20,7 +43,7 @@ export function subscribe(ClassOrComponent: any, container?: object) {
         }
       };
     }
-    if (container && isContainer(container)) {
+    if (isContainer(container)) {
       component[Unsubscribers].push(
         subscribeToContainer(container, () => {
           notify(component);
@@ -28,8 +51,8 @@ export function subscribe(ClassOrComponent: any, container?: object) {
       );
     }
   }
-  if (typeof ClassOrComponent === "function") {
-    const Class = ClassOrComponent;
+  else if (typeof target === "function") {
+    const Class = target;
 
     return class extends Class {
       public static displayName = Class.displayName || Class.name;

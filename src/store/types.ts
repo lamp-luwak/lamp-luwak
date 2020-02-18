@@ -1,4 +1,4 @@
-export { ClassType, ObjectMap, PropertyKey } from "~/types";
+export { ClassType, ObjectMap } from "~/types";
 import { ObjectMap } from "~/types";
 import { Updaters, Values, Keys } from "./consts";
 
@@ -9,3 +9,5 @@ export interface Container {
   [Values]: ObjectMap;
   [Keys]: string[];
 }
+
+export type StorePropertyKey = string;
