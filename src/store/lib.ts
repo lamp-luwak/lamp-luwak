@@ -86,7 +86,7 @@ function get(target: object, key: string, initializer?: () => any) {
     return container[Values][key];
   }
   if (initializer) {
-    return (container[Values] = container[Values] || {})[key] = initializer();
+    return (container[Values] = container[Values] || {})[key] = initializer.call(container);
   }
 }
 

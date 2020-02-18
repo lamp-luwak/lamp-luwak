@@ -113,3 +113,10 @@ test("Should throw exception on non string property", () => {
     }
   }).toThrowError("Only string key supported for store property");
 });
+
+test("Should pass correct this to inititializer in store decorator", () => {
+  const target = {} as any;
+  const descriptor = store(target, "a", { initializer: function() { return this } });
+  Object.defineProperty(target, "a", descriptor);
+  expect(target.a).toBe(target);
+});

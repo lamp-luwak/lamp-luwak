@@ -255,3 +255,10 @@ test("Should work subscribe decorator on store container", () => {
   _b.a.d = "AA";
   expect(cmp.find("p").text()).toBe("AA");
 });
+
+test("Should pass correct this to inititializer in subscribe decorator", () => {
+  const target = {} as any;
+  const descriptor = subscribe(target, "a", { initializer: function() { return this } });
+  Object.defineProperty(target, "a", descriptor);
+  expect(target.a).toBe(target);
+});

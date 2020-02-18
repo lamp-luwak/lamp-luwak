@@ -15,7 +15,7 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
     return {
       get() {
         if (typeof value === "undefined" && initializer) {
-          subscribe(this, value = initializer());
+          subscribe(this, value = initializer.call(this));
         }
         return value;
       },
