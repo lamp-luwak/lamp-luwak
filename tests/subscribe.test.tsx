@@ -203,3 +203,55 @@ test("Should work without errors", () => {
     subscribe({} as any);
   }).not.toThrow();
 });
+
+test("Should work unsubscribe on components", () => {
+  class A {
+    @store a = "A";
+  }
+  class Cmp extends React.PureComponent {
+    private a: any;
+    private off: any;
+    constructor(props: any) {
+      super(props);
+      this.off = subscribe(this, this.a = resolve(A));
+    }
+    handleClick = () => {
+      this.off();
+    }
+    render() {
+      return <p onClick={this.handleClick}>{this.a.a}</p>
+    }
+  }
+  const cmp = shallow(<Cmp />);
+  expect(cmp.find("p").text()).toBe("A");
+  resolve(A).a = "AA";
+  expect(cmp.find("p").text()).toBe("AA");
+  cmp.find("p").simulate("click");
+  resolve(A).a = "D";
+  expect(cmp.find("p").text()).toBe("AA");
+});
+
+test("Should work subscribe decorator on store container", () => {
+  class A {
+    @store d = "A"
+  }
+  class B {
+    @store m: any;
+    @subscribe a = new A;
+  }
+  let _b: any;
+  class Cmp extends React.PureComponent {
+    @subscribe b = new B;
+    constructor(props: any) {
+      super(props);
+      _b = this.b;
+    }
+    render() {
+      return <p>{this.b.a.d}</p>;
+    }
+  }
+  const cmp = shallow(<Cmp />);
+  expect(cmp.find("p").text()).toBe("A");
+  _b.a.d = "AA";
+  expect(cmp.find("p").text()).toBe("AA");
+});

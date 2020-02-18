@@ -1,6 +1,7 @@
 import { ClassType, StorePropertyKey, Container, Updater } from "./types";
 import { Updaters, Keys, Values } from "./consts";
 import { isReactComponent, invalidateReactComponent } from "~/driver";
+import { remove } from "~/utils/array";
 
 let notifyLocked = false;
 
@@ -26,16 +27,7 @@ export function subscribe(target: any, updater: Updater) {
   const container = target as Container;
   const updaters = container[Updaters] = container[Updaters] || [];
   updaters.push(updater);
-  return () => {
-    let index = 0;
-    while (index < updaters.length) {
-      if (updaters[index] === updater) {
-        updaters.splice(index, 1);
-      } else {
-        index++;
-      }
-    }
-  };
+  return () => remove(updaters, updater);
 }
 
 export function isContainer(target: any) {
@@ -73,7 +65,8 @@ export function notify(target: object) {
   }
   const container = target as Container;
   if (container[Updaters]) {
-    for (const updater of container[Updaters]!) {
+    const updaters = container[Updaters].slice();
+    for (const updater of updaters) {
       updater();
     }
   }

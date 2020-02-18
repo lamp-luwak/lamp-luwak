@@ -1,9 +1,11 @@
-import { ClassType } from "./types";
+import { ClassType, Unsubscriber } from "./types";
 import { subscribe as subscribeToContainer, isContainer, notify } from "~/store";
 import { Unsubscribers } from "./consts";
 import { isReactComponent, Component, PureComponent } from "~/driver";
+import { remove } from "~/utils/array";
 
-export function subscribe(component: Component | PureComponent, container?: object): void;
+export function subscribe(component: Component | PureComponent, container?: object): Unsubscriber;
+export function subscribe(containerTo: object, container: object): Unsubscriber;
 export function subscribe<T extends ClassType<Component | PureComponent>>(Class: T): T;
 export function subscribe(target: object, propertyKey: PropertyKey, descriptor?: any): any;
 export function subscribe(target: any, subject?: any, descriptor?: any) {
@@ -35,7 +37,8 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
       component[Unsubscribers] = [];
       const { componentWillUnmount } = component;
       component.componentWillUnmount = function() {
-        for (const unsubscriber of this[Unsubscribers]) {
+        const unsubscribers = this[Unsubscribers].slice();
+        for (const unsubscriber of unsubscribers) {
           unsubscriber();
         }
         if (componentWillUnmount) {
@@ -44,12 +47,17 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
       };
     }
     if (isContainer(container)) {
-      component[Unsubscribers].push(
-        subscribeToContainer(container, () => {
-          notify(component);
-        }),
-      );
+      const unsubscribers = component[Unsubscribers];
+      const unsubscriber = subscribeToContainer(container, () => notify(component));
+      unsubscribers.push(unsubscriber);
+      return () => {
+        remove(unsubscribers, unsubscriber);
+        unsubscriber();
+      }
     }
+  }
+  else if (isContainer(target) && isContainer(subject)) {
+    return subscribeToContainer(subject, () => notify(target));
   }
   else if (typeof target === "function") {
     const Class = target;
