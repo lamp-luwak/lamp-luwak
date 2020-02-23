@@ -1,5 +1,5 @@
 import { ClassType, Unsubscriber } from "./types";
-import { subscribe as storeSubscribe, isContainer, notify } from "~/store";
+import { subscribe as storeSubscribe, notify } from "~/store";
 import { Container as StoreContainer } from "~/store/types";
 import { Unsubscribers } from "./consts";
 import { isReactComponent, Component, PureComponent } from "~/driver";
@@ -45,7 +45,7 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
         }
       };
     }
-    if (container && typeof container === "object") {
+    if (isAvailableForSubscribe(container)) {
       const unsubscribers = component[Unsubscribers];
       const unsubscriber = storeSubscribe(container, () => notify(component));
       unsubscribers.push(unsubscriber);
@@ -55,7 +55,7 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
       }
     }
   }
-  else if (target && typeof target === "object" && subject && typeof subject === "object") {
+  else if (isAvailableForSubscribe(target) && isAvailableForSubscribe(subject)) {
     return storeSubscribe(subject, () => notify(target));
   }
   else if (typeof target === "function") {
@@ -68,11 +68,15 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
         super(props, context);
 
         for (const name of Object.keys(props)) {
-          if (isContainer(props[name])) {
+          if (isAvailableForSubscribe(props[name])) {
             subscribe(this as any, props[name]);
           }
         }
       }
     };
   }
+}
+
+export function isAvailableForSubscribe(target: any) {
+  return target && typeof target === "object";
 }

@@ -38,10 +38,6 @@ export function subscribe(container: Container, updater: Updater) {
   return () => remove(updaters, updater);
 }
 
-export function isContainer(target: any) {
-  return Boolean(target && (target[Keys] || target[Updaters]));
-}
-
 export function values(container: Container) {
   const values = {} as any;
   const stored = container[Values] || {};

@@ -1,4 +1,4 @@
-import { store, subscribe, isContainer, make, quiet, notify, values } from "~/store";
+import { store, subscribe, make, quiet, notify, values } from "~/store";
 import { Updaters } from "~/store/consts";
 
 test("Should notify after store value changed", () => {
@@ -14,13 +14,6 @@ test("Should notify after store value changed", () => {
   expect(spy).toBeCalledTimes(1);
   a.d = "E";
   expect(spy).toBeCalledTimes(2);
-});
-
-test("Should pass store container check", () => {
-  class A {}
-  class B { @store d: any; }
-  expect(isContainer(new A)).toBeFalsy();
-  expect(isContainer(new B)).toBeTruthy();
 });
 
 test("Should work make", () => {
