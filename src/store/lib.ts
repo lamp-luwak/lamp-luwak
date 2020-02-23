@@ -5,35 +5,42 @@ import { remove } from "~/utils/array";
 
 let notifyLocked = false;
 
-export function store(target: object, propertyKey: StorePropertyKey, descriptor?: any): any {
+export function store(containerPrototype: Container, propertyKey: StorePropertyKey, descriptor?: any): any {
   const initializer = descriptor?.initializer;
   if (typeof propertyKey !== "string") {
     throw new Error("Only string key supported for store property");
   }
-  addKey(target, propertyKey);
+  (containerPrototype[Keys] = containerPrototype[Keys] || []).push(propertyKey);
   return {
-    get() {
-      return get(this, propertyKey, initializer);
+    get(this: Container) {
+      if (this[Values] && this[Values]!.hasOwnProperty(propertyKey)) {
+        return this[Values]![propertyKey];
+      }
+      if (initializer) {
+        return (this[Values] = this[Values] || {})[propertyKey] = initializer.call(this);
+      }
     },
-    set(value: any) {
-      set(this, propertyKey, value);
+    set(this: Container, value: any) {
+      const values = this[Values] = this[Values] || {};
+      if (values[propertyKey] !== value) {
+        values[propertyKey] = value;
+        notify(this);
+      }
     },
     configurable: false,
     enumerable: true,
   };
 }
 
-export function subscribe(target: any, updater: Updater) {
-  const container = target as Container;
+export function subscribe(container: Container, updater: Updater) {
   const updaters = container[Updaters] = container[Updaters] || [];
   updaters.push(updater);
   return () => remove(updaters, updater);
 }
 
 export function isContainer(target: any) {
-  return target && !!(target as Container)[Keys];
+  return Boolean(target && (target[Keys] || target[Updaters]));
 }
-
 
 export function values(container: Container) {
   const values = {} as any;
@@ -81,26 +88,5 @@ export function notify(container: Container) {
   }
   if (isReactComponent(container)) {
     invalidateReactComponent(container);
-  }
-}
-
-function addKey(container: Container, key: string) {
-  (container[Keys] = container[Keys] || []).push(key);
-}
-
-function get(container: Container, key: string, initializer?: () => any) {
-  if (container[Values] && container[Values]!.hasOwnProperty(key)) {
-    return container[Values]![key];
-  }
-  if (initializer) {
-    return (container[Values] = container[Values] || {})[key] = initializer.call(container);
-  }
-}
-
-function set(container: Container, key: string, value: any) {
-  const values = container[Values] = container[Values] || {};
-  if (values[key] !== value) {
-    values[key] = value;
-    notify(container);
   }
 }

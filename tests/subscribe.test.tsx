@@ -283,3 +283,89 @@ test("Should pass correct this to inititializer in subscribe decorator", () => {
   Object.defineProperty(target, "a", descriptor);
   expect(target.a).toBe(target);
 });
+
+test("Should work this in initializers with subscribe decorator in several react components", () => {
+  const spy = jest.fn();
+  class A {
+    @store d = "A"
+    constructor(public fn: () => void) {}
+    do(i: number) {
+      this.d += i;
+      this.fn();
+    }
+  }
+  class C extends React.PureComponent<{ i: number }> {
+    @subscribe a = new A(() => spy(this.props.i));
+    render() {
+      return <p onClick={() => this.a.do(this.props.i)}>{this.a.d}</p>;
+    }
+  }
+  const c1 = shallow(<C i={1} />);
+  const c2 = shallow(<C i={2} />);
+  const c3 = shallow(<C i={3} />);
+
+  expect(c1.find("p").text()).toBe("A");
+  c1.find("p").simulate("click");
+  expect(spy).toBeCalledWith(1);
+  expect(c1.find("p").text()).toBe("A1");
+
+  expect(c2.find("p").text()).toBe("A");
+  c2.find("p").simulate("click");
+  expect(spy).toBeCalledWith(2);
+  expect(c2.find("p").text()).toBe("A2");
+
+  expect(c3.find("p").text()).toBe("A");
+  c3.find("p").simulate("click");
+  expect(spy).toBeCalledWith(3);
+  expect(c3.find("p").text()).toBe("A3");
+});
+
+test("Should work resolve provide from this in initializer", () => {
+  const spy = jest.fn();
+  class B {
+    v = 10;
+    inc() { return this.v++; }
+  }
+  class A {
+    @store d = "A"
+    constructor(public fn: () => void) {}
+    do(i: number) {
+      this.fn();
+      this.d += i;
+    }
+  }
+  class C extends React.PureComponent<{ i: number }> {
+    @provide b: B;
+    @subscribe public a = new A(() => spy(this.props.i + this.b.inc()));
+    render() {
+      return <p onClick={() => this.a.do(this.props.i)}>{this.a.d + this.b.v}</p>;
+    }
+  }
+  const c1 = shallow(<C i={1} />);
+  expect(c1.find("p").text()).toBe("A10");
+  c1.find("p").simulate("click");
+  expect(spy).toBeCalledWith(11);
+  expect(c1.find("p").text()).toBe("A111");
+});
+
+test("Should work subscribe to subscribe", () => {
+  class C {
+    @store d = "C";
+  }
+  class B {
+    @subscribe c = new C;
+  }
+  class A {
+    @subscribe b = new B;
+  }
+  class Cmp extends React.PureComponent {
+    @subscribe a = new A;
+    render() {
+      return <p onClick={() => this.a.b.c.d = "CC"}>{this.a.b.c.d}</p>;
+    }
+  }
+  const c1 = shallow(<Cmp/>);
+  expect(c1.find("p").text()).toBe("C");
+  c1.find("p").simulate("click");
+  expect(c1.find("p").text()).toBe("CC");
+});

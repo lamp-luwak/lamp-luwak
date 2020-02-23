@@ -1,42 +1,42 @@
-import { ClassType, Unsubscriber } from "./types";
-import { subscribe as subscribeToContainer, isContainer, notify } from "~/store";
-import { Unsubscribers } from "./consts";
+import { ClassType, Unsubscriber, Container  } from "./types";
+import { subscribe as storeSubscribe, isContainer, notify } from "~/store";
+import { Container as StoreContainer } from "~/store/types";
+import { Unsubscribers, Values } from "./consts";
 import { isReactComponent, Component, PureComponent } from "~/driver";
 import { remove } from "~/utils/array";
 
-export function subscribe(component: Component | PureComponent, container?: object): Unsubscriber;
-export function subscribe(containerTo: object, container: object): Unsubscriber;
+export function subscribe(component: Component | PureComponent, container?: StoreContainer): Unsubscriber;
+export function subscribe(containerTo: StoreContainer, container: StoreContainer): Unsubscriber;
 export function subscribe<T extends ClassType<Component | PureComponent>>(Class: T): T;
 export function subscribe(target: object, propertyKey: PropertyKey, descriptor?: any): any;
 export function subscribe(target: any, subject?: any, descriptor?: any) {
   if (descriptor || (subject && typeof subject !== "object")) {
+    const propertyKey = subject;
     const initializer = descriptor?.initializer;
-    let value: any;
     return {
-      get() {
-        if (typeof value === "undefined" && initializer) {
-          subscribe(this, value = initializer.call(this));
+      get(this: Container) {
+        const values = this[Values] = this[Values] || {};
+        if (!values.hasOwnProperty(propertyKey) && initializer) {
+          subscribe(this, values[propertyKey] = initializer.call(this));
         }
-        return value;
+        return values[propertyKey];
       },
-      set(v: any) {
-        if (typeof value !== "undefined") {
+      set(this: Container, value: any) {
+        const values = this[Values] = this[Values] || {};
+        if (values.hasOwnProperty(propertyKey)) {
           throw new Error("Cannot redefine subscribed property");
         }
-        subscribe(this, value = v);
+        subscribe(this, values[propertyKey] = value);
       },
       configurable: false,
       enumerable: true,
     };
   }
   else if (isReactComponent(target)) {
-    const component = target;
-    const container = subject;
-
-    if (!component[Unsubscribers]) {
-      component[Unsubscribers] = [];
-      const { componentWillUnmount } = component;
-      component.componentWillUnmount = function() {
+    if (!target[Unsubscribers]) {
+      target[Unsubscribers] = [];
+      const { componentWillUnmount } = target;
+      target.componentWillUnmount = function() {
         const unsubscribers = this[Unsubscribers].slice();
         for (const unsubscriber of unsubscribers) {
           unsubscriber();
@@ -46,9 +46,9 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
         }
       };
     }
-    if (isContainer(container)) {
-      const unsubscribers = component[Unsubscribers];
-      const unsubscriber = subscribeToContainer(container, () => notify(component));
+    if (subject && typeof subject === "object") {
+      const unsubscribers = target[Unsubscribers];
+      const unsubscriber = storeSubscribe(subject, () => notify(target));
       unsubscribers.push(unsubscriber);
       return () => {
         remove(unsubscribers, unsubscriber);
@@ -56,8 +56,8 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
       }
     }
   }
-  else if (isContainer(target) && isContainer(subject)) {
-    return subscribeToContainer(subject, () => notify(target));
+  else if (target && typeof target === "object" && subject && typeof subject === "object") {
+    return storeSubscribe(subject, () => notify(target));
   }
   else if (typeof target === "function") {
     const Class = target;
