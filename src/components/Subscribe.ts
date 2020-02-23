@@ -1,5 +1,5 @@
 import { PureComponent, ReactNode } from "~/driver";
-import { subscribe, isAvailableForSubscribe } from "~/subscribe";
+import { subscribe, isShouldSubscribe } from "~/subscribe";
 
 interface Props<T = object | object[]> {
   children: (to: T extends any[] ? any : T) => ReactNode;
@@ -16,7 +16,7 @@ export class Subscribe<T> extends PureComponent<Props<T>> {
       : [ this.props.to ];
 
     for (const item of items) {
-      if (isAvailableForSubscribe(item)) {
+      if (isShouldSubscribe(item)) {
         subscribe(this, item);
       }
     }

@@ -1,7 +1,8 @@
 import { ClassType, Unsubscriber } from "./types";
 import { subscribe as storeSubscribe, notify } from "~/store";
 import { Container as StoreContainer } from "~/store/types";
-import { Unsubscribers } from "./consts";
+import { Keys as StoreKeys } from "~/store/consts";
+import { Unsubscribers, HasSubscribes, ShouldSubscribe } from "./consts";
 import { isReactComponent, Component, PureComponent } from "~/driver";
 import { remove } from "~/utils/array";
 import { seal } from "~/utils/property";
@@ -14,6 +15,7 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
   if (descriptor || (subject && typeof subject !== "object")) {
     const propertyKey = subject;
     const initializer = descriptor?.initializer;
+    target[HasSubscribes] = true;
     return {
       get() {
         const value = initializer && initializer.call(this);
@@ -31,7 +33,6 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
   else if (isReactComponent(target)) {
     const component = target;
     const container = subject;
-
     if (!component[Unsubscribers]) {
       component[Unsubscribers] = [];
       const { componentWillUnmount } = component;
@@ -45,7 +46,7 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
         }
       };
     }
-    if (isAvailableForSubscribe(container)) {
+    if (isShouldSubscribe(container)) {
       const unsubscribers = component[Unsubscribers];
       const unsubscriber = storeSubscribe(container, () => notify(component));
       unsubscribers.push(unsubscriber);
@@ -55,7 +56,8 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
       }
     }
   }
-  else if (isAvailableForSubscribe(target) && isAvailableForSubscribe(subject)) {
+  else if (target && typeof target === "object" && isShouldSubscribe(subject)) {
+    target[HasSubscribes] = true;
     return storeSubscribe(subject, () => notify(target));
   }
   else if (typeof target === "function") {
@@ -68,7 +70,7 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
         super(props, context);
 
         for (const name of Object.keys(props)) {
-          if (isAvailableForSubscribe(props[name])) {
+          if (isShouldSubscribe(props[name])) {
             subscribe(this as any, props[name]);
           }
         }
@@ -77,6 +79,10 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
   }
 }
 
-export function isAvailableForSubscribe(target: any) {
-  return target && typeof target === "object";
+export function isShouldSubscribe(target: any) {
+  return target && (
+    target[StoreKeys] || target[HasSubscribes] || (
+      typeof target[ShouldSubscribe] === "function" && target[ShouldSubscribe]() === true
+    )
+  );
 }

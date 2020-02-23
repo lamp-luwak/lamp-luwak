@@ -1,6 +1,6 @@
 import { ObjectMap, PropertyKey, Dep, DepResolvePhase } from "./types";
 import { RootZoneId } from "./consts";
-import { subscribe, isAvailableForSubscribe } from "~/subscribe";
+import { subscribe, isShouldSubscribe } from "~/subscribe";
 import { isReactComponent } from "~/driver";
 import { seal } from "~/utils/property";
 
@@ -164,7 +164,7 @@ function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey) {
     get() {
       const instance = resolve(dep);
       seal(this, propertyKey, instance);
-      if (isReactComponent(this) && isAvailableForSubscribe(instance)) {
+      if (isReactComponent(this) && isShouldSubscribe(instance)) {
         subscribe(this as any, instance);
       }
       return instance;

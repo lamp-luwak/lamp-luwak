@@ -4,7 +4,8 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { subscribe, provide, store, resolve } from "~/.";
-import { Unsubscribers } from "~/subscribe/consts";
+import { Unsubscribers, ShouldSubscribe } from "~/subscribe/consts";
+import { isShouldSubscribe } from "~/subscribe";
 
 test("Should subscribe on provided services", () => {
   class A {
@@ -368,4 +369,25 @@ test("Should work subscribe to subscribe", () => {
   expect(c1.find("p").text()).toBe("C");
   c1.find("p").simulate("click");
   expect(c1.find("p").text()).toBe("CC");
+});
+
+test("Should work isShouldSubscribe", () => {
+  class A {}
+  class B { @store d: any; }
+  expect(isShouldSubscribe(new A)).toBeFalsy();
+  expect(isShouldSubscribe(new B)).toBeTruthy();
+
+  const obj = {};
+  expect(isShouldSubscribe(obj)).toBeFalsy();
+  subscribe(obj, new A);
+  expect(isShouldSubscribe(obj)).toBeFalsy();
+  subscribe(obj, new B);
+  expect(isShouldSubscribe(obj)).toBeTruthy();
+
+  const m = {
+    [ShouldSubscribe]() { return false; }
+  }
+  expect(isShouldSubscribe(m)).toBeFalsy();
+  m[ShouldSubscribe] = () => true;
+  expect(isShouldSubscribe(m)).toBeTruthy();
 });
