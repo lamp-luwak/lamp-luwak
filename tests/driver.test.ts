@@ -1,5 +1,4 @@
-import { isReactComponent, invalidateReactComponent, useInvalidateEffect } from "~/driver";
-import React from "react";
+import { isReactComponent, invalidateReactComponent, invalidReactVersionException } from "~/driver";
 
 test("Should work react component check", () => {
   expect(isReactComponent(null)).toBeFalsy();
@@ -16,38 +15,6 @@ test("Should work invalidate react component", () => {
   expect(spy).toBeCalled();
 });
 
-test("Should throw when mocks are not available", () => {
-  const _useState = React.useState;
-  (React as any).useState = null;
-  expect(() => {
-    useInvalidateEffect(() => void 0);
-  }).toThrowError("Necessary hooks are not exists in your React version");
-  React.useState = _useState;
-  const _useEffect = React.useEffect;
-  (React as any).useEffect = null;
-  expect(() => {
-    useInvalidateEffect(() => void 0);
-  }).toThrowError("Necessary hooks are not exists in your React version");
-  React.useEffect = _useEffect;
-});
-
-test("Should work invalidate effect hook", () => {
-  const _useState = React.useState;
-  const _useEffect = React.useEffect;
-
-  const updateState = jest.fn();
-  React.useState = jest.fn().mockReturnValue([0, updateState]);
-  const registerUnsubscriber = jest.fn();
-  React.useEffect = (fn: any) => registerUnsubscriber(fn());
-
-  useInvalidateEffect((invalidate: any) => {
-    invalidate();
-    return 11;
-  });
-
-  expect(updateState).toHaveBeenCalledWith({});
-  expect(registerUnsubscriber).toHaveBeenCalledWith(11);
-
-  React.useState = _useState;
-  React.useEffect = _useEffect;
+test("Should throw invalid react version exception", () => {
+  expect(invalidReactVersionException).toThrowError("Necessary hooks are not exists in your React version");
 });

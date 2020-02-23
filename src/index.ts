@@ -4,5 +4,5 @@ export { register, serialize, unserialize, DidUnserialize } from "~/ssr";
 export { subscribe } from "~/subscribe";
 export { Subscribe } from "~/components";
 export { ContainerType } from "~/PropTypes";
-export { useProvide } from "~/hooks";
+export { useProvide, useSubscribe } from "~/hooks";
 export { reset } from "~/reset";

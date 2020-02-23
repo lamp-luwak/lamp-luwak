@@ -4,9 +4,9 @@
 import React from "react";
 import { mount } from "enzyme";
 import { act } from "react-dom/test-utils";
-import { useProvide, store, resolve } from "~/.";
+import { useProvide, useSubscribe, store, resolve } from "~/.";
 
-test("Should update component", () => {
+test("Should update component with useProvide", () => {
   class A {
     @store d = "D";
   }
@@ -22,21 +22,16 @@ test("Should update component", () => {
   expect(el.find("p").text()).toBe("DD");
 });
 
-test("Should pass register unsubscriber for non store container", () => {
-  const _useEffect = React.useEffect;
-  const fn = jest.fn();
-  React.useEffect = fn;
-
-  class A { d = "D" }
-  const C = () => <p>{useProvide(A).d}</p>;
-  class B { @store d = "DD" }
-  const D = () => <p>{useProvide(B).d}</p>;
-
-  mount(<C/>);
-  expect(fn).toBeCalledTimes(0);
-
-  mount(<D/>);
-  expect(fn).toBeCalledTimes(1);
-
-  React.useEffect = _useEffect;
+test("Should update component with useSubscribe", () => {
+  class A {
+    @store d = "D";
+  }
+  const C = () => {
+    const a = useSubscribe(() => new A);
+    return <p onClick={() => a.d = "DD"}>{a.d}</p>
+  };
+  const el = mount(<C/>);
+  expect(el.find("p").text()).toBe("D");
+  el.find("p").simulate("click");
+  expect(el.find("p").text()).toBe("DD");
 });
