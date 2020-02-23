@@ -4,10 +4,11 @@ import { Updaters, Values, Keys } from "./consts";
 
 export type Updater = () => any;
 
-export interface Container {
-  [Updaters]: Updater[];
-  [Values]: ObjectMap;
-  [Keys]: string[];
+export interface Container extends Object {
+  [Updaters]?: Updater[];
+  [Values]?: ObjectMap;
+  [Keys]?: string[];
+  [key: string]: any;
 }
 
 export type StorePropertyKey = string;

@@ -3,7 +3,6 @@
 */
 import React from "react";
 import { shallow, mount } from "enzyme";
-import { act } from "react-dom/test-utils";
 import { subscribe, provide, store, resolve } from "~/.";
 import { Unsubscribers } from "~/subscribe/consts";
 
@@ -167,6 +166,7 @@ test("Should throw redefine exception as property decorator", () => {
     constructor(props: any) {
       super(props);
       this.a = new A;
+      this.a = new A;
     }
     render() {
       return <a/>;
@@ -253,6 +253,27 @@ test("Should work subscribe decorator on store container", () => {
   const cmp = shallow(<Cmp />);
   expect(cmp.find("p").text()).toBe("A");
   _b.a.d = "AA";
+  expect(cmp.find("p").text()).toBe("AA");
+});
+
+test("Should work subscribe decorator without initializer", () => {
+  class A {
+    @store d = "A"
+  }
+  let _a: any;
+  class Cmp extends React.PureComponent {
+    @subscribe a: any;
+    constructor(props: any) {
+      super(props);
+      _a = this.a = new A;
+    }
+    render() {
+      return <p>{this.a.d}</p>;
+    }
+  }
+  const cmp = shallow(<Cmp />);
+  expect(cmp.find("p").text()).toBe("A");
+  _a.d = "AA";
   expect(cmp.find("p").text()).toBe("AA");
 });
 

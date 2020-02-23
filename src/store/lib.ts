@@ -6,7 +6,7 @@ import { remove } from "~/utils/array";
 let notifyLocked = false;
 
 export function store(target: object, propertyKey: StorePropertyKey, descriptor?: any): any {
-  const initializer = (descriptor || {}).initializer;
+  const initializer = descriptor?.initializer;
   if (typeof propertyKey !== "string") {
     throw new Error("Only string key supported for store property");
   }
@@ -34,8 +34,18 @@ export function isContainer(target: any) {
   return target && !!(target as Container)[Keys];
 }
 
-export function values(target: object) {
-  return (target as Container)[Values] || {};
+
+export function values(container: Container) {
+  const values = {} as any;
+  const stored = container[Values] || {};
+  if (container[Keys]) {
+    for (const key of container[Keys]!) {
+      values[key] = stored.hasOwnProperty(key)
+        ? stored[key]
+        : container[key];
+    }
+  }
+  return values;
 }
 
 export function make(Class: ClassType, data: object) {
@@ -59,42 +69,38 @@ export function quiet(code: () => any) {
   }
 }
 
-export function notify(target: object) {
+export function notify(container: Container) {
   if (notifyLocked) {
     return;
   }
-  const container = target as Container;
   if (container[Updaters]) {
-    const updaters = container[Updaters].slice();
+    const updaters = container[Updaters]!.slice();
     for (const updater of updaters) {
       updater();
     }
   }
-  if (isReactComponent(target)) {
-    invalidateReactComponent(target);
+  if (isReactComponent(container)) {
+    invalidateReactComponent(container);
   }
 }
 
-function addKey(target: object, key: string) {
-  const container = target as Container;
+function addKey(container: Container, key: string) {
   (container[Keys] = container[Keys] || []).push(key);
 }
 
-function get(target: object, key: string, initializer?: () => any) {
-  const container = target as Container;
-  if (container[Values] && container[Values].hasOwnProperty(key)) {
-    return container[Values][key];
+function get(container: Container, key: string, initializer?: () => any) {
+  if (container[Values] && container[Values]!.hasOwnProperty(key)) {
+    return container[Values]![key];
   }
   if (initializer) {
     return (container[Values] = container[Values] || {})[key] = initializer.call(container);
   }
 }
 
-function set(target: object, key: string, value: any) {
-  const container = target as Container;
+function set(container: Container, key: string, value: any) {
   const values = container[Values] = container[Values] || {};
   if (values[key] !== value) {
     values[key] = value;
-    notify(target);
+    notify(container);
   }
 }

@@ -9,7 +9,6 @@ const searchIndex = new Map<ClassType, string>();
 export const state = { dictionary, searchIndex };
 
 export function serialize() {
-  // The reason is the autoreload client components on the server without restart
   makeSearchIndex();
   try {
     const data: any = {};

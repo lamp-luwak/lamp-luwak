@@ -10,7 +10,7 @@ export function subscribe<T extends ClassType<Component | PureComponent>>(Class:
 export function subscribe(target: object, propertyKey: PropertyKey, descriptor?: any): any;
 export function subscribe(target: any, subject?: any, descriptor?: any) {
   if (descriptor || (subject && typeof subject !== "object")) {
-    const initializer = (descriptor || {}).initializer;
+    const initializer = descriptor?.initializer;
     let value: any;
     return {
       get() {

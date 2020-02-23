@@ -106,11 +106,11 @@ test("Should work inititializer in store decorator", () => {
 });
 
 test("Should throw exception on non string property", () => {
-  const S = Symbol();
   expect(() => {
-    class A {
-      @(store as any) [S]: string;
-    }
+    store({}, Symbol() as any);
+  }).toThrowError("Only string key supported for store property");
+  expect(() => {
+    store({}, 0 as any);
   }).toThrowError("Only string key supported for store property");
 });
 
