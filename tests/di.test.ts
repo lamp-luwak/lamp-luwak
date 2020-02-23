@@ -233,6 +233,8 @@ test("Should destroy async context in zone", async () => {
   expect(currentZoneId).toBe(zoneId);
   expect(zoneId).not.toBe(z1);
   await new Promise(setTimeout as any);
+  await new Promise(setTimeout as any);
+  await new Promise(setTimeout as any);
   expect(zoneIndex[z1]).toBeUndefined();
   expect(spy).toBeCalled();
 });
