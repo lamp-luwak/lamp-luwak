@@ -1,6 +1,6 @@
 {
   "name": "@impress/todo-ssr-nextjs",
-  "version": "2.7.0",
+  "version": "2.7.1",
   "private": true,
   "scripts": {
     "dev": "next",
@@ -8,8 +8,8 @@
     "clean": "npx rimraf build"
   },
   "dependencies": {
-    "@impress/dispatcher": "^2.7.0",
-    "@impress/react": "^2.7.0",
+    "@impress/dispatcher": "^2.7.1",
+    "@impress/react": "^2.7.1",
     "isomorphic-unfetch": "^3.0.0",
     "next": "^9.2.1",
     "react": "^16.12.0",
@@ -21,7 +21,7 @@
     "@babel/core": "^7.8.4",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
-    "@impress/babel-plugin-ssr": "^2.7.0",
+    "@impress/babel-plugin-ssr": "^2.7.1",
     "@types/react": "^16.9.19",
     "@types/react-dom": "^16.9.5",
     "@types/reflect-metadata": "0.1.0",
