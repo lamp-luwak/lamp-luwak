@@ -3,6 +3,7 @@ import { RootZoneId } from "./consts";
 import { isContainer } from "~/store";
 import { subscribe } from "~/subscribe";
 import { isReactComponent } from "~/driver";
+import { seal } from "~/utils/property";
 
 const instances: ObjectMap<Map<Dep, any>> = {};
 const resolvePhases: ObjectMap<Map<Dep, DepResolvePhase>> = {};
@@ -163,12 +164,7 @@ function createProvideDescriptor(dep: Dep, propertyKey: PropertyKey) {
   return {
     get() {
       const instance = resolve(dep);
-      Object.defineProperty(this, propertyKey, {
-        value: instance,
-        enumerable: true,
-        configurable: false,
-        writable: false,
-      });
+      seal(this, propertyKey, instance);
       if (isReactComponent(this) && isContainer(instance)) {
         subscribe(this as any, instance);
       }

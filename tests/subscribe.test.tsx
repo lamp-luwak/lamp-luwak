@@ -174,7 +174,7 @@ test("Should throw redefine exception as property decorator", () => {
   }
   expect(() => {
     shallow(<Cmp />);
-  }).toThrowError("Cannot redefine subscribed property");
+  }).toThrowError("Cannot assign to read only property 'a' of object '#<Cmp>'");
 });
 
 test("Should work inititializer in subscribe decorator", () => {

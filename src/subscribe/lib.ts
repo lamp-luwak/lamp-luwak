@@ -1,9 +1,10 @@
-import { ClassType, Unsubscriber, Container  } from "./types";
+import { ClassType, Unsubscriber } from "./types";
 import { subscribe as storeSubscribe, isContainer, notify } from "~/store";
 import { Container as StoreContainer } from "~/store/types";
-import { Unsubscribers, Values } from "./consts";
+import { Unsubscribers } from "./consts";
 import { isReactComponent, Component, PureComponent } from "~/driver";
 import { remove } from "~/utils/array";
+import { seal } from "~/utils/property";
 
 export function subscribe(component: Component | PureComponent, container?: StoreContainer): Unsubscriber;
 export function subscribe(containerTo: StoreContainer, container: StoreContainer): Unsubscriber;
@@ -14,29 +15,27 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
     const propertyKey = subject;
     const initializer = descriptor?.initializer;
     return {
-      get(this: Container) {
-        const values = this[Values] = this[Values] || {};
-        if (!values.hasOwnProperty(propertyKey) && initializer) {
-          subscribe(this, values[propertyKey] = initializer.call(this));
-        }
-        return values[propertyKey];
+      get() {
+        const value = initializer && initializer.call(this);
+        subscribe(this, value);
+        return seal(this, propertyKey, value);
       },
-      set(this: Container, value: any) {
-        const values = this[Values] = this[Values] || {};
-        if (values.hasOwnProperty(propertyKey)) {
-          throw new Error("Cannot redefine subscribed property");
-        }
-        subscribe(this, values[propertyKey] = value);
+      set(value: any) {
+        subscribe(this, value);
+        seal(this, propertyKey, value);
       },
-      configurable: false,
+      configurable: true,
       enumerable: true,
     };
   }
   else if (isReactComponent(target)) {
-    if (!target[Unsubscribers]) {
-      target[Unsubscribers] = [];
-      const { componentWillUnmount } = target;
-      target.componentWillUnmount = function() {
+    const component = target;
+    const container = subject;
+
+    if (!component[Unsubscribers]) {
+      component[Unsubscribers] = [];
+      const { componentWillUnmount } = component;
+      component.componentWillUnmount = function() {
         const unsubscribers = this[Unsubscribers].slice();
         for (const unsubscriber of unsubscribers) {
           unsubscriber();
@@ -46,9 +45,9 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
         }
       };
     }
-    if (subject && typeof subject === "object") {
-      const unsubscribers = target[Unsubscribers];
-      const unsubscriber = storeSubscribe(subject, () => notify(target));
+    if (container && typeof container === "object") {
+      const unsubscribers = component[Unsubscribers];
+      const unsubscriber = storeSubscribe(container, () => notify(component));
       unsubscribers.push(unsubscriber);
       return () => {
         remove(unsubscribers, unsubscriber);
