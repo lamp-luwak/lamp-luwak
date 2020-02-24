@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
 */
-import React from "react";
+import React, { PureComponent, useState } from "react";
 import { shallow, mount } from "enzyme";
 import { subscribe, provide, store, resolve } from "~/.";
 import { Unsubscribers, ShouldSubscribe } from "~/subscribe/consts";
@@ -11,7 +11,7 @@ test("Should subscribe on provided services", () => {
   class A {
     @store d = "D";
   }
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     @provide a: A;
     handleClick = () => {
       this.a.d = "DD";
@@ -34,7 +34,7 @@ test("Should work subscribe decorator with props", () => {
     @store d = "D";
   }
   @subscribe
-  class Cmp extends React.PureComponent<{ a: A }> {
+  class Cmp extends PureComponent<{ a: A }> {
     render() {
       const { d } = this.props.a;
       return (
@@ -54,7 +54,7 @@ test("Should work component will unmount", () => {
   const spy2 = jest.fn();
   const spy3 = jest.fn();
 
-  class C extends React.PureComponent {
+  class C extends PureComponent {
     constructor(props: any) {
       super(props);
       subscribe(this);
@@ -84,7 +84,7 @@ test("Should non reset unsubscribers after next call", () => {
   class A {
     @store d: any;
   }
-  class C extends React.PureComponent {
+  class C extends PureComponent {
     constructor(props: any) {
       super(props);
 
@@ -108,7 +108,7 @@ test("Should non reset unsubscribers after next call", () => {
 test("Should pass non store containers props in subscribed components", () => {
   const spy = jest.fn();
   @subscribe
-  class Cmp extends React.PureComponent<{ a: string }> {
+  class Cmp extends PureComponent<{ a: string }> {
     componentDidMount() {
       expect((this as any)[Unsubscribers]).toBeUndefined();
       spy();
@@ -131,7 +131,7 @@ test("Should work as property decorator", () => {
   }
   let _a: any;
   let _b: any;
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     @subscribe a = new A;
     b: B;
 
@@ -161,7 +161,7 @@ test("Should work as property decorator", () => {
 
 test("Should throw redefine exception as property decorator", () => {
   class A {}
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     @subscribe a = new A;
 
     constructor(props: any) {
@@ -183,7 +183,7 @@ test("Should work inititializer in subscribe decorator", () => {
     @store a = "A";
   }
   let _a: any;
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     constructor(props: any) {
       super(props);
       const descriptor = subscribe({}, "a", { initializer: () => _a = new A });
@@ -209,7 +209,7 @@ test("Should work unsubscribe on components", () => {
   class A {
     @store a = "A";
   }
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     private a: any;
     private off: any;
     constructor(props: any) {
@@ -241,7 +241,7 @@ test("Should work subscribe decorator on store container", () => {
     @subscribe a = new A;
   }
   let _b: any;
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     @subscribe b = new B;
     constructor(props: any) {
       super(props);
@@ -262,7 +262,7 @@ test("Should work subscribe decorator without initializer", () => {
     @store d = "A"
   }
   let _a: any;
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     @subscribe a: any;
     constructor(props: any) {
       super(props);
@@ -295,7 +295,7 @@ test("Should work this in initializers with subscribe decorator in several react
       this.fn();
     }
   }
-  class C extends React.PureComponent<{ i: number }> {
+  class C extends PureComponent<{ i: number }> {
     @subscribe a = new A(() => spy(this.props.i));
     render() {
       return <p onClick={() => this.a.do(this.props.i)}>{this.a.d}</p>;
@@ -335,7 +335,7 @@ test("Should work resolve provide from this in initializer", () => {
       this.d += i;
     }
   }
-  class C extends React.PureComponent<{ i: number }> {
+  class C extends PureComponent<{ i: number }> {
     @provide b: B;
     @subscribe public a = new A(() => spy(this.props.i + this.b.inc()));
     render() {
@@ -359,7 +359,7 @@ test("Should work subscribe to subscribe", () => {
   class A {
     @subscribe b = new B;
   }
-  class Cmp extends React.PureComponent {
+  class Cmp extends PureComponent {
     @subscribe a = new A;
     render() {
       return <p onClick={() => this.a.b.c.d = "CC"}>{this.a.b.c.d}</p>;
@@ -390,4 +390,31 @@ test("Should work isShouldSubscribe", () => {
   expect(isShouldSubscribe(m)).toBeFalsy();
   m[ShouldSubscribe] = () => true;
   expect(isShouldSubscribe(m)).toBeTruthy();
+});
+
+test("Should work change prop in subscribe decorator for class component", () => {
+  class E {
+    @store d = "D"
+  }
+  const ee = [new E, new E];
+  @subscribe
+  class C1 extends PureComponent<{e: E}> {
+    render() {
+      return <i>{this.props.e.d}</i>
+    }
+  }
+  const C0 = () => {
+    const [i,update] = useState(0);
+    return <b onClick={() => update(i+1)}><C1 e={ee[i]} /></b>
+  }
+
+  const c1 = mount(<C0/>);
+  expect(c1.find("i").text()).toBe("D");
+  ee[0].d = "DD";
+  expect(c1.find("i").text()).toBe("DD");
+
+  c1.find("b").simulate("click");
+  expect(c1.find("i").text()).toBe("D");
+  ee[1].d = "DDD";
+  expect(c1.find("i").text()).toBe("DDD");
 });

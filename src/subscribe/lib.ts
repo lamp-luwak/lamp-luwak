@@ -2,7 +2,7 @@ import { ClassType, Unsubscriber } from "./types";
 import { subscribe as storeSubscribe, notify } from "~/store";
 import { Container as StoreContainer } from "~/store/types";
 import { Keys as StoreKeys } from "~/store/consts";
-import { Unsubscribers, HasSubscribes, ShouldSubscribe } from "./consts";
+import { Unsubscribers, HasSubscribes, ShouldSubscribe, PropUnsubscribers } from "./consts";
 import { isReactComponent, Component, PureComponent } from "~/driver";
 import { remove } from "~/utils/array";
 import { seal } from "~/utils/property";
@@ -66,14 +66,29 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
     return class extends Class {
       public static displayName = Class.displayName || Class.name;
 
+      [PropUnsubscribers] = {} as any;
+
       constructor(props: any, context?: any) {
         super(props, context);
 
-        for (const name of Object.keys(props)) {
-          if (isShouldSubscribe(props[name])) {
-            subscribe(this as any, props[name]);
+        for (const key of Object.keys(props)) {
+          if (isShouldSubscribe(props[key])) {
+            this[PropUnsubscribers][key] = subscribe(this, props[key]);
           }
         }
+      }
+
+      componentDidUpdate(prevProps: any) {
+        if(this.props !== prevProps) {
+          const keys = Object.keys(this[PropUnsubscribers]);
+          for (const key of keys) {
+            if (this.props[key] !== prevProps[key]) {
+              this[PropUnsubscribers][key]();
+              this[PropUnsubscribers][key] = subscribe(this, this.props[key]);
+            }
+          }
+        }
+        return super.componentDidUpdate?.(prevProps);
       }
     };
   }
