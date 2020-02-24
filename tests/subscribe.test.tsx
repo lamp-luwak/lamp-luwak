@@ -423,3 +423,25 @@ test("Should work change prop in subscribe decorator for class component", () =>
   c.d = "1";
   expect(c1.find("i").text()).toBe("DDD1");
 });
+
+test("Should work component did update with subscribe decorator", () => {
+  const spy = jest.fn();
+  @subscribe
+  class C1 extends PureComponent<{i: number}> {
+    componentDidUpdate(props: any) {
+      spy(props);
+    }
+    render() {
+      return <i>{this.props.i}</i>
+    }
+  }
+  const C0 = () => {
+    const [i,update] = useState(0);
+    return <b onClick={() => update(i+1)}><C1 i={i} /></b>
+  }
+  const c1 = mount(<C0/>);
+  c1.find("b").simulate("click");
+  expect(spy).toBeCalledWith({i:0});
+  c1.find("b").simulate("click");
+  expect(spy).toBeCalledWith({i:1});
+});

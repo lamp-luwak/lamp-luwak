@@ -79,6 +79,10 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
       }
 
       componentDidUpdate(prevProps: any) {
+        if (super.componentDidUpdate) {
+          super.componentDidUpdate(prevProps);
+        }
+
         if(this.props !== prevProps) {
           const keys = Object.keys(this[PropUnsubscribers]);
           for (const key of keys) {
@@ -88,7 +92,6 @@ export function subscribe(target: any, subject?: any, descriptor?: any) {
             }
           }
         }
-        return super.componentDidUpdate?.(prevProps);
       }
     };
   }
