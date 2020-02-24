@@ -397,24 +397,29 @@ test("Should work change prop in subscribe decorator for class component", () =>
     @store d = "D"
   }
   const ee = [new E, new E];
+  const c = new E;
   @subscribe
-  class C1 extends PureComponent<{e: E}> {
+  class C1 extends PureComponent<{e: E; c: E}> {
     render() {
-      return <i>{this.props.e.d}</i>
+      return <i>{this.props.e.d + this.props.c.d}</i>
     }
   }
   const C0 = () => {
     const [i,update] = useState(0);
-    return <b onClick={() => update(i+1)}><C1 e={ee[i]} /></b>
+    return <b onClick={() => update(i+1)}><C1 e={ee[i]} c={c} /></b>
   }
 
+  c.d = "0";
   const c1 = mount(<C0/>);
-  expect(c1.find("i").text()).toBe("D");
+  expect(c1.find("i").text()).toBe("D0");
   ee[0].d = "DD";
-  expect(c1.find("i").text()).toBe("DD");
+  expect(c1.find("i").text()).toBe("DD0");
 
   c1.find("b").simulate("click");
-  expect(c1.find("i").text()).toBe("D");
+  expect(c1.find("i").text()).toBe("D0");
   ee[1].d = "DDD";
-  expect(c1.find("i").text()).toBe("DDD");
+  expect(c1.find("i").text()).toBe("DDD0");
+
+  c.d = "1";
+  expect(c1.find("i").text()).toBe("DDD1");
 });
