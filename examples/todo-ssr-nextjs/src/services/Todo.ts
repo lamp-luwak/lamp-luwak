@@ -3,7 +3,6 @@ import { fetchJson } from "~/lib/fetchJson";
 import { Item, ItemCompletedChanged } from "./Todo/Item";
 
 export const RemoveItem = action();
-export const RefreshComputed = action();
 
 export class Todo {
   @store list: Item[] = [];
