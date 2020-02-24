@@ -1,6 +1,6 @@
 {
   "name": "@impress/dispatcher",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Dispatcher for impress",
   "repository": {
     "url": "https://github.com/betula/impress"
@@ -30,7 +30,7 @@
     "@impress/react": ">=1.0.0"
   },
   "devDependencies": {
-    "@impress/react": "^2.7.1",
+    "@impress/react": "^2.7.2",
     "@types/jest": "^25.1.1",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
