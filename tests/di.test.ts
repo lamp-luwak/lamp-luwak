@@ -10,10 +10,10 @@ import {
   zone,
   getZoneId,
   getInstances,
-  state
+  getState
 } from "~/di";
 
-const { instances, overrides, zoneIndex } = state;
+const { instances, overrides, zoneIndex } = getState();
 
 test("Should be only one instance of provided class", () => {
   class A {

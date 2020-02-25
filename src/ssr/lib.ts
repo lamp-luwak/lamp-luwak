@@ -3,58 +3,69 @@ import { DidUnserialize } from "./consts";
 import { make, values } from "~/store";
 import { assign, getInstances } from "~/di";
 
-const dictionary = new Map<string, ClassType>();
-const searchIndex = new Map<ClassType, string>();
+const regClassIndex = new Map<string, ClassType>();
+const regClassSearch = new Map<ClassType, string>();
 
-export const state = { dictionary, searchIndex };
+const refSerializedIndex = new Map<number, object>();
+const refInstIndex = new Map<number, object>();
+const refInstSearch = new Map<object, number>();
+let refIncrementalId: number;
 
 export function serialize() {
-  makeSearchIndex();
   try {
-    const data: any = {};
-    for (const inst of getInstances()) {
-      if (inst && inst.constructor) {
-        const id = searchIndex.get(inst.constructor);
-        if (typeof id !== "undefined") {
-          data[id] = pack(values(inst));
-        }
-      }
+    refIncrementalId = 1;
+    for (const [id, Class] of regClassIndex) {
+      regClassSearch.set(Class, id);
     }
-    destroySearchIndex();
+
+    const data: any = [
+      pack(
+        getInstances().filter((inst) => inst && regClassSearch.has(inst.constructor))
+      ),
+    ];
+    for (let i = 1; i < refIncrementalId; i++) {
+      data.push(refSerializedIndex.get(i));
+    }
+
+    afterSerializeUnserialize();
     return data;
   } catch(e) {
-    destroySearchIndex();
+    afterSerializeUnserialize();
     throw e;
   }
 }
 
 export function unserialize(data: any) {
-  for (const key of Object.keys(data)) {
-    const Class = dictionary.get(key);
-    if (typeof Class !== "undefined") {
-      assign(Class, unpack([key, data[key]]));
-    } else {
-      throw new Error(`Registered class id "${key}" not found`);
+  try {
+    for (let i = 1; i < data.length; i++) {
+      refSerializedIndex.set(i, data[i]);
     }
+
+    for (const inst of unpack(data[0])) {
+      assign(inst.constructor, inst);
+    }
+
+    afterSerializeUnserialize();
+  } catch (e) {
+    afterSerializeUnserialize();
+    throw e;
   }
+
 }
 
 export function reset() {
-  dictionary.clear();
+  regClassIndex.clear();
 }
 
 export function register(id: string, Class: ClassType) {
-  dictionary.set(id, Class);
+  regClassIndex.set(id, Class);
 }
 
-function makeSearchIndex() {
-  for (const [id, Class] of dictionary) {
-    searchIndex.set(Class, id);
-  }
-}
-
-function destroySearchIndex() {
-  searchIndex.clear();
+function afterSerializeUnserialize() {
+  regClassSearch.clear();
+  refSerializedIndex.clear();
+  refInstIndex.clear();
+  refInstSearch.clear();
 }
 
 function factory(Class: ClassType, data: any) {
@@ -64,6 +75,28 @@ function factory(Class: ClassType, data: any) {
     fn.call(instance);
   }
   return instance;
+}
+
+function packRef(val: any) {
+  let id = refInstSearch.get(val);
+  if (!id) {
+    id = refIncrementalId++;
+    refInstSearch.set(val, id);
+    refSerializedIndex.set(id, pack(values(val)));
+  }
+  return id;
+}
+
+function unpackRef(Class: any, id: any) {
+  let inst = refInstIndex.get(id);
+  if (!inst) {
+    inst = factory(
+      Class,
+      unpack(refSerializedIndex.get(id))
+    );
+    refInstIndex.set(id, inst!);
+  }
+  return inst;
 }
 
 function pack(val: any): any {
@@ -79,9 +112,9 @@ function pack(val: any): any {
       case Set:
         return ["Set", pack([...(val as Set<any>).values()])];
     }
-    const id = searchIndex.get(Ctor);
+    const id = regClassSearch.get(Ctor);
     if (typeof id !== "undefined") {
-      return [id, pack(values(val))];
+      return [id, packRef(val)];
     }
     if (Ctor !== Object) {
       throw new Error("Supported only registered store containers as serializable class instances");
@@ -110,9 +143,9 @@ function unpack(val: any): any {
       case "Set":
         return new Set(unpack(value));
     }
-    const Class = dictionary.get(id);
+    const Class = regClassIndex.get(id);
     if (typeof Class !== "undefined") {
-      return factory(Class as any, unpack(value));
+      return unpackRef(Class, value);
     }
     throw new Error(`Registered class id "${id}" not found`);
   } else if (val && typeof val === "object") {

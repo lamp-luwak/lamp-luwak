@@ -9,11 +9,6 @@ const resolvePhases: ObjectMap<Map<Dep, DepResolvePhase>> = {};
 const overrides: ObjectMap<Map<Dep, any>> = {};
 const zoneIndex: ObjectMap<number> = {};
 let zoneId: number = RootZoneId;
-
-export const state = {
-  instances, resolvePhases, overrides, zoneIndex
-};
-
 let asyncHook: any;
 
 export async function zone<T = void>(callback: () => T): Promise<void> {
@@ -60,6 +55,11 @@ export async function zone<T = void>(callback: () => T): Promise<void> {
 
 export function getZoneId(): number {
   return zoneId;
+}
+export function getState() {
+  return {
+    instances, resolvePhases, overrides, zoneIndex
+  };
 }
 
 export function provide(target: object, propertyKey: PropertyKey): any;
