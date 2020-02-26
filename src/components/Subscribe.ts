@@ -1,28 +1,15 @@
-import { PureComponent, ReactNode } from "~/driver";
-import { subscribe, isShouldSubscribe } from "~/subscribe";
 
-interface Props<T = object | object[]> {
-  children: (to: T extends any[] ? any : T) => ReactNode;
-  to: T;
+import { PureComponent, ReactNode } from "~/driver";
+import { subscribe } from "~/subscribe";
+import { ObjectMap } from "~/types";
+
+type ChildrenFunction<T = any> = {
+  children: (props: T) => ReactNode;
 }
 
-export class Subscribe<T> extends PureComponent<Props<T>> {
-
-  constructor(props: Props<T>, context?: any) {
-    super(props, context);
-
-    const items = Array.isArray(this.props.to)
-      ? this.props.to
-      : [ this.props.to ];
-
-    for (const item of items) {
-      if (isShouldSubscribe(item)) {
-        subscribe(this, item);
-      }
-    }
-  }
-
+@subscribe
+export class Subscribe extends PureComponent<ObjectMap & ChildrenFunction> {
   public render() {
-    return this.props.children(this.props.to as T extends any[] ? any : T);
+    return this.props.children(this.props);
   }
 }
