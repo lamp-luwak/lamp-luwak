@@ -4,6 +4,7 @@ export type ReactNode = React.ReactNode;
 export type PureComponent = React.PureComponent;
 export type Component = React.Component;
 export const PureComponent = React.PureComponent;
+export const Component = React.Component;
 
 /* istanbul ignore next line */
 export const useState = React.useState || invalidReactVersionException;

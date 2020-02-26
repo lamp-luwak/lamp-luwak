@@ -1,5 +1,5 @@
 
-import { PureComponent, ReactNode } from "~/driver";
+import { Component, ReactNode } from "~/driver";
 import { subscribe } from "~/subscribe";
 import { ObjectMap } from "~/types";
 
@@ -8,8 +8,8 @@ type ChildrenFunction<T = any> = {
 }
 
 @subscribe
-export class Subscribe extends PureComponent<ObjectMap & ChildrenFunction> {
+export class Subscribe<T extends ObjectMap> extends Component<T & ChildrenFunction<T>> {
   public render() {
-    return this.props.children(this.props);
+    return (this.props.children as ChildrenFunction<T>["children"])(this.props as T);
   }
 }
