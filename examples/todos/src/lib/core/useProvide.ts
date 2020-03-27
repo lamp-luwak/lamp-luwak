@@ -1,0 +1,79 @@
+import { useMemo, useEffect } from "react";
+import { useForceUpdate } from "./useForceUpdate";
+import { ClassType } from "./types";
+
+type Subscriber = (value: any, prev: any) => void;
+
+const StoreProperty = "store";
+const StoreDataProperty = Symbol("store");
+const Subscribers = Symbol("subscribers");
+
+const notify = (self: any, value: any, prevValue: any) => {
+  if (!self[Subscribers]) return;
+  for (const subscriber of self[Subscribers] as Subscriber[]) {
+    subscriber(value, prevValue);
+  }
+}
+
+export const subscribe = (self: any, subscriber: Subscriber) => {
+  if (!self[Subscribers]) {
+    self[Subscribers] = [];
+  }
+  const subscribers = self[Subscribers] as Subscriber[];
+  if (!subscribers.some((s) => s === subscriber)) {
+    subscribers.push(subscriber);
+  }
+  return () => {
+    self[Subscribers] = (self[Subscribers] as Subscriber[]).filter((s) => s !== subscriber);
+  }
+}
+
+export const make = <T>(dep: ClassType<T>, ...args: any[]): T => {
+  const inst = new dep(...args);
+  const initStorePropertyDescriptor = Object.getOwnPropertyDescriptor(inst, StoreProperty);
+
+  Object.defineProperties(inst, {
+    [StoreProperty]: {
+      get() {
+        if (this.hasOwnProperty(StoreDataProperty)) {
+          return this[StoreDataProperty];
+        } else {
+          return this[StoreDataProperty] = initStorePropertyDescriptor && initStorePropertyDescriptor.value;
+        }
+      },
+      set(value: any) {
+        if (value === this[StoreDataProperty]) {
+          return;
+        }
+        const prevStoreData = this[StoreDataProperty];
+        this[StoreDataProperty] = value;
+        notify(this, value, prevStoreData);
+      }
+    },
+  })
+
+  return inst;
+}
+
+const depInstances = new Map<ClassType, any>();
+export const provide = (dep: ClassType) => {
+  let inst = depInstances.get(dep);
+  if (!inst) {
+    depInstances.set(
+      dep,
+      inst = make(dep)
+    );
+  }
+  return inst;
+}
+
+export const useProvide = <T>(dep: ClassType<T>): T => {
+  const forceUpdate = useForceUpdate();
+  const instance = useMemo(() => provide(dep), [dep]);
+  useEffect(
+    () => subscribe(instance, forceUpdate),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [instance]
+  );
+  return instance;
+};
