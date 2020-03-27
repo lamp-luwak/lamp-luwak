@@ -1,20 +1,20 @@
-import { make } from "../lib/core";
-import { Item } from "./Todo/Item";
+import { make, subscribe } from "../lib/core";
+import { Item, RemoveItem } from "./Todo/Item";
 
 export class Todo {
   store = [] as Item[];
+
+  constructor() {
+    subscribe(RemoveItem, this.remove, this);
+  }
 
   append(label: string) {
     const item = make(Item, { label });
     this.store = this.store.concat(item);
   }
 
-  removeById(id: string) {
+  remove({ id }: Item) {
     this.store = this.store.filter((item) => item.id !== id);
-  }
-
-  updateCompletedDeps() {
-
   }
 
   isEmpty() {
@@ -23,10 +23,6 @@ export class Todo {
 
   getList() {
     return this.store;
-  }
-
-  getActiveCounter() {
-    return 0;
   }
 
   toggleAll() {

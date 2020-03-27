@@ -1,19 +1,24 @@
-import { provide } from "../../lib/core";
+import { provide, action, subscribe, dispatch } from "../../lib/core";
 import { Todo } from "../Todo";
+
+export const ItemChanged = action();
+export const ItemCompletedChanged = action();
+export const RemoveItem = action();
 
 type Props = {
   label: string;
   completed?: boolean;
 }
+type Store = {
+  id: string;
+  label: string;
+  completed: boolean;
+}
 
 export class Item {
   todo = provide(Todo);
 
-  store: {
-    id: string;
-    label: string;
-    completed: boolean;
-  };
+  store: Store;
 
   constructor({ label, completed }: Props) {
     this.store = {
@@ -21,6 +26,14 @@ export class Item {
       label,
       completed: completed || false
     };
+    subscribe(this, ItemChanged);
+    subscribe(this, this.onChange, this);
+  }
+
+  protected onChange(store: Store, prevStore: Store) {
+    if (store.completed !== prevStore.completed) {
+      dispatch(ItemCompletedChanged, store, prevStore);
+    }
   }
 
   public get id() {
@@ -36,7 +49,6 @@ export class Item {
   public setCompleted(completed: boolean) {
     if (completed !== this.store.completed) {
       this.store = { ...this.store, completed };
-      this.todo.updateCompletedDeps();
     }
   }
 
@@ -47,7 +59,7 @@ export class Item {
   }
 
   public remove() {
-    this.todo.removeById(this.id);
+    dispatch(RemoveItem, this);
   }
 
 }
