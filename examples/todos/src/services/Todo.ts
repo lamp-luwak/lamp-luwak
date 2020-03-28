@@ -26,7 +26,12 @@ export class Todo {
   }
 
   toggleAll() {
-
+    const completedTo = this.store.some(({ completed }) => !completed);
+    for (const item of this.store) {
+      if (completedTo !== item.completed) {
+        item.setCompleted(completedTo);
+      }
+    }
   }
 
 }
