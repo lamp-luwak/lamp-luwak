@@ -1,4 +1,7 @@
-export { useProvide, provide, make } from "./useProvide";
+export { useProvide } from "./useProvide";
 export { useSubscribe } from "./useSubscribe";
 export { action } from "./action";
 export { dispatch, subscribe } from "./subscriber";
+export { make } from "./store";
+export { provide } from "./provide";
+export { get, set } from "./immutable";

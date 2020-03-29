@@ -6,6 +6,7 @@ import { TodoFilter } from "../services/TodoFilter";
 export const ToggleAllButton = () => {
   const todo = useProvide(Todo);
   const todoFilter = useProvide(TodoFilter);
+
   return (
     <>
       <input

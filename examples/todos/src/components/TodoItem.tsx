@@ -75,4 +75,4 @@ export const TodoItem = ({ item }: Props) => {
       />
     </li>
   )
-}
+};

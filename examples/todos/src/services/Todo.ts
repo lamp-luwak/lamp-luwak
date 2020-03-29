@@ -17,6 +17,10 @@ export class Todo {
     this.store = this.store.filter((item) => item.id !== id);
   }
 
+  clearCompleted() {
+    this.store = this.store.filter(({ completed }) => !completed);
+  }
+
   isEmpty() {
     return this.store.length === 0;
   }

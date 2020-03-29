@@ -5,7 +5,7 @@ import { Item, ItemCompletedChanged } from "./Todo/Item";
 export class TodoFilter {
   todo = provide(Todo);
   store = {
-    filter: 'all',
+    filter: "all",
     completed: [] as Item[],
     active: [] as Item[]
   }
@@ -26,14 +26,33 @@ export class TodoFilter {
 
   getCurrentList(): Item[] {
     const { filter } = this.store;
-    if (filter === 'all') {
-      return this.todo.getList();
+    switch (filter) {
+      case "active":
+        return this.store.active;
+      case "completed":
+        return this.store.completed;
+      default:
+        return this.todo.getList();
     }
-    return [];
   }
 
   getActiveCounter() {
     return this.store.active.length;
+  }
+
+  getCompletedCounter() {
+    return this.store.completed.length;
+  }
+
+  getFilter() {
+    return this.store.filter;
+  }
+
+  setFilter(filter: string) {
+    this.store = {
+      ...this.store,
+      filter
+    }
   }
 
 }
