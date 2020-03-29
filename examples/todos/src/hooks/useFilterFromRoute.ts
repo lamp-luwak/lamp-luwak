@@ -1,6 +1,6 @@
 import { useRouteMatch } from "react-router-dom";
 import { useEffect } from "react";
-import { useProvide, set } from "../lib/core";
+import { useProvide } from "../lib/core";
 import { TodoFilter } from "../services/TodoFilter";
 
 export const useFilterFromRoute = () => {
