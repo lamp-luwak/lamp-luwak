@@ -8,7 +8,6 @@ export const useProvide = <T>(dep: Dep<T>): T => {
   const forceUpdate = useForceUpdate();
   useEffect(
     () =>  subscribe(instance, forceUpdate),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [instance]
   );
   return instance;
