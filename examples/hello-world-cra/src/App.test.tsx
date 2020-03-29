@@ -3,8 +3,8 @@ import { render, fireEvent } from "@testing-library/react";
 import App from "./App";
 
 test("It Works", () => {
-  const { getByText, getByRole } = render(<App />);
+  const { container, getByText } = render(<App />);
   expect(getByText(/World/i)).toBeInTheDocument();
-  fireEvent.change(getByRole("textbox"), {target: {value: "Abc"}})
+  fireEvent.change((container as any).querySelector("input"), {target: {value: "Abc"}})
   expect(getByText(/Abc/i)).toBeInTheDocument();
 });
