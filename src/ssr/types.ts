@@ -1,1 +1,0 @@
-export { ClassType } from "~/types";

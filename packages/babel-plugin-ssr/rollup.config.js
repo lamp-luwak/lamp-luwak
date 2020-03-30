@@ -9,7 +9,7 @@ export default {
     format: "cjs",
     sourcemap: true,
   },
-  external: Object.keys(devDependencies),
+  external: Object.keys(devDependencies).concat("fs","crypto"),
   plugins: [
     typescript({ tsconfig: "./tsconfig.release.json" })
   ]

@@ -1,115 +1,16 @@
-import { store, subscribe, make, quiet, notify, values } from "~/store";
-import { Updaters } from "~/store/consts";
+import { subscribe, create } from "../src";
 
 test("Should notify after store value changed", () => {
   const spy = jest.fn();
   class A {
-    @store d: string;
+    store = "";
   }
-  const a = new A;
+  const a = create(A);
   subscribe(a, spy);
-  a.d = "D";
+  a.store = "D";
   expect(spy).toBeCalledTimes(1);
-  a.d = "D";
+  a.store = "D";
   expect(spy).toBeCalledTimes(1);
-  a.d = "E";
+  a.store = "E";
   expect(spy).toBeCalledTimes(2);
-});
-
-test("Should work make", () => {
-  class A {
-    @store d = "10";
-  }
-  const a = make(A, { d: "11" });
-  expect(a.d).toBe("11");
-});
-
-test("Should work quiet", () => {
-  const spy1 = jest.fn();
-  const spy2 = jest.fn();
-  const spy3 = jest.fn();
-  quiet(() => {
-    notify({ [Updaters]: [spy1] });
-    spy2();
-  });
-  notify({ [Updaters]: [spy3] });
-  expect(spy1).not.toBeCalled();
-  expect(spy2).toBeCalled();
-  expect(spy3).toBeCalled();
-});
-
-test("Should work quiet with pass exception", () => {
-  const spy1 = jest.fn();
-  expect(() => {
-    quiet(() => {
-      throw new Error("BB");
-    });
-  }).toThrowError("BB");
-  notify({ [Updaters]: [spy1] });
-  expect(spy1).toBeCalled();
-});
-
-test("Should work several unsubscribers", () => {
-  const spy1 = jest.fn();
-  const spy2 = jest.fn();
-  const spy3 = jest.fn();
-
-  const obj = {} as any;
-  const u1 = subscribe(obj, spy1);
-  const u2 = subscribe(obj, spy2);
-  const u3 = subscribe(obj, spy3);
-  notify(obj);
-  expect(spy1).toBeCalledTimes(1);
-  expect(spy2).toBeCalledTimes(1);
-  expect(spy3).toBeCalledTimes(1);
-  u3();
-  u1();
-  notify(obj);
-  expect(spy1).toBeCalledTimes(1);
-  expect(spy2).toBeCalledTimes(2);
-  expect(spy3).toBeCalledTimes(1);
-  u2();
-  expect(obj[Updaters].length).toBe(0);
-});
-
-test("Should work values for non store containers", () => {
-  expect(values({a: 10})).toMatchObject({});
-});
-
-test("Should make non store container correctly", () => {
-  class A {}
-  const a = make(A, {});
-  expect(a instanceof A).toBeTruthy();
-});
-
-test("Should work make for different key sets", () => {
-  class A {
-    @store d = "D";
-    @store m = "M";
-  }
-  expect(make(A, {m: "11"})).toMatchObject({d:"D", m:"11"});
-});
-
-test("Should work inititializer in store decorator", () => {
-  const target = {} as any;
-  const descriptor = store(target, "a", { initializer: () => "A" });
-  Object.defineProperty(target, "a", descriptor);
-  expect(target.a).toBe("A");
-  expect(values(target)).toMatchObject({a:"A"});
-});
-
-test("Should throw exception on non string property", () => {
-  expect(() => {
-    store({}, Symbol() as any);
-  }).toThrowError("Only string key supported for store property");
-  expect(() => {
-    store({}, 0 as any);
-  }).toThrowError("Only string key supported for store property");
-});
-
-test("Should pass correct this to inititializer in store decorator", () => {
-  const target = {} as any;
-  const descriptor = store(target, "a", { initializer: function() { return this } });
-  Object.defineProperty(target, "a", descriptor);
-  expect(target.a).toBe(target);
 });

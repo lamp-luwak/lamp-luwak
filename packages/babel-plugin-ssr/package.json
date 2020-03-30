@@ -18,7 +18,7 @@
   "scripts": {
     "build": "npx rollup -c",
     "dev": "npx rollup -cw",
-    "test": "npx jest --coverage",
+    "test": "npx jest",
     "lint": "npx eslint ./src --ext ts && npx eslint ./tests --ext ts",
     "clean": "npx rimraf ./release && npx rimraf ./coverage"
   },

@@ -1,7 +1,5 @@
-import { RootZoneId } from "~/di/consts";
 import {
   provide,
-  resolve,
   resolved,
   override,
   assign,
@@ -9,65 +7,40 @@ import {
   reset,
   zone,
   getZoneId,
-  getInstances,
-  getState
-} from "~/di";
+  instances,
+  getInternalState,
+  RootZoneId
+} from "../src/di";
 
-const { instances, overrides, zoneIndex } = getState();
+const { instancesMap, overridePairs, zoneTreeIndex } = getInternalState();
 
 test("Should be only one instance of provided class", () => {
   class A {
     value = "value";
   }
   class B {
-    @provide a: A;
+    a = provide(A);
   }
   class C {
-    @provide a: A;
+    a = provide(A);
   }
   const b = new B();
   const c = new C();
   expect(b.a.value).toBe("value");
   expect(c.a).toBe(b.a);
-  expect(instances[RootZoneId].size).toBe(1);
+  expect(instancesMap[RootZoneId].size).toBe(1);
 });
 
-test("Should make instance of class only on demand", () => {
-  class A {
-    method() { return 0; }
-  }
-  class B {
-    @provide a: A;
-  }
-  const b = new B();
-  expect(instances[RootZoneId]).toBeUndefined();
-  expect(typeof b.a.method).toBe("function");
-  expect(instances[RootZoneId].size).toBe(1);
-});
-
-test("Should cache getter after first use", () => {
-  class A {}
-  class B {
-    @provide a: A;
-  }
-  const b = new B();
-  const a = b.a;
-  instances[RootZoneId].clear();
-  expect(instances[RootZoneId].size).toBe(0);
-  expect(b.a).toBe(a);
-  expect(instances[RootZoneId].size).toBe(0);
-});
-
-test("Should work resolve function", () => {
+test("Should work provide function", () => {
   class A {}
   class B {}
   class C {
-    @provide a: A;
-    @provide b: B;
+    a = provide(A);
+    b = provide(B);
   }
   const c = new C();
-  expect(resolve(A)).toBe(c.a);
-  const [a, b] = [A, B].map(resolve);
+  expect(provide(A)).toBe(c.a);
+  const [a, b] = [A, B].map(provide);
   expect(a).toBe(c.a);
   expect(b).toBe(c.b);
 });
@@ -76,16 +49,12 @@ test("Should work resolved function", () => {
   class A {}
   class B {}
   class C {
-    @provide a: A;
-    @provide b: B;
+    a = provide(A);
+    b = provide(B);
   }
-  const c = new C();
   expect(resolved(A)).toBeFalsy();
   expect(resolved(B)).toBeFalsy();
-  expect(resolve(A)).toBe(c.a);
-  expect(resolved(A)).toBeTruthy();
-  expect(resolved(B)).toBeFalsy();
-  [A, B].map(resolve);
+  const c = new C();
   expect(resolved(A)).toBeTruthy();
   expect(resolved(B)).toBeTruthy();
 });
@@ -94,11 +63,11 @@ test("Should work with override", () => {
   class A {}
   class A2 extends A {}
   class B {
-    @provide a: A;
+    a = provide(A);
   }
   override(A, A2);
-  expect(overrides[RootZoneId].size).toBe(1);
-  expect(resolve(B).a).toBeInstanceOf(A2);
+  expect(overridePairs[RootZoneId].size).toBe(1);
+  expect(provide(B).a).toBeInstanceOf(A2);
 });
 
 test("Should cache override", () => {
@@ -106,56 +75,48 @@ test("Should cache override", () => {
   class A2 extends A {}
   class A3 extends A2 {}
   class B {
-    @provide a: A;
+    a = provide(A);
   }
   override(A, A2);
   override(A2, A3);
-  expect(overrides[RootZoneId].size).toBe(2);
-  expect(resolve(B).a).toBeInstanceOf(A3);
-  expect(instances[RootZoneId].get(A)).toBeInstanceOf(A3);
-  expect(instances[RootZoneId].get(A2)).toBeInstanceOf(A3);
+  expect(overridePairs[RootZoneId].size).toBe(2);
+  expect(provide(B).a).toBeInstanceOf(A3);
+  expect(instancesMap[RootZoneId].get(A)).toBeInstanceOf(A3);
+  expect(instancesMap[RootZoneId].get(A2)).toBeInstanceOf(A3);
 });
 
 test("Should work cleanup", () => {
   class A {}
   class B {}
   const m = {};
-  expect(resolve(A)).toBeInstanceOf(A);
+  expect(provide(A)).toBeInstanceOf(A);
   assign(B, m);
-  expect(resolve(B)).toBe(m);
-  expect(instances[RootZoneId].size).toBe(2);
+  expect(provide(B)).toBe(m);
+  expect(instancesMap[RootZoneId].size).toBe(2);
   cleanup();
-  expect(instances[RootZoneId]).toBeUndefined();
+  expect(instancesMap[RootZoneId]).toBeUndefined();
 });
 
 test("Should work reset", () => {
   class A {}
   class A2 extends A {}
   override(A, A2);
-  expect(resolve(A)).toBe(resolve(A2));
-  expect(instances[RootZoneId].size).toBe(2);
-  expect(overrides[RootZoneId].size).toBe(1);
+  expect(provide(A)).toBe(provide(A2));
+  expect(instancesMap[RootZoneId].size).toBe(2);
+  expect(overridePairs[RootZoneId].size).toBe(1);
   reset();
-  expect(instances[RootZoneId]).toBeUndefined();
-  expect(overrides[RootZoneId]).toBeUndefined();
+  expect(instancesMap[RootZoneId]).toBeUndefined();
+  expect(overridePairs[RootZoneId]).toBeUndefined();
 });
 
-test("Should work with JS semantic", () => {
-  class A {}
-  class B {
-    @provide(A) a: A;
-  }
-  expect(resolve(B).a).toBeInstanceOf(A);
-});
-
-test("should work resolve with plain values", () => {
+test("should throw exception with plain values", () => {
   const d = new Date();
   const c = {};
-  expect(resolve(null)).toBe(null);
-  expect(resolve("hello")).toBe("hello");
-  expect(resolve(10)).toBe(10);
-  expect(resolve(d)).toBe(d);
-  expect(resolve(c)).toBe(c);
+  expect(() => provide(null as any)).toThrowError("Only function and class supported");
+  expect(() => provide("hello" as any)).toThrowError();
+  expect(() => provide(10 as any)).toThrowError();
+  expect(() => provide(d as any)).toThrowError();
+  expect(() => provide(c as any)).toThrowError();
 });
 
 test("Should work assign", () => {
@@ -166,8 +127,8 @@ test("Should work assign", () => {
   override(A, B);
   assign(A, j);
   assign(E, 10);
-  expect(resolve(E)).toBe(10);
-  const [a, b] = [A, B].map(resolve);
+  expect(provide(E)).toBe(10);
+  const [a, b] = [A, B].map(provide);
   expect(a).toBe(j);
   expect(b).toBe(j);
 });
@@ -179,29 +140,16 @@ test("Should throw error nested zone", async () => {
 });
 
 test("Should work zone with local override", async () => {
-  const spyF = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(2);
-  const F = () => spyF();
-  class A {
-    @provide(F) f: number;
-    getF() {
-      return this.f;
-    }
-  }
-  class B extends A {
-    getF() {
-      return super.getF() + 10;
-    }
-  }
+  class A {}
+  class B extends A {}
   await zone(() => {
     override(A, B);
-    const a = resolve(A);
+    const a = provide(A);
     expect(a).toBeInstanceOf(B);
-    expect(a.getF()).toBe(11);
   });
-  const a = resolve(A);
+  const a = provide(A);
   expect(a).toBeInstanceOf(A);
-  expect(a.f).toBe(2);
-  expect(spyF).toBeCalledTimes(2);
+  expect(a).not.toBeInstanceOf(B);
 });
 
 test("Should throw error in zone", async () => {
@@ -225,7 +173,7 @@ test("Should destroy async context in zone", async () => {
   const spy = jest.fn();
   await zone(() => {
     z1 = getZoneId();
-    expect(zoneIndex[z1]).toBe(z1);
+    expect(zoneTreeIndex[z1]).toBe(z1);
     spy();
   });
   expect(z1).not.toBe(RootZoneId);
@@ -235,7 +183,7 @@ test("Should destroy async context in zone", async () => {
   await new Promise(setTimeout as any);
   await new Promise(setTimeout as any);
   await new Promise(setTimeout as any);
-  expect(zoneIndex[z1]).toBeUndefined();
+  expect(zoneTreeIndex[z1]).toBeUndefined();
   expect(spy).toBeCalled();
 });
 
@@ -253,57 +201,37 @@ test("Should pass zone code in browser", async () => {
 
 test("Should throw error when circular dependency detected", () => {
   class A {
-    @provide(func) f: A;
+    f = provide(func);
     action() { return 0; }
     constructor() {
       this.f.action();
     }
   }
   function func() {
-    return resolve(A);
+    return provide(A);
   }
-  expect(() => resolve(A)).toThrow("Circular dependency detected");
-});
-
-test("Should throw error when reflect metadata is not defined", () => {
-  const _getMetadata = Reflect.getMetadata;
-  (Reflect as any).getMetadata = null;
-  class D {}
-  expect(() => {
-    class A { @provide d: D; }
-  }).toThrowError("Cannot resolve type of dependency by reflect metadata for key \"d\"");
-  (Reflect as any).getMetadata = _getMetadata;
-});
-
-test("Should throw error when decorator metadata is not emitted", () => {
-  const _getMetadata = Reflect.getMetadata;
-  (Reflect as any).getMetadata = () => void 0;
-  class D {}
-  expect(() => {
-    class A { @provide d: D; }
-  }).toThrowError("Cannot resolve type of dependency by reflect metadata for key \"d\"");
-  (Reflect as any).getMetadata = _getMetadata;
+  expect(() => provide(A)).toThrow("Circular dependency detected");
 });
 
 test("Should get instances list correctly", async () => {
   const spy = jest.fn();
   class A {}
   class B {}
-  expect(getInstances().length).toBe(0);
-  const a = resolve(A);
-  expect(getInstances()).toContain(a);
+  expect(instances().length).toBe(0);
+  const a = provide(A);
+  expect(instances()).toContain(a);
   await zone(() => {
-    expect(getInstances().length).toBe(0);
-    const [a, b] = [A, B].map(resolve);
-    expect(getInstances().length).toBe(2);
-    expect(getInstances()).toContain(a);
-    expect(getInstances()).toContain(b);
+    expect(instances().length).toBe(0);
+    const [a, b] = [A, B].map(provide);
+    expect(instances().length).toBe(2);
+    expect(instances()).toContain(a);
+    expect(instances()).toContain(b);
     spy();
   });
   expect(spy).toBeCalled();
-  expect(getInstances().length).toBe(1);
-  expect(getInstances()).toContain(a);
-  const b = resolve(B);
-  expect(getInstances().length).toBe(2);
-  expect(getInstances()).toContain(b);
+  expect(instances().length).toBe(1);
+  expect(instances()).toContain(a);
+  const b = provide(B);
+  expect(instances().length).toBe(2);
+  expect(instances()).toContain(b);
 });

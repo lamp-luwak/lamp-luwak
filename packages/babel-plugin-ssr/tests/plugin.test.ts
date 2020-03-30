@@ -1,8 +1,7 @@
-import { plugin } from "~/plugin";
+import { plugin } from "../src/plugin";
 
 const LIB = "@impress/react";
-const UNIQ_1 = "1B2M2Y8AsgTpgAmY7PhCfg0";
-const UNIQ_2 = "1B2M2Y8AsgTpgAmY7PhCfg1";
+const KEY_A = "1B2M2Y8AsgTpgAmY7PhCfg0";
 
 function transform(code: string) {
   return require("@babel/core").transform(code, {
@@ -12,75 +11,24 @@ function transform(code: string) {
   }).code;
 }
 
-test("Should pass class without decorators", () => {
+test("Should register classes with store property", () => {
   const code = `class A {
-  n = 0;
-  m() {}
+  store = {}
 }`;
   const transformedCode = `class A {
-  n = 0;
+  store = {};
+}
 
-  m() {}
-
-}`;
-
-  expect(transform(code)).toBe(transformedCode);
-});
-
-test("Should pass class with another decorator", () => {
-  const code = `class C {
-  @some c;
-}`;
-
-  const transformedCode = `class C {
-  @some
-  c;
-}`;
-
+require("${LIB}").register(A, "A_${KEY_A}");`;
   expect(transform(code)).toBe(transformedCode);
 });
 
 test("Should work with class expression", () => {
-  const code = `hello(@mut class {
-  @store data;
-});`;
+  const code = "hello(class { store = 0; });";
 
-  const transformedCode = `hello(require("${LIB}").register("${UNIQ_1}", @mut
-class {
-  @store
-  data;
-}));`;
-
-  expect(transform(code)).toBe(transformedCode);
-});
-
-test("Should work with class declaration", () => {
-  const code = `
-@mut
-export class A {
-  @store data;
-}
-class B {
-  @store a;
-  @store b;
-}`;
-
-  const transformedCode = `export @mut
-class A {
-  @store
-  data;
-}
-
-require("${LIB}").register("A_${UNIQ_1}", A);
-
-class B {
-  @store
-  a;
-  @store
-  b;
-}
-
-require("${LIB}").register("B_${UNIQ_2}", B);`;
+  const transformedCode = `hello(require("${LIB}").register(class {
+  store = 0;
+}, "${KEY_A}"));`;
 
   expect(transform(code)).toBe(transformedCode);
 });

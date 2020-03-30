@@ -1,7 +1,7 @@
-import { reset as resetDi } from "~/di";
-import { reset as resetSsr } from "~/ssr";
+import { reset as resetDi } from "./di";
+import { reset as resetSsr } from "./ssr";
 
-export function reset() {
+export const reset = () => {
   resetDi();
   resetSsr();
-}
+};
