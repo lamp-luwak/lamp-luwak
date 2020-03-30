@@ -1,19 +1,23 @@
 import { ObjectMap } from "./types";
 
-function level(store: any, write: (store: any) => void) {
-  if (!store || typeof store === "object") {
+type WithStore<T> = {
+  store: T;
+};
+
+function level(store: any, write: (value: any) => void) {
+  if (!store || typeof store !== "object") {
     throw new Error("Only current value schema supported");
   }
 
   const properties = {} as ObjectMap;
   Object.keys(store).forEach((key) => {
-    const writeKey = (store: any) => write({
+    const writeKey = (value: any) => store = write({
       ...store,
-      [key]: store
+      [key]: value
     });
     properties[key] = {
       get: () => level(store[key], writeKey),
-      set: writeKey as (value: any) => void
+      set: writeKey
     };
   });
   const proxy = {};
@@ -21,7 +25,9 @@ function level(store: any, write: (store: any) => void) {
   return proxy;
 }
 
-export const modify = (self: any, callback?: (context: any) => void) => {
+export function modify<T>(self: WithStore<T>): T;
+export function modify<T>(self: WithStore<T>, callback: (context: T) => void): void;
+export function modify(self: WithStore<any>, callback?: (context: any) => void): any {
   if (callback) {
     let store = self.store;
     const context = level(store, (s) => store = s)
@@ -32,4 +38,4 @@ export const modify = (self: any, callback?: (context: any) => void) => {
   } else {
     return level(self.store, (store) => self.store = store);
   }
-};
+}
