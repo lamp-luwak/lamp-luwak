@@ -1,5 +1,5 @@
 import React from 'react';
-import { useProvide } from "./lib/useProvide";
+import { useProvide } from "@impress/react";
 
 class User {
   store = "John";

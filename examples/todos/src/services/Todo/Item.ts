@@ -1,4 +1,4 @@
-import { provide, action, subscribe, dispatch } from "../../lib/core";
+import { provide, action, subscribe, dispatch } from "@impress/react";
 import { Todo } from "../Todo";
 
 export const ItemChanged = action();

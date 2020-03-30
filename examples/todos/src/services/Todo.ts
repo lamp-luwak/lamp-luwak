@@ -1,4 +1,4 @@
-import { make, subscribe } from "../lib/core";
+import { create, subscribe } from "@impress/react";
 import { Item, RemoveItem } from "./Todo/Item";
 
 export class Todo {
@@ -9,7 +9,7 @@ export class Todo {
   }
 
   append(label: string) {
-    const item = make(Item, { label });
+    const item = create(Item, { label });
     this.store = this.store.concat(item);
   }
 

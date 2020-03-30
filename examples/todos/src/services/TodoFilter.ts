@@ -1,4 +1,4 @@
-import { provide, subscribe } from "../lib/core";
+import { provide, subscribe } from "@impress/react";
 import { Todo } from "./Todo";
 import { Item, ItemCompletedChanged } from "./Todo/Item";
 

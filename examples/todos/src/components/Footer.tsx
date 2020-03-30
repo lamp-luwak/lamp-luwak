@@ -1,13 +1,12 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-import { useProvide } from "../lib/core";
+import { useProvide } from "@impress/react";
 import { Todo } from "../services/Todo";
 import { TodoFilter } from "../services/TodoFilter";
 import { ClearCompletedButton } from "./ClearCompletedButton";
 
 export const Footer = memo(() => {
-  const todo = useProvide(Todo);
-  const todoFilter = useProvide(TodoFilter);
+  const [ todo, todoFilter ] = useProvide([ Todo, TodoFilter ]);
 
   if (todo.isEmpty()) {
     return null;

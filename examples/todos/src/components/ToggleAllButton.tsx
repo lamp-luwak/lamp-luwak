@@ -1,12 +1,10 @@
 import React from "react";
-import { useProvide } from "../lib/core";
+import { useProvide } from "@impress/react";
 import { Todo } from "../services/Todo";
 import { TodoFilter } from "../services/TodoFilter";
 
 export const ToggleAllButton = () => {
-  const todo = useProvide(Todo);
-  const todoFilter = useProvide(TodoFilter);
-
+  const [ todo, todoFilter ] = useProvide([ Todo, TodoFilter ]);
   return (
     <>
       <input

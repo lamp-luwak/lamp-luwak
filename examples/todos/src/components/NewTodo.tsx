@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useProvide } from "../lib/core";
+import { useProvide } from "@impress/react";
 import { EnterKeyCode } from "../lib/consts";
 import { Todo } from "../services/Todo";
 
