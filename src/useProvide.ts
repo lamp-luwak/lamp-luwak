@@ -4,7 +4,6 @@ import { Dep, provide } from "./di";
 import { subscribe } from "./subscriber";
 
 export function useProvide<T>(dep: Dep<T>): T;
-export function useProvide<T>(deps: Dep<T>[]): T[];
 export function useProvide<A>(deps: [Dep<A>]): [A];
 export function useProvide<A,B>(deps: [Dep<A>,Dep<B>]): [A,B];
 export function useProvide<A,B,C>(deps: [Dep<A>,Dep<B>,Dep<C>]): [A,B,C];
