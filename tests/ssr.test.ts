@@ -161,8 +161,14 @@ test("Should pass non class instance in serialize correctly", () => {
   class B {}
   provide(A);
   provide(B);
-  provide(() => void 0);
+  provide(() => ({}));
   expect(serialize()).toEqual([["Array", [["A", 1]]], 10]);
+});
+
+test("Should throw non null exception", () => {
+  expect(() => {
+    provide(() => void 0);
+  }).toThrowError("Only object supported for function return.");
 });
 
 test("Should throw unexistence class id in unserialize", () => {

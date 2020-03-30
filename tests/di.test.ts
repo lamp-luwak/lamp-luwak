@@ -140,29 +140,16 @@ test("Should throw error nested zone", async () => {
 });
 
 test("Should work zone with local override", async () => {
-  const spyF = jest.fn().mockReturnValueOnce(1).mockReturnValueOnce(2);
-  const F = () => spyF();
-  class A {
-    f = provide(F);
-    getF() {
-      return this.f;
-    }
-  }
-  class B extends A {
-    getF() {
-      return super.getF() + 10;
-    }
-  }
+  class A {}
+  class B extends A {}
   await zone(() => {
     override(A, B);
     const a = provide(A);
     expect(a).toBeInstanceOf(B);
-    expect(a.getF()).toBe(11);
   });
   const a = provide(A);
   expect(a).toBeInstanceOf(A);
-  expect(a.f).toBe(2);
-  expect(spyF).toBeCalledTimes(2);
+  expect(a).not.toBeInstanceOf(B);
 });
 
 test("Should throw error in zone", async () => {

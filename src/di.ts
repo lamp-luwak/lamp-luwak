@@ -1,6 +1,7 @@
-import { ObjectMap, ClassType } from "./types";
+import { ObjectMap, ClassType, FuncType } from "./types";
+import { create } from "./store";
 
-export type Dep<T = any> = ClassType<T> | (() => T) | T;
+export type Dep<T = any> = ClassType<T> | FuncType<T>;
 enum DepResolvePhase {
   Start,
   Finish,
@@ -73,13 +74,7 @@ export function provide<T>(dep: Dep<T>): T {
       return instance;
     }
     setResolvePhase(dep, DepResolvePhase.Start);
-    if (typeof dep === "function") {
-      instance = (typeof dep.prototype === "undefined")
-        ? (dep as () => T)()
-        : new (dep as new () => T)();
-    } else {
-      throw new Error("Only function and class supported");
-    }
+    instance = create(dep as any);
     setInstance(dep, instance);
     setResolvePhase(dep, DepResolvePhase.Finish);
   }
