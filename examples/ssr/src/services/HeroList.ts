@@ -1,7 +1,12 @@
 import fetch from 'isomorphic-unfetch'
-import { create, provide, register } from '../lib/core'
+import { provide, register } from '@impress/react'
 import { Config } from './Config'
-import { Hero } from './HeroList/Hero';
+
+export type Hero = {
+  id: string,
+  name: string,
+  saying: string
+}
 
 export class HeroList {
   config = provide(Config);
@@ -40,10 +45,8 @@ export class HeroList {
     const { protocol, host } = this.config.store;
     const response = await fetch(`${protocol}://${host}/api`);
     const data = await response.json();
-    this.setList(
-      data.map((row: any) => create(Hero, row))
-    );
+    this.setList(data);
     this.updateCacheExpires();
   }
 }
-register("HeroList", HeroList);
+register(HeroList, 'HeroList');

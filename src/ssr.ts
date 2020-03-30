@@ -1,6 +1,6 @@
 import { ClassType } from "./types";
 import { create } from "./store";
-import { assign, instances } from "./di";
+import { assign, instances, zone } from "./di";
 
 export const DidUnserialize = Symbol("Did unserialize");
 
@@ -12,6 +12,15 @@ const refInstIndex = new Map<number, object>();
 const refInstSearch = new Map<object, number>();
 let refIncrementalId: number;
 
+export async function ssr(callback: () => Promise<any>) {
+  let data = null;
+  await zone(async () => {
+    await callback();
+    data = serialize();
+  });
+  return data;
+}
+
 export function serialize() {
   try {
     refIncrementalId = 1;
@@ -20,9 +29,7 @@ export function serialize() {
     }
 
     const data: any = [
-      pack(
-        instances().filter((inst) => inst && regClassSearch.has(inst.constructor))
-      ),
+      pack(instances().filter((inst) => inst && regClassSearch.has(inst.constructor))),
     ];
     for (let i = 1; i < refIncrementalId; i++) {
       data.push(refSerializedIndex.get(i));
@@ -58,7 +65,7 @@ export function reset() {
   regClassIndex.clear();
 }
 
-export function register(id: string, Class: ClassType) {
+export function register(Class: ClassType, id: string) {
   regClassIndex.set(id, Class);
 }
 
