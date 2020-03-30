@@ -1,4 +1,4 @@
-import { FileUniqid } from "~/FileUniqid";
+import { FileUniqid } from "../src/FileUniqid";
 
 test("Should generate different value each time", () => {
   const uniqid = new FileUniqid();
