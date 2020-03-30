@@ -1,7 +1,7 @@
 {
   "name": "@impress/react",
   "version": "2.7.2",
-  "description": "Modular Data-View binding mechanism for React",
+  "description": "Modular Data-View mechanism for React",
   "repository": {
     "url": "https://github.com/betula/impress"
   },
@@ -34,9 +34,8 @@
   ],
   "keywords": [
     "react store",
-    "data view binding",
+    "data view",
     "data-view",
-    "data binding",
     "state-manager",
     "state manager",
     "state",
