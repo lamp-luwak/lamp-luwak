@@ -17,18 +17,18 @@ Modular Data-View binding mechanism for React
 ### Example
 
 ```typescript
-import { store, useProvide } from "@impress/react";
+import { useProvide } from "@impress/react";
 
 class User {
-  @store name = "John";
+  store = "John";
 }
 
 const UserNameEditor = React.memo(() => {
   const user = useProvide(User);
   return (
     <input
-      onChange={(e: any) => user.name = e.target.value}
-      value={user.name}
+      onChange={(e: any) => user.store = e.target.value}
+      value={user.store}
     />
   )
 });
