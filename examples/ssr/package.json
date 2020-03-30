@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "clean": "npx rimraf ./.next"
   },
   "dependencies": {
     "isomorphic-unfetch": "3.0.0",
