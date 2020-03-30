@@ -1,4 +1,4 @@
-import { serialize, unserialize, register, DidUnserialize, provide, create } from "../src";
+import { serialize, unserialize, register, DidUnserialize, provide, create, ssr } from "../src";
 import { reset as resetDi, resolved } from "../src/di";
 
 test("Should work serialize", () => {
@@ -213,4 +213,22 @@ test("Should use only one instance of entity in several stores", () => {
   expect(b.store.a1).toBe(b.store.a2);
   expect(b.store.a1.store instanceof M).toBeTruthy();
   expect(b.store.a2.store.store).toBe("M");
+});
+
+test("Should work ssr function", async () => {
+  const spy = jest.fn();
+  class A {
+    store = "A";
+  }
+  register(A, "A");
+  const a1 = provide(A);
+  a1.store = "A1";
+  const data = await ssr(() => {
+    spy();
+    const a2 = provide(A);
+    expect(a2.store).toBe("A");
+    a2.store = "DD";
+  });
+  expect(provide(A).store).toBe("A1");
+  expect(data).toStrictEqual([["Array", [["A", 1]]], "DD"]);
 });

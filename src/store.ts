@@ -1,4 +1,4 @@
-import { ClassType, FuncType } from "./types";
+import { Dep } from "./di";
 import { dispatch } from "./subscriber";
 
 const StoreProperty = "store";
@@ -28,9 +28,7 @@ function configure(inst: any) {
   return inst;
 }
 
-export function create<T>(dep: ClassType<T>, ...args: any[]): T;
-export function create<T>(dep: FuncType<T>, ...args: any[]): T;
-export function create(dep: any, ...args: any[]) {
+export function create<T>(dep: Dep<T>, ...args: any[]): T {
   let inst;
   if (typeof dep !== "function") {
     throw new Error("Only function and class supported");

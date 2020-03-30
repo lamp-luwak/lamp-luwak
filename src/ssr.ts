@@ -1,18 +1,18 @@
-import { ClassType } from "./types";
+import { Dep } from "./di";
 import { create } from "./store";
 import { assign, instances, zone } from "./di";
 
 export const DidUnserialize = Symbol("Did unserialize");
 
-const regClassIndex = new Map<string, ClassType>();
-const regClassSearch = new Map<ClassType, string>();
+const regClassIndex = new Map<string, Dep>();
+const regClassSearch = new Map<Dep, string>();
 
 const refSerializedIndex = new Map<number, object>();
 const refInstIndex = new Map<number, object>();
 const refInstSearch = new Map<object, number>();
 let refIncrementalId: number;
 
-export async function ssr(callback: () => Promise<any>) {
+export async function ssr(callback: () => any) {
   let data = null;
   await zone(async () => {
     await callback();
@@ -65,8 +65,9 @@ export function reset() {
   regClassIndex.clear();
 }
 
-export function register(Class: ClassType, id: string) {
-  regClassIndex.set(id, Class);
+export function register(dep: Dep, id: string) {
+  regClassIndex.set(id, dep);
+  return dep;
 }
 
 function afterSerializeUnserialize() {
@@ -76,8 +77,8 @@ function afterSerializeUnserialize() {
   refInstSearch.clear();
 }
 
-function factory(Class: ClassType, data: any) {
-  const instance = create(Class);
+function factory(dep: Dep, data: any) {
+  const instance = create(dep);
   instance.store = data;
   const fn = instance[DidUnserialize];
   if (fn) {
@@ -96,11 +97,11 @@ function packRef(val: any) {
   return id;
 }
 
-function unpackRef(Class: any, id: any) {
+function unpackRef(dep: Dep, id: any) {
   let inst = refInstIndex.get(id);
   if (!inst) {
     inst = factory(
-      Class,
+      dep,
       unpack(refSerializedIndex.get(id))
     );
     refInstIndex.set(id, inst!);

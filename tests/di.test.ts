@@ -112,11 +112,11 @@ test("Should work reset", () => {
 test("should throw exception with plain values", () => {
   const d = new Date();
   const c = {};
-  expect(() => provide(null)).toThrowError("Only function and class supported");
-  expect(() => provide("hello")).toThrowError();
-  expect(() => provide(10)).toThrowError();
-  expect(() => provide(d)).toThrowError();
-  expect(() => provide(c)).toThrowError();
+  expect(() => provide(null as any)).toThrowError("Only function and class supported");
+  expect(() => provide("hello" as any)).toThrowError();
+  expect(() => provide(10 as any)).toThrowError();
+  expect(() => provide(d as any)).toThrowError();
+  expect(() => provide(c as any)).toThrowError();
 });
 
 test("Should work assign", () => {
