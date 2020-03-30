@@ -6,5 +6,6 @@ export { create } from "./store";
 export { provide, assign, override, cleanup } from "./di";
 export { modify } from "./immutable";
 export { reset } from "./reset";
-export { ssr, serialize, unserialize, register } from "./ssr";
+export { ssr, serialize, unserialize, register, DidUnserialize } from "./ssr";
 export { useUnserialize } from "./useUnserialize";
+export { Subscribe } from "./Subscribe";

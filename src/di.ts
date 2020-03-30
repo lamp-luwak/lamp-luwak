@@ -18,7 +18,7 @@ let asyncHook: any;
 export const getZoneId = (): number => {
   return zoneId;
 }
-export const getState = () => ({
+export const getInternalState = () => ({
   instancesMap, resolvePhases, overridePairs, zoneTreeIndex
 });
 
@@ -78,12 +78,16 @@ export function provide<T>(dep: Dep<T>): T {
         ? (dep as () => T)()
         : new (dep as new () => T)();
     } else {
-      throw new Error("Only function and class available for provide");
+      throw new Error("Only function and class supported");
     }
     setInstance(dep, instance);
     setResolvePhase(dep, DepResolvePhase.Finish);
   }
   return instance;
+}
+
+export function resolved(dep: Dep): boolean {
+  return !!getInstance(dep);
 }
 
 export function override(from: Dep, to: Dep) {
