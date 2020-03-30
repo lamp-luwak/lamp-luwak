@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch'
-import { provide, register } from '@impress/react'
+import { provide } from '@impress/react'
 import { Config } from './Config'
 
 export type Hero = {
@@ -49,4 +49,3 @@ export class HeroList {
     this.updateCacheExpires();
   }
 }
-register(HeroList, 'HeroList');
