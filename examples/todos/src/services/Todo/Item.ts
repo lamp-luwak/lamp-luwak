@@ -1,4 +1,5 @@
 import { provide, action, subscribe, dispatch } from "@impress/react";
+import { uniqid } from "../../lib/uniqid";
 import { Todo } from "../Todo";
 
 export const ItemChanged = action();
@@ -22,7 +23,7 @@ export class Item {
 
   constructor({ label, completed }: Props) {
     this.store = {
-      id: label + new Date(),
+      id: uniqid(),
       label,
       completed: completed || false
     };
