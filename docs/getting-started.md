@@ -59,7 +59,7 @@ const App = () => {
   );
 };
 ```
-[[I need make It in the sandboxcode]]. We use Heroes service as usually immutable store with `add` method who same reducer only modify immutable store.
+[[I need make It in the sandboxcode]]. We use Heroes service as usually immutable store with `add` method who same reducer only modify immutable data.
 
 
 
