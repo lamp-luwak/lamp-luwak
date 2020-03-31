@@ -14,7 +14,7 @@ Modular Data Flow for React
 
 `npm i @impress/react`
 
-### Example
+### Basic Usage
 
 ```typescript
 import { useProvide } from "@impress/react";
@@ -34,5 +34,10 @@ const UserNameEditor = React.memo(() => {
 });
 ```
 
-[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/pedantic-jang-l10nj)
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/basic-usage)
 
+### Todos Example
+
+![Todos example on codesandbox](https://betula.github.io/impress/todos2x.png)
+
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
