@@ -23,6 +23,48 @@ useProvide - react hook for provide and subscribe to service from react componen
 const logger = useProvide(Logger);
 ```
 
+I think here we can start our first app.
+
+```typescript
+type Hero {
+  name: string;
+}
+
+class Heroes {
+  store = [];
+  add(hero: Hero) {
+    this.store = [ ...this.store, hero ];
+  }
+}
+
+const App = () => {
+  const [name, setName] = useState('Isaac Newton');
+  const heroes = useProvide(Heroes);
+  return (
+    <>
+      <ul>
+        {heroes.store.map((hero) =>(
+          <li>{hero.name}</li>
+        ))}
+      </ul>
+      <input
+        onKeyDown={(e) => {
+          if (e.keyCode !== 13) return;
+          heroes.add(name);
+          setName('');
+        }}
+        onChange={(e) => setName(e.target.value)}
+        value={name} />
+    </>
+  );
+};
+```
+[[I need make It in the sandboxcode]]. We use Heroes service as usually immutable store with `add` method who same reducer only modify immutable store.
+
+
+
+----
+
 useSubscribe - react hook for subscribe react component to store or action recieved from props.
 ```typescript
 const App = memo(({ item }) => {
@@ -31,6 +73,8 @@ const App = memo(({ item }) => {
 })
 ```
 
+create -
+
 action -
 
-create -
+dispatch -
