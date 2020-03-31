@@ -49,9 +49,10 @@ const App = () => {
       </ul>
       <input
         onKeyDown={(e) => {
-          if (e.keyCode !== 13) return;
-          heroes.add(name);
-          setName('');
+          if (e.keyCode === 13) {
+            heroes.add(name);
+            setName('');
+          }
         }}
         onChange={(e) => setName(e.target.value)}
         value={name} />
