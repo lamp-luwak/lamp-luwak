@@ -1,8 +1,6 @@
-import { Dep } from "./di";
+import { Dep, provide } from "./di";
 import { create } from "./store";
-import { assign, instances, zone } from "./di";
-
-export const DidUnserialize = Symbol("Did unserialize");
+import { instances as diInstances, zone } from "./di";
 
 const regClassIndex = new Map<string, Dep>();
 const regClassSearch = new Map<Dep, string>();
@@ -21,20 +19,20 @@ export async function ssr(callback: () => any) {
   return data;
 }
 
-export function serialize() {
+export function serialize(instances?: any[]) {
   try {
     refIncrementalId = 1;
     for (const [id, Class] of regClassIndex) {
       regClassSearch.set(Class, id);
     }
-
     const data: any = [
-      pack(instances().filter((inst) => inst && regClassSearch.has(inst.constructor))),
+      (instances || diInstances())
+        .filter((inst) => inst && regClassSearch.has(inst.constructor))
+        .map(pack),
     ];
     for (let i = 1; i < refIncrementalId; i++) {
       data.push(refSerializedIndex.get(i));
     }
-
     afterSerializeUnserialize();
     return data;
   } catch(e) {
@@ -44,21 +42,19 @@ export function serialize() {
 }
 
 export function unserialize(data: any) {
+  if (!data) return;
   try {
     for (let i = 1; i < data.length; i++) {
       refSerializedIndex.set(i, data[i]);
     }
-
-    for (const inst of unpack(data[0])) {
-      assign(inst.constructor, inst);
-    }
+    const instances = data[0].map((ref: any) => unpack(ref, true));
 
     afterSerializeUnserialize();
+    return instances;
   } catch (e) {
     afterSerializeUnserialize();
     throw e;
   }
-
 }
 
 export function reset() {
@@ -77,14 +73,12 @@ function afterSerializeUnserialize() {
   refInstSearch.clear();
 }
 
-function factory(dep: Dep, data: any) {
-  const instance = create(dep);
-  instance.store = data;
-  const fn = instance[DidUnserialize];
-  if (fn) {
-    fn.call(instance);
-  }
-  return instance;
+function factory(dep: Dep, data: any, isService: boolean) {
+  const inst = isService
+    ? provide(dep)
+    : create(dep);
+  inst.store = data;
+  return inst;
 }
 
 function packRef(val: any) {
@@ -97,12 +91,13 @@ function packRef(val: any) {
   return id;
 }
 
-function unpackRef(dep: Dep, id: any) {
+function unpackRef(dep: Dep, id: any, isService: boolean) {
   let inst = refInstIndex.get(id);
   if (!inst) {
     inst = factory(
       dep,
-      unpack(refSerializedIndex.get(id))
+      unpack(refSerializedIndex.get(id)),
+      isService
     );
     refInstIndex.set(id, inst!);
   }
@@ -140,12 +135,12 @@ function pack(val: any): any {
   return val;
 }
 
-function unpack(val: any): any {
+function unpack(val: any, isService = false): any {
   if (Array.isArray(val)) {
     const [ id, value ] = val;
     switch (id) {
       case "Array":
-        return (value as []).map(unpack);
+        return (value as []).map((v) => unpack(v));
       case "Date":
         return new Date(value);
       case "Map":
@@ -155,7 +150,7 @@ function unpack(val: any): any {
     }
     const Class = regClassIndex.get(id);
     if (typeof Class !== "undefined") {
-      return unpackRef(Class, value);
+      return unpackRef(Class, value, isService);
     }
     throw new Error(`Registered class id "${id}" not found`);
   } else if (val && typeof val === "object") {

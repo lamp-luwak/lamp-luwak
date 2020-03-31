@@ -74,7 +74,7 @@ export function provide<T>(dep: Dep<T>): T {
       return instance;
     }
     setResolvePhase(dep, DepResolvePhase.Start);
-    instance = create(dep as any);
+    instance = create(dep);
     setInstance(dep, instance);
     setResolvePhase(dep, DepResolvePhase.Finish);
   }

@@ -12,7 +12,7 @@ test("Should work unserialize with useUnserialize", () => {
     const a = useProvide(A);
     return <p>{a.store}</p>
   };
-  const data = [["Array", [["A", 1]]], "DD"];
+  const data = [[["A", 1]], "DD"];
   const el = mount(<C data={data}/>);
   expect(el.find("p").text()).toBe("DD");
 });

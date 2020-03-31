@@ -1,12 +1,12 @@
-import { provide, action, subscribe, dispatch } from "@impress/react";
+import { action, subscribe, dispatch } from "@impress/react";
 import { uniqid } from "../../lib/uniqid";
-import { Todo } from "../Todo";
 
 export const ItemChanged = action();
 export const ItemCompletedChanged = action();
 export const RemoveItem = action();
 
 type Props = {
+  id?: string,
   label: string;
   completed?: boolean;
 }
@@ -17,15 +17,13 @@ type Store = {
 }
 
 export class Item {
-  todo = provide(Todo);
-
   store: Store;
 
-  constructor({ label, completed }: Props) {
+  constructor(props?: Props) {
     this.store = {
-      id: uniqid(),
-      label,
-      completed: completed || false
+      id: props?.id || uniqid(),
+      label: props?.label || '',
+      completed: props?.completed || false
     };
     subscribe(this, ItemChanged);
     subscribe(this, this.onChange, this);

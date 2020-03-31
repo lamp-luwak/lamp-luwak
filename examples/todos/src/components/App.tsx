@@ -1,10 +1,12 @@
 import React from "react";
 import { useFilterFromRoute } from "../hooks/useFilterFromRoute";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { TodoList } from "./TodoList";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
 
 export const App = () => {
+  useLocalStorage();
   useFilterFromRoute();
 
   return (

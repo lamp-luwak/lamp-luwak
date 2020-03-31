@@ -1,4 +1,4 @@
-import { serialize, unserialize, register, DidUnserialize, provide, create, ssr } from "../src";
+import { serialize, unserialize, register, provide, create, ssr } from "../src";
 import { reset as resetDi, resolved } from "../src/di";
 
 test("Should work serialize", () => {
@@ -9,7 +9,7 @@ test("Should work serialize", () => {
   }
   register(A, "A");
   provide(A);
-  expect(serialize()).toEqual([["Array", [["A", 1]]], {"d": "D"}]);
+  expect(serialize()).toEqual([[["A", 1]], {"d": "D"}]);
 });
 
 test("should work unserialize", () => {
@@ -18,7 +18,7 @@ test("should work unserialize", () => {
   }
   register(A, "A");
   unserialize(
-    [["Array", [["A", 1]]], "DD"]
+    [[["A", 1]], "DD"]
   );
   expect(provide(A).store).toBe("DD");
 });
@@ -34,29 +34,15 @@ test("Should work serialize/unserialize nested stores", () => {
   register(A, "A");
   provide(A).store.store = [1,2,3];
   expect(serialize()).toEqual(
-    [["Array", [["A", 1]]], ["R", 2], ["Array", [1, 2, 3]]]
+    [[["A", 1]], ["R", 2], ["Array", [1, 2, 3]]]
   );
   resetDi();
   expect(provide(A).store.store).toBeUndefined();
+  resetDi();
   unserialize(
-    [["Array", [["A", 1]]], ["R", 2], ["Array", [5, 6, 7]]]
+    [[["A", 1]], ["R", 2], ["Array", [5, 6, 7]]]
   );
   expect(provide(A).store.store).toEqual([5,6,7]);
-});
-
-test("Should work DidSerialize handler", () => {
-  class A {
-    store = "10";
-    m: string;
-    [DidUnserialize]() {
-      this.m = "M" + this.store;
-    }
-  }
-  register(A, "A");
-  unserialize(
-    [["Array", [["A", 1]]], "11"]
-  );
-  expect(provide(A).m).toBe("M11");
 });
 
 test("Should throw error with invalid store data", () => {
@@ -81,24 +67,26 @@ test("Should support standard data structures", () => {
   // null
   provide(A).store = null;
   expect(serialize()).toEqual(
-    [["Array", [["A", 1]]], null]
+    [[["A", 1]], null]
   );
   resetDi();
   expect(provide(A).store).toBeUndefined();
+  resetDi();
   unserialize(
-    [["Array", [["A", 1]]], null]
+    [[["A", 1]], null]
   );
   expect(provide(A).store).toBe(null);
 
   // Array
   provide(A).store = [1,2,3];
   expect(serialize()).toEqual(
-    [["Array", [["A", 1]]], ["Array", [1, 2, 3]]]
+    [[["A", 1]], ["Array", [1, 2, 3]]]
   );
   resetDi();
   expect(provide(A).store).toBeUndefined();
+  resetDi();
   unserialize(
-    [["Array", [["A", 1]]], ["Array", [3, 4, 5]]]
+    [[["A", 1]], ["Array", [3, 4, 5]]]
   );
   expect(provide(A).store).toEqual([3,4,5]);
 
@@ -107,12 +95,13 @@ test("Should support standard data structures", () => {
   const Time = 1581238805000;
   provide(A).store = new Date(date);
   expect(serialize()).toEqual(
-    [["Array", [["A", 1]]], ["Date", Time]]
+    [[["A", 1]], ["Date", Time]]
   );
   resetDi();
   expect(provide(A).store).toBeUndefined();
+  resetDi();
   unserialize(
-    [["Array", [["A", 1]]], ["Date", Time]]
+    [[["A", 1]], ["Date", Time]]
   );
   expect(provide(A).store).toEqual(new Date(date));
 
@@ -122,15 +111,16 @@ test("Should support standard data structures", () => {
   map.set(2, {a: 10});
   provide(A).store = map;
   expect(serialize()).toEqual(
-    [["Array", [["A", 1]]], ["Map", ["Array", [
+    [[["A", 1]], ["Map", ["Array", [
       ["Array", [1, ["Array", [1, 2]]]],
       ["Array", [2, {"a": 10}]]
     ]]]]
   );
   resetDi();
   expect(provide(A).store).toBeUndefined();
+  resetDi();
   unserialize(
-    [["Array", [["A", 1]]], ["Map", ["Array", [
+    [[["A", 1]], ["Map", ["Array", [
       ["Array", [1, ["Array", [1, 2]]]],
       ["Array", [2, {"a": 10}]]
     ]]]]
@@ -144,12 +134,13 @@ test("Should support standard data structures", () => {
   set.add("D");
   provide(A).store = set;
   expect(serialize()).toEqual(
-    [["Array", [["A", 1]]], ["Set", ["Array", [1, 3, "D"]]]]
+    [[["A", 1]], ["Set", ["Array", [1, 3, "D"]]]]
   );
   resetDi();
   expect(provide(A).store).toBeUndefined();
+  resetDi();
   unserialize(
-    [["Array", [["A", 1]]], ["Set", ["Array", [1, 3, "D"]]]]
+    [[["A", 1]], ["Set", ["Array", [1, 3, "D"]]]]
   );
   expect(provide(A).store).toEqual(new Set(set));
   expect(provide(A).store.has("D")).toBeTruthy();
@@ -162,7 +153,7 @@ test("Should pass non class instance in serialize correctly", () => {
   provide(A);
   provide(B);
   provide(() => ({}));
-  expect(serialize()).toEqual([["Array", [["A", 1]]], 10]);
+  expect(serialize()).toEqual([[["A", 1]], 10]);
 });
 
 test("Should throw non null exception", () => {
@@ -176,19 +167,19 @@ test("Should throw unexistence class id in unserialize", () => {
   register(B, "B");
 
   expect(() => {
-    unserialize([["Array", [["A", 1]]], {}]);
+    unserialize([[["A", 1]], {}]);
   }).toThrowError("Registered class id \"A\" not found");
 
   expect(() => {
     unserialize(
-      [["Array", [["B", 1]]], ["__INCORRECT_DATA__"]]
+      [[["B", 1]], ["__INCORRECT_DATA__"]]
     );
   }).toThrowError("Registered class id \"__INCORRECT_DATA__\" not found");
 });
 
 test("Should use only one instance of entity in several stores", () => {
   let b: B;
-  const DATA = [["Array", [["B", 1]]], {"a1": ["A", 2], "a2": ["A", 2]}, ["M", 3], "M"];
+  const DATA = [[["B", 1]], {"a1": ["A", 2], "a2": ["A", 2]}, ["M", 3], "M"];
   class M { store: string; }
   register(M, "M");
   class A { store: M; }
@@ -230,5 +221,9 @@ test("Should work ssr function", async () => {
     a2.store = "DD";
   });
   expect(provide(A).store).toBe("A1");
-  expect(data).toStrictEqual([["Array", [["A", 1]]], "DD"]);
+  expect(data).toStrictEqual([[["A", 1]], "DD"]);
+});
+
+test("Should pass null in unserialize", () => {
+  expect(unserialize(null)).toBeUndefined();
 });

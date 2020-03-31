@@ -16,11 +16,12 @@ export const subscribe = (self: any, subscriber: Subscriber, thisContext?: any) 
     self[Subscribers] = [];
   }
   const subscribers = self[Subscribers] as SubscriberList;
-  if (subscribers.some(([s]) => s === subscriber)) {
+  if (subscribers.some(([s, t]) => s === subscriber && t === thisContext)) {
     throw new Error("Subscriber already attached");
   }
   subscribers.push([subscriber, thisContext]);
   return () => {
-    self[Subscribers] = (self[Subscribers] as SubscriberList).filter(([s]) => s !== subscriber);
+    self[Subscribers] = (self[Subscribers] as SubscriberList)
+      .filter(([s, t]) => !(s === subscriber && t === thisContext));
   }
 }

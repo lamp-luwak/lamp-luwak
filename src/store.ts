@@ -16,10 +16,10 @@ function configure(inst: any) {
       }
     },
     set(value: any) {
-      if (value === this[StoreDataProperty]) {
+      if (value === this[StoreProperty]) {
         return;
       }
-      const prevStoreData = this[StoreDataProperty];
+      const prevStoreData = this[StoreProperty];
       this[StoreDataProperty] = value;
       dispatch(this, value, prevStoreData);
     }

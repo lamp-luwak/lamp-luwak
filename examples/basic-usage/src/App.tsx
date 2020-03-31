@@ -12,6 +12,7 @@ const UserNameEditor = () => {
       <input
         onChange={(e: any) => user.store = e.target.value}
         value={user.store}
+        autoFocus
       />
       <p>Hello {user.store}!</p>
     </>
