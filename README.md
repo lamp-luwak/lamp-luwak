@@ -36,8 +36,8 @@ const UserNameEditor = React.memo(() => {
 
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/basic-usage)
 
-### Todos Example
+### Example
 
-![Todos example on codesandbox](https://betula.github.io/impress/todos2x.png)
+![Todos](https://betula.github.io/impress/todos2x.png)
 
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
