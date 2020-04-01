@@ -44,3 +44,6 @@ const UserNameEditor = () => {
 
 - [Todos in CodeSandbox](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
 
+### License
+
+React is [MIT licensed](./LICENSE).
