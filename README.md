@@ -42,7 +42,7 @@ const UserNameEditor = () => {
 
 ### Examples
 
-- [Todos in CodeSandbox](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
+- [Todos on CodeSandbox](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
 
 ### License
 
