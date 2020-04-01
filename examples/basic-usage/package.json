@@ -13,7 +13,6 @@
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "dev": "react-scripts start",
     "start": "react-scripts start"
   },
   "eslintConfig": {

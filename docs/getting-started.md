@@ -26,18 +26,21 @@ const logger = useProvide(Logger);
 I think here we can start our first app.
 
 ```typescript
-type Hero {
+import React, { useState } from 'react';
+import { useProvide } from '@impress/react';
+
+type Hero = {
   name: string;
 }
 
 class Heroes {
-  store = [];
+  store = [] as Hero[];
   add(hero: Hero) {
     this.store = [ ...this.store, hero ];
   }
 }
 
-const App = () => {
+export const App = () => {
   const [name, setName] = useState('Isaac Newton');
   const heroes = useProvide(Heroes);
   return (
@@ -47,10 +50,12 @@ const App = () => {
           <li>{hero.name}</li>
         ))}
       </ul>
+      Type heroes name and press enter<br/>
       <input
+        autoFocus
         onKeyDown={(e) => {
           if (e.keyCode === 13) {
-            heroes.add(name);
+            heroes.add({ name });
             setName('');
           }
         }}
@@ -60,8 +65,9 @@ const App = () => {
   );
 };
 ```
-[[I need make It in the sandboxcode]]. We use Heroes service as usually immutable store with `add` method who same reducer only modify immutable data.
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/docs/code/heroes)
 
+We use Heroes service as usually immutable store with `add` method who same reducer only modify immutable data.
 
 
 ----

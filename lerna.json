@@ -3,6 +3,7 @@
   "packages": [
     ".",
     "examples/**/*",
+    "docs/code/*",
     "packages/*"
   ],
   "npmClient": "npm",
