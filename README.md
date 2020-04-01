@@ -47,4 +47,4 @@ const UserNameEditor = () => {
 
 ### License
 
-React is [MIT licensed](./LICENSE).
+Impress is [MIT licensed](./LICENSE).
