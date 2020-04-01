@@ -14,7 +14,7 @@ This place is the best place for define default store value.
 
 useProvide - react hook for provide and subscribe to service from react component. Syntax here.
 ```typescript
-const Todo = () => {
+const App = () => {
   const todo = useProvide(Todo);
   // ...
 ```
