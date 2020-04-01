@@ -1,24 +1,33 @@
-import React, { useState } from 'react';
-import { useProvide } from '@impress/react';
+import React from 'react';
+import { useProvide, modify } from '@impress/react';
 
 type Hero = {
   name: string;
 }
 
 class Heroes {
-  store = [] as Hero[];
-  add(hero: Hero) {
-    this.store = [ ...this.store, hero ];
+  store = {
+    list: [] as Hero[],
+    name: 'Isaac Newton'
+  };
+  append() {
+    const { list, name } = this.store;
+    this.store = {
+      list: list.concat({ name }),
+      name: ''
+    }
+  }
+  setName(name: string) {
+    modify(this).name = name;
   }
 }
 
 export const App = () => {
-  const [name, setName] = useState('Isaac Newton');
   const heroes = useProvide(Heroes);
   return (
     <>
       <ul>
-        {heroes.store.map((hero) =>(
+        {heroes.store.list.map((hero) =>(
           <li>{hero.name}</li>
         ))}
       </ul>
@@ -27,12 +36,11 @@ export const App = () => {
         autoFocus
         onKeyDown={(e) => {
           if (e.keyCode === 13) {
-            heroes.add({ name });
-            setName('');
+            heroes.append();
           }
         }}
-        onChange={(e) => setName(e.target.value)}
-        value={name} />
+        onChange={(e) => heroes.setName(e.target.value)}
+        value={heroes.store.name} />
     </>
   );
 };

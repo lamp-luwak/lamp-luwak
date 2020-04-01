@@ -1,1 +1,1 @@
-Basic usage example for impress.
+Code for docs
