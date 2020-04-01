@@ -1,6 +1,6 @@
 {
   "name": "@impress/react",
-  "version": "3.1.2",
+  "version": "3.1.3",
   "description": "Modular Data Flow for React",
   "repository": {
     "url": "https://github.com/betula/impress"
