@@ -14,10 +14,6 @@ Modular Data Flow for React
 
 `npm i @impress/react`
 
-### Documentation
-
-  - [Getting Started](./docs/getting-started.md)
-
 ### Basic Usage
 
 ```typescript
@@ -39,6 +35,10 @@ const UserNameEditor = React.memo(() => {
 ```
 
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/basic-usage)
+
+### Documentation
+
+  - [Getting Started](./docs/getting-started.md)
 
 ### Example
 
