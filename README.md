@@ -23,7 +23,7 @@ class User {
   store = "John";
 }
 
-const UserNameEditor = React.memo(() => {
+const UserNameEditor = () => {
   const user = useProvide(User);
   return (
     <input
@@ -31,7 +31,7 @@ const UserNameEditor = React.memo(() => {
       value={user.store}
     />
   )
-});
+};
 ```
 
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/basic-usage)
