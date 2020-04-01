@@ -75,14 +75,6 @@ We use the instance of Heroes class as a usually immutable store with two method
 - `add` method who same as reducer only modify immutable data. Add new hero to heroes list, and reset text in the inputbox after.
 - And `setName` method who same as reducer too as well as the previous method. It uses `modify` method, who using current structure of store, and give a possibility to edit immutable data as a usual assignment, no more, only kind of syntax for updating immutable data.
 
-provide - Its a function that return a single instantiated instance of any class or function factory.
-```typescript
-export class Todo {
-  logger = provide(Logger);
-}
-```
-Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - "service".
-
 useSubscribe - react hook for subscribe react component to store or action recieved from props.
 ```typescript
 const App = memo(({ item }) => {
@@ -90,6 +82,14 @@ const App = memo(({ item }) => {
   // ...
 })
 ```
+
+provide - Its a function that return a single instantiated instance of any class or function factory.
+```typescript
+export class Todo {
+  logger = provide(Logger);
+}
+```
+Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - "service". Already we can make app with multiple services with links between them.
 
 create -
 
