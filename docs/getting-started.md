@@ -1,6 +1,6 @@
 ### Getting Started
 
-Today we ask about impress. For a first - store.
+Today we talk about impress. For a first - store.
 
 Store - Its a usually class (better) or function factory, with `store` property.
 ```typescript
@@ -109,7 +109,7 @@ export const App = () => {
 
 We can use the single instance of `Heroes` class in any place of our application. And each use of `useProvide` hook makes a binding between called hook component and instance of Heroes class. After instantiating Class through `useProvide` or `create`, it changes `store` property. Now `store` is getter/setter who updates all linked react components on each self-value change.
 
-useSubscribe - react hook for subscribe react component to store or action recieved from props.
+`useSubscribe` - react hook for subscribe react component to store or action recieved from props.
 ```typescript
 const App = memo(({ item }) => {
   useSubscribe(item);
@@ -117,18 +117,20 @@ const App = memo(({ item }) => {
 })
 ```
 
-provide - Its a function that return a single instantiated instance of any class or function factory.
+`provide` - Its a function that return a single instantiated instance of any class or function factory with performed `store` property.
 ```typescript
 export class Todo {
   logger = provide(Logger);
 }
 ```
-Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - "service". Already we can make app with multiple services with links between them.
+Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - _service_. Already we can make app with multiple services with relations between them.
 
-create -
+`create` -
 
-action -
+`action` -
 
-dispatch -
+`dispatch` -
 
-modify -
+`subscribe` -
+
+`modify` -

@@ -1,7 +1,7 @@
 {
   "name": "@impress/react",
   "version": "3.1.3",
-  "description": "Modular Data Flow for React",
+  "description": "Modular state manager for React",
   "repository": {
     "url": "https://github.com/betula/impress"
   },
@@ -32,6 +32,7 @@
     "Sergey Sova <mail@sergeysova.com> (https://sergeysova.com)"
   ],
   "keywords": [
+    "modular state manager",
     "react store",
     "data view",
     "data-view",
@@ -42,7 +43,8 @@
     "state manager",
     "state",
     "store",
-    "flux"
+    "flux",
+    "modular"
   ],
   "source": "./src/index.ts",
   "main": "./release/index.js",
