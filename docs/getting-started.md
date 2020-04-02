@@ -4,7 +4,7 @@ Today we talk about impress. For a first - store.
 
 Store - Its a usually class (better) or function factory, with `store` property.
 ```typescript
-export class Todo {
+class Todo {
   store = [];
 }
 ```
