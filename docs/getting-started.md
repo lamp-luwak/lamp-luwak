@@ -1,7 +1,5 @@
 ### Getting Started
 
-Hi, Guys.
-
 Today we ask about impress. For a first - store.
 
 Store - Its a usually class (better) or function factory, with "store" property.
