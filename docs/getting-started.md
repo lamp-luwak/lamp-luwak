@@ -2,7 +2,7 @@
 
 Today we ask about impress. For a first - store.
 
-Store - Its a usually class (better) or function factory, with "store" property.
+Store - Its a usually class (better) or function factory, with `store` property.
 ```typescript
 export class Todo {
   store = [];
@@ -10,7 +10,7 @@ export class Todo {
 ```
 This place is the best place for define default store value.
 
-useProvide - react hook for provide and subscribe to service from react component. Syntax here.
+`useProvide` - react hook for provide and subscribe to service from react component. Syntax here.
 ```typescript
 const App = () => {
   const todo = useProvide(Todo);
@@ -72,6 +72,42 @@ export const App = () => {
 We use the instance of Heroes class as a usually immutable store with two methods:
 - `add` method who same as reducer only modify immutable data. Add new hero to heroes list, and reset text in the inputbox after.
 - And `setName` method who same as reducer too as well as the previous method. It uses `modify` method, who using current structure of store, and give a possibility to edit immutable data as a usual assignment, no more, only kind of syntax for updating immutable data.
+
+For a deeper understanding of using `useProvide` we can separate `App` to two components. The code below has an equal effect as a previous code.
+```typescript
+const List = React.memo(() => {
+  const heroes = useProvide(Heroes);
+  return (
+    <ul>
+      {heroes.store.list.map((hero) =>(
+        <li>{hero.name}</li>
+      ))}
+    </ul>
+  );
+});
+
+export const App = () => {
+  const heroes = useProvide(Heroes);
+  return (
+    <>
+      <List />
+      Type heroes name and press enter<br/>
+      <input
+        autoFocus
+        onKeyDown={(e) => {
+          if (e.keyCode === 13) {
+            heroes.append();
+          }
+        }}
+        onChange={(e) => heroes.setName(e.target.value)}
+        value={heroes.store.name} />
+    </>
+  );
+};
+```
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/docs/code/heroes-2)
+
+We can use the single instance of `Heroes` class in any place of our application. And each use of `useProvide` hook makes a binding between called hook component and instance of Heroes class. After instantiating Class through `useProvide` or `create`, it changes `store` property. Now `store` is getter/setter who updates all linked react components on each self-value change.
 
 useSubscribe - react hook for subscribe react component to store or action recieved from props.
 ```typescript

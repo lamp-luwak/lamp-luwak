@@ -25,7 +25,7 @@ const Home = ({ data }: any) => {
   return (
     <>
       <Head>
-        <title>Ssr</title>
+        <title>examples/ssr</title>
       </Head>
       <header>
         <nav>
