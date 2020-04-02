@@ -1,6 +1,6 @@
 {
   "name": "ssr",
-  "version": "3.1.3",
+  "version": "3.1.4",
   "private": true,
   "scripts": {
     "dev": "next",
@@ -8,8 +8,8 @@
     "clean": "npx rimraf ./.next"
   },
   "dependencies": {
-    "@impress/babel-plugin-ssr": "^3.1.3",
-    "@impress/react": "^3.1.3",
+    "@impress/babel-plugin-ssr": "^3.1.4",
+    "@impress/react": "^3.1.4",
     "isomorphic-unfetch": "3.0.0",
     "next": "latest",
     "react": "^16.13.1",
