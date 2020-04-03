@@ -53,9 +53,7 @@
   "sideEffects": false,
   "files": [
     "/release",
-    "/src",
-    "/jest-cleanup-after-each.js",
-    "/README.md"
+    "/jest-cleanup-after-each.js"
   ],
   "browser": {
     "async_hooks": false
