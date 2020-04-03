@@ -4,7 +4,7 @@
 
 ![@impress/react logo](https://betula.github.io/impress/logo.png)
 
-Modular state manager for React
+Modular state management system for React
 
 [![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react) [![build status](https://img.shields.io/github/workflow/status/betula/impress/Tests?style=flat-square)](https://github.com/betula/impress/actions?workflow=Tests) [![code coverage](https://img.shields.io/coveralls/github/betula/impress?style=flat-square)](https://coveralls.io/github/betula/impress)
 
@@ -37,14 +37,14 @@ const UserNameEditor = () => {
 
 ### Introduction
 
-Modular state manager for React. You can organize the code of your application by service-stores. Single instantiated classes with a store inside at any place of your app code.
+Multistore state manager with service ideology for React. You can organize the code of your application by service-stores. Single instantiated classes with a store inside at any place of your app code.
 
 - Service-oriented and multistore architecture
 - Update view components only dependent of changed stores
 - Data flow instruments
 - Server side rendering (SSR)
-- Possibility to make separated modules
-- Minimal abstraction,
+- Possibility to make independent modules
+- Minimal abstraction
 - Lightweight (~2Kb)
 - Minimum init page CPU time
 - Designed by React hooks coding style
@@ -56,7 +56,7 @@ Modular state manager for React. You can organize the code of your application b
 ### Examples
 
 - [Todos on CodeSandbox](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
-- [Server side rendering](https://github.com/betula/impress/tree/master/examples/ssr)
+- [Server side rendering example](https://github.com/betula/impress/tree/master/examples/ssr)
 
 ### License
 
