@@ -42,7 +42,7 @@ Modular state manager for React. You can organize the code of your application b
 - Service-oriented and multistore architecture
 - Update view components only dependent of changed stores
 - Data flow instruments
-- server-side rendering (SSR)
+- Server side rendering (SSR)
 - Possibility to make separated modules
 - Minimal abstraction,
 - Lightweight (~2Kb)
@@ -56,7 +56,7 @@ Modular state manager for React. You can organize the code of your application b
 ### Examples
 
 - [Todos on CodeSandbox](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
-- [Server Side Rendering](https://github.com/betula/impress/tree/master/examples/ssr)
+- [Server side rendering](https://github.com/betula/impress/tree/master/examples/ssr)
 
 ### License
 
