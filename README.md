@@ -40,7 +40,7 @@ const UserNameEditor = () => {
 Modular state manager for React. You can organize the code of your application by service-stores. Single instantiated classes with a store inside at any place of your app code.
 
 - Service-oriented and multistore architecture
-- Update only dependent on changed stores view components
+- Update view components only dependent of changed stores
 - Data flow instruments
 - server-side rendering (SSR)
 - Possibility to make separated modules
