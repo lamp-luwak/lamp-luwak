@@ -17,10 +17,10 @@ Modular state manager for React
 ### Basic Usage
 
 ```typescript
-import { useProvide } from "@impress/react";
+import { useProvide } from '@impress/react';
 
 class User {
-  store = "John";
+  store = 'John';
 }
 
 const UserNameEditor = () => {
