@@ -4,11 +4,15 @@ import pkg, { peerDependencies } from "./package.json";
 
 export default {
   input: pkg.source,
-  output: {
+  output: [{
     file: pkg.main,
     format: "cjs",
     sourcemap: true,
-  },
+  },{
+    file: pkg.module,
+    format: "es",
+    sourcemap: true,
+  }],
   external: Object.keys(peerDependencies),
   plugins: [
     typescript({

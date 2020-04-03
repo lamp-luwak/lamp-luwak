@@ -48,7 +48,9 @@
   ],
   "source": "./src/index.ts",
   "main": "./release/index.js",
+  "module": "./release/index.esm.js",
   "types": "./release/index.d.ts",
+  "sideEffects": false,
   "files": [
     "/release",
     "/src",
