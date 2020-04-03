@@ -1,7 +1,7 @@
 {
   "name": "@impress/react",
   "version": "3.1.5",
-  "description": "Modular state manager for React",
+  "description": "Modular state management for React",
   "repository": {
     "url": "https://github.com/betula/impress"
   },
