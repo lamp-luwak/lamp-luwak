@@ -2,7 +2,7 @@
 
 Today we talk about impress. For a first - store.
 
-Store - Its a usually class (better) or function factory, with `store` property.
+Store - Its a usually class (better) or function factory returns object with `store` property.
 ```typescript
 class Todo {
   store = [];
