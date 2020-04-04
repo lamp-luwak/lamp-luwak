@@ -32,13 +32,14 @@
     "Sergey Sova <mail@sergeysova.com> (https://sergeysova.com)"
   ],
   "keywords": [
-    "modular state manager",
+    "modular state management",
     "react store",
     "data view",
     "data-view",
     "data flow",
     "data-flow",
     "react data flow",
+    "state management",
     "state-manager",
     "state manager",
     "state",
