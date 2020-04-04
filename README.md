@@ -46,7 +46,6 @@ Multistore state management with service ideology and module architecture for Re
 - Possibility to make independent modules
 - Minimal abstraction
 - Lightweight (~2Kb)
-- Minimum init page CPU time
 - Designed by React hooks coding style
 - TypeScript supported
 
