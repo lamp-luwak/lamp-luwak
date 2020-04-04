@@ -125,12 +125,32 @@ export class Todo {
 ```
 Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - _service_. Already we can make app with multiple services with relations between them.
 
-`create` -
+`create` - Create new instance of store Class or function factory. And make the property `store`, on it change possible to subscribe.
+```typescript
+const entity = creact(Entity);
+```
 
-`action` -
+`action` - Create new object - Action. You can dispatch action or subscribe on It.
+```typescript
+import { action, subscribe, dispatch } from '@impress/react';
 
-`dispatch` -
+const RemoveItem = action();
+subscribe(RemoveItem, (item) => console.log(item));
+dispatch(RemoveItem, {id: 1});
+```
 
-`subscribe` -
+`dispatch` - Run all subscribed functions and pass arguments to calling subscribers.
 
-`modify` -
+`subscribe` - Subscribe function to object. Subscribed function will be called each `dispatch` call. Subscribed function can get all arguments whan passed to `dispatch` call.
+
+`modify` - Helper for modify immutable data.
+```typescript
+  const Hero {
+    store = {
+      name: ''
+    }
+  }
+  const hero = create(Hero);
+  modify(hero).name = 'Ganesha';
+```
+Its mean, that will be created new plain object in `store` property with new name value.
