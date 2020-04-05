@@ -2,7 +2,7 @@
 
 # lamp-luwak
 
-![lamp-luwak logo](https://betula.github.io/lamp-luwak/logo.png)
+![lamp-luwak logo](https://betula.github.io/lamp-luwak/logo-sm.png)
 
 Modular state management for React
 
