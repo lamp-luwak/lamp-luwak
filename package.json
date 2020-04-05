@@ -32,20 +32,14 @@
     "Sergey Sova <mail@sergeysova.com> (https://sergeysova.com)"
   ],
   "keywords": [
-    "modular state management",
-    "react store",
-    "data view",
-    "data-view",
-    "data flow",
-    "data-flow",
-    "react data flow",
-    "state management",
-    "state-manager",
-    "state manager",
-    "state",
-    "store",
-    "flux",
-    "modular"
+    "react-store",
+    "state-management",
+    "dispatcher",
+    "dependency-injection",
+    "action",
+    "modular",
+    "service-architecture",
+    "service-oriented"
   ],
   "source": "./src/index.ts",
   "main": "./release/index.js",
