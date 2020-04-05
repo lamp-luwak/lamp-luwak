@@ -1,7 +1,7 @@
 {
-  "name": "@impress/babel-plugin-ssr",
+  "name": "babel-plugin-react-sonata",
   "version": "3.1.5",
-  "description": "Babel plugin for Impress automatic SSR",
+  "description": "Babel plugin for automatic SSR",
   "repository": {
     "url": "https://github.com/betula/impress"
   },

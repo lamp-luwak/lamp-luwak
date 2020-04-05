@@ -1,8 +1,8 @@
 <div align="center">
 
-# @impress/react
+# react-sonata
 
-![@impress/react logo](https://betula.github.io/impress/logo.png)
+![react-sonata logo](https://betula.github.io/impress/logo.png)
 
 Modular state management for React
 
@@ -12,12 +12,12 @@ Modular state management for React
 
 ### Install
 
-`npm i @impress/react`
+`npm i react-sonata`
 
 ### Basic Usage
 
 ```typescript
-import { useProvide } from '@impress/react';
+import { useProvide } from 'react-sonata';
 
 class User {
   store = 'John';

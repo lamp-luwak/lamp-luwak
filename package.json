@@ -1,5 +1,5 @@
 {
-  "name": "@impress/react",
+  "name": "react-sonata",
   "version": "3.1.5",
   "description": "Modular state management for React",
   "repository": {

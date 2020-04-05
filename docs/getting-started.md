@@ -153,4 +153,4 @@ dispatch(RemoveItem, {id: 1});
   const hero = create(Hero);
   modify(hero).name = 'Ganesha';
 ```
-Its mean, that will be created new plain object in `store` property with new name value.
+This means that creating new plain object in `store` property with new name value.
