@@ -1,12 +1,12 @@
 {
   "name": "heroes",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "private": true,
   "dependencies": {
-    "lamp-luwak": "^3.1.5",
     "@types/node": "^13.7.0",
     "@types/react": "^16.9.26",
     "@types/react-dom": "^16.9.5",
+    "lamp-luwak": "^3.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",

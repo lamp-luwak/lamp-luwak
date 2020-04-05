@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-lamp-luwak",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "description": "Babel plugin for automatic SSR",
   "repository": {
     "url": "https://github.com/betula/lamp-luwak"
@@ -30,13 +30,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
-    "lamp-luwak": "^3.1.5",
     "@types/jest": "^25.1.1",
     "@types/node": "^13.7.0",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "eslint": "^6.8.0",
     "jest": "^25.1.0",
+    "lamp-luwak": "^3.2.0",
     "rollup": "^1.31.0",
     "rollup-plugin-typescript2": "^0.25.3",
     "ts-jest": "^25.1.0",
