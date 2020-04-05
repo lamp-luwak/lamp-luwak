@@ -1,5 +1,5 @@
 import React from 'react';
-import { useProvide, modify } from '@impress/react';
+import { useProvide, modify } from 'lamp-luwak';
 
 type Hero = {
   name: string;

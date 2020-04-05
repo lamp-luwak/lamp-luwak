@@ -1,23 +1,23 @@
 <div align="center">
 
-# react-sonata
+# lamp-luwak
 
-![react-sonata logo](https://betula.github.io/impress/logo.png)
+![lamp-luwak logo](https://betula.github.io/lamp-luwak/logo.png)
 
 Modular state management for React
 
-[![npm](https://img.shields.io/npm/v/@impress/react?style=flat-square)](https://www.npmjs.com/package/@impress/react) ![npm type definitions](https://img.shields.io/npm/types/@impress/react?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/@impress/react?style=flat-square)](https://bundlephobia.com/result?p=@impress/react) [![build status](https://img.shields.io/github/workflow/status/betula/impress/Tests?style=flat-square)](https://github.com/betula/impress/actions?workflow=Tests) [![code coverage](https://img.shields.io/coveralls/github/betula/impress?style=flat-square)](https://coveralls.io/github/betula/impress)
+[![npm](https://img.shields.io/npm/v/lamp-luwak?style=flat-square)](https://www.npmjs.com/package/lamp-luwak) ![npm type definitions](https://img.shields.io/npm/types/lamp-luwak?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/lamp-luwak?style=flat-square)](https://bundlephobia.com/result?p=lamp-luwak) [![build status](https://img.shields.io/github/workflow/status/betula/lamp-luwak/Tests?style=flat-square)](https://github.com/betula/lamp-luwak/actions?workflow=Tests) [![code coverage](https://img.shields.io/coveralls/github/betula/lamp-luwak?style=flat-square)](https://coveralls.io/github/betula/lamp-luwak)
 
 </div>
 
 ### Install
 
-`npm i react-sonata`
+`npm i lamp-luwak`
 
 ### Basic Usage
 
 ```typescript
-import { useProvide } from 'react-sonata';
+import { useProvide } from 'lamp-luwak';
 
 class User {
   store = 'John';
@@ -33,7 +33,7 @@ const UserNameEditor = () => {
   )
 };
 ```
-[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/examples/basic-usage)
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/examples/basic-usage)
 
 ### Introduction
 
@@ -55,9 +55,9 @@ Multistore state management with service ideology and module architecture for Re
 
 ### Examples
 
-- [Todos on CodeSandbox](https://codesandbox.io/s/github/betula/impress/tree/master/examples/todos)
-- [Server side rendering example](https://github.com/betula/impress/tree/master/examples/ssr)
+- [Todos on CodeSandbox](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/examples/todos)
+- [Server side rendering example](https://github.com/betula/lamp-luwak/tree/master/examples/ssr)
 
 ### License
 
-Impress is [MIT licensed](./LICENSE).
+Lamp Luwak is [MIT licensed](./LICENSE).

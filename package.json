@@ -1,12 +1,12 @@
 {
-  "name": "react-sonata",
+  "name": "lamp-luwak",
   "version": "3.1.5",
   "description": "Modular state management for React",
   "repository": {
-    "url": "https://github.com/betula/impress"
+    "url": "https://github.com/betula/lamp-luwak"
   },
   "bugs": {
-    "url": "https://github.com/betula/impress/issues"
+    "url": "https://github.com/betula/lamp-luwak/issues"
   },
   "license": "MIT",
   "scripts": {

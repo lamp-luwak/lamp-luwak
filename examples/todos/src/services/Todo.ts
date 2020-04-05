@@ -1,4 +1,4 @@
-import { create, subscribe } from "@impress/react";
+import { create, subscribe } from "lamp-luwak";
 import { Item, RemoveItem } from "./Todo/Item";
 
 export class Todo {

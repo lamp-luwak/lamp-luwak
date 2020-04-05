@@ -1,4 +1,4 @@
-import { action, subscribe, dispatch } from "@impress/react";
+import { action, subscribe, dispatch } from "lamp-luwak";
 import { uniqid } from "../../lib/uniqid";
 
 export const ItemChanged = action();

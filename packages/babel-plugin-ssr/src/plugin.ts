@@ -1,8 +1,8 @@
 import { types as t, template } from "@babel/core";
 import { FileUniqid } from "./FileUniqid";
 
-const PluginName = "@impress/babel-plugin-ssr";
-const LibPath = "@impress/react";
+const PluginName = "babel-plugin-lamp-luwak";
+const LibPath = "lamp-luwak";
 const RegClassFunc = "register";
 
 const regClassSet = new WeakSet();

@@ -1,4 +1,4 @@
-import { provide, subscribe } from "@impress/react";
+import { provide, subscribe } from "lamp-luwak";
 import { Todo } from "./Todo";
 import { Item, ItemCompletedChanged } from "./Todo/Item";
 

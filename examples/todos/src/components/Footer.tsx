@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
-import { useProvide } from "@impress/react";
+import { useProvide } from "lamp-luwak";
 import { Todo } from "../services/Todo";
 import { TodoFilter } from "../services/TodoFilter";
 import { ClearCompletedButton } from "./ClearCompletedButton";

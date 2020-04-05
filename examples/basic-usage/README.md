@@ -1,1 +1,1 @@
-Basic usage example for impress.
+Basic usage example for lamp-luwak.

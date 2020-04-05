@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSubscribe } from "@impress/react";
+import { useSubscribe } from "lamp-luwak";
 import { EnterKeyCode } from "../lib/consts";
 import { useClickAway } from "../lib/useClickAway";
 import { Item as TodoItemType } from "../services/Todo/Item";

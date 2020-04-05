@@ -4,6 +4,6 @@
     "@zeit/next-typescript/babel"
   ],
   "plugins": [
-    "@impress/babel-plugin-ssr"
+    "babel-plugin-lamp-luwak"
   ]
 }

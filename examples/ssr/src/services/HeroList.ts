@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch'
-import { provide } from '@impress/react'
+import { provide } from 'lamp-luwak'
 import { Config } from './Config'
 
 export type Hero = {

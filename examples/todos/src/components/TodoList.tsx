@@ -1,5 +1,5 @@
 import React from "react";
-import { useProvide } from "@impress/react";
+import { useProvide } from "lamp-luwak";
 import { Todo } from "../services/Todo";
 import { TodoItem } from "./TodoItem";
 import { TodoFilter } from "../services/TodoFilter";

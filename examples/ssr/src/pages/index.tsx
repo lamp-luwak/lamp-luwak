@@ -1,7 +1,7 @@
 import React from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { ssr, useUnserialize, provide, useProvide } from '@impress/react'
+import { ssr, useUnserialize, provide, useProvide } from 'lamp-luwak'
 import { HeroList } from '../services/HeroList'
 
 const List = () => {

@@ -1,6 +1,6 @@
 ### Getting Started
 
-Today we talk about impress. For a first - store.
+Today we talk about lamp-luwak. For a first - store.
 
 Store - Its a usually class (better) or function factory returns object with `store` property.
 ```typescript
@@ -21,7 +21,7 @@ I think here we can start our first app.
 
 ```typescript
 import React from 'react';
-import { useProvide, modify } from '@impress/react';
+import { useProvide, modify } from 'lamp-luwak';
 
 type Hero = {
   name: string;
@@ -67,7 +67,7 @@ export const App = () => {
   );
 };
 ```
-[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/docs/code/heroes)
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/heroes)
 
 We use the instance of Heroes class as a usually immutable store with two methods:
 - `add` method who same as reducer only modify immutable data. Add new hero to heroes list, and reset text in the inputbox after.
@@ -105,7 +105,7 @@ export const App = () => {
   );
 };
 ```
-[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/impress/tree/master/docs/code/heroes-2)
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/heroes-2)
 
 We can use the single instance of `Heroes` class in any place of our application. And each use of `useProvide` hook makes a binding between called hook component and instance of Heroes class. After instantiating Class through `useProvide` or `create`, it changes `store` property. Now `store` is getter/setter who updates all linked react components on each self-value change.
 
@@ -132,7 +132,7 @@ const entity = creact(Entity);
 
 `action` - Create new object - Action. You can dispatch action or subscribe on It.
 ```typescript
-import { action, subscribe, dispatch } from '@impress/react';
+import { action, subscribe, dispatch } from 'lamp-luwak';
 
 const RemoveItem = action();
 subscribe(RemoveItem, (item) => console.log(item));

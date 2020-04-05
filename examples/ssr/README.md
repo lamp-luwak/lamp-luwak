@@ -1,1 +1,1 @@
-Ssr example for impress.
+Ssr example for lamp-luwak.

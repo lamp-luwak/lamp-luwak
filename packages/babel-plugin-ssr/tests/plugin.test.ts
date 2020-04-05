@@ -1,6 +1,6 @@
 import { plugin } from "../src/plugin";
 
-const LIB = "@impress/react";
+const LIB = "lamp-luwak";
 const KEY_A = "1B2M2Y8AsgTpgAmY7PhCfg0";
 
 function transform(code: string) {
