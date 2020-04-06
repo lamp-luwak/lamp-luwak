@@ -16,10 +16,7 @@ Multistore state management with service ideology and module architecture for Re
 
 - Service-oriented and multistore architecture
 - Update view components only dependent of changed stores
-- Data flow instruments
 - Server side rendering (SSR)
-- Possibility to make independent modules
-- Minimal abstraction
 - Lightweight (~2Kb)
 - Designed by React hooks coding style
 - TypeScript supported
