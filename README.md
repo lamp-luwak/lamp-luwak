@@ -27,7 +27,7 @@ const UserNameEditor = () => {
   const user = useProvide(User);
   return (
     <input
-      onChange={e => user.store = e.target.value}
+      onChange={(e) => user.store = e.target.value}
       value={user.store}
     />
   )

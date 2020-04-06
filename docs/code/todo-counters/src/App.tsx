@@ -60,8 +60,8 @@ const List = () => {
   return (
     <ul>
       {items.map(item => (
-        <li>
-          <Text key={item.id} onClick={() => todo.toggle(item)} lineThrough={item.completed}>
+        <li key={item.id}>
+          <Text onClick={() => todo.toggle(item)} lineThrough={item.completed}>
             {item.label}
           </Text>
         </li>
