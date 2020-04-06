@@ -1,5 +1,5 @@
 import { Dep, provide } from "./di";
-import { create } from "./store";
+import { create, Factory } from "./store";
 import { instances as diInstances, zone } from "./di";
 
 const regClassIndex = new Map<string, Dep>();
@@ -25,13 +25,15 @@ export function serialize(instances?: any[]) {
     for (const [id, Class] of regClassIndex) {
       regClassSearch.set(Class, id);
     }
-    const data: any = [
+    const data = [
       (instances || diInstances())
-        .filter((inst) => inst && regClassSearch.has(inst.constructor))
-        .map(pack),
+      .filter((inst) => inst &&
+        (regClassSearch.has(inst.constructor) || regClassSearch.has(inst[Factory]))
+      )
+      .map(pack)
     ];
     for (let i = 1; i < refIncrementalId; i++) {
-      data.push(refSerializedIndex.get(i));
+      data.push(refSerializedIndex.get(i) as any);
     }
     afterSerializeUnserialize();
     return data;
@@ -117,7 +119,7 @@ function pack(val: any): any {
       case Set:
         return ["Set", pack([...(val as Set<any>).values()])];
     }
-    const id = regClassSearch.get(Ctor);
+    const id = regClassSearch.get(Ctor) || regClassSearch.get(val[Factory]);
     if (typeof id !== "undefined") {
       return [id, packRef(val)];
     }

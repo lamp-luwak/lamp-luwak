@@ -227,3 +227,10 @@ test("Should work ssr function", async () => {
 test("Should pass null in unserialize", () => {
   expect(unserialize(null)).toBeUndefined();
 });
+
+test("Should work function factory service with ssr", () => {
+  const A = () => ({ store: "A" });
+  register(A, "A");
+  provide(A);
+  expect(serialize()).toEqual([[["A", 1]], "A"]);
+});

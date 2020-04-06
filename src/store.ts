@@ -3,6 +3,7 @@ import { dispatch } from "./subscriber";
 
 const StoreProperty = "store";
 export const StoreDataProperty = Symbol("store");
+export const Factory = Symbol("factory");
 
 function configure(inst: any) {
   const initStorePropertyDescriptor = Object.getOwnPropertyDescriptor(inst, StoreProperty);
@@ -40,6 +41,7 @@ export function create<T>(dep: Dep<T>, ...args: any[]): T {
     if (!inst || typeof inst !== "object") {
       throw new Error("Only object supported for function return.");
     }
+    inst[Factory] = dep;
   }
   return configure(inst);
 }
