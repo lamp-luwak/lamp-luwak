@@ -74,6 +74,7 @@ We use the instance of Heroes class as a usually immutable store with two method
 - And `setName` method who same as reducer too as well as the previous method. It uses `modify` method, who using current structure of store, and give a possibility to edit immutable data as a usual assignment, no more, only kind of syntax for updating immutable data.
 
 For a deeper understanding of using `useProvide` we can separate `App` to two components. The code below has an equal effect as a previous code.
+
 ```typescript
 const List = React.memo(() => {
   const heroes = useProvide(Heroes);
