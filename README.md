@@ -49,11 +49,11 @@ Multistore state management with service ideology and module architecture for Re
 - Designed by React hooks coding style
 - TypeScript supported
 
-### Documentation
+### Documentation [[russian]](./docs/ru/introduction.md)
 
-- [Getting Started](./docs/getting-started.md) [ru](./docs/ru/getting-started.md)
-- [Core Concepts](./docs/core-concepts.md) [ru](./docs/ru/core-concepts.md)
-- [API Reference](./docs/api-reference.md) [ru](./docs/ru/api-reference.md)
+- [Getting Started](./docs/getting-started.md)
+- [Core Concepts](./docs/core-concepts.md)
+- [API Reference](./docs/api-reference.md)
 
 ### Examples
 
