@@ -12,7 +12,7 @@ Modular state management for React
 
 ### Introduction
 
-Multistore state management with service ideology and module architecture for React. You can organize the code of your application by service-stores. Single instantiated classes with a store inside at any place of your app code.
+Multistore state management with service ideology and module architecture for React. You can organize the code of your application by service-stores. Single instantiated instances of classes or function factory with a store inside at any place of your app code.
 
 - Service-oriented and multistore architecture
 - Update view components only dependent of changed stores
