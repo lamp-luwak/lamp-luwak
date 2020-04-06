@@ -69,7 +69,7 @@ export const App = () => {
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/heroes)
 
-We use the instance of Heroes class as a usually immutable store with two methods:
+We use the instance of `Heroes` class as a usually immutable store with two methods:
 - `add` method who same as reducer only modify immutable data. Add new hero to heroes list, and reset text in the inputbox after.
 - And `setName` method who same as reducer too as well as the previous method. It uses `modify` method, who using current structure of store, and give a possibility to edit immutable data as a usual assignment, no more, only kind of syntax for updating immutable data.
 
@@ -108,7 +108,7 @@ export const App = () => {
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/heroes-2)
 
-We can use the single instance of `Heroes` class in any place of our application. And each use of `useProvide` hook makes a binding between called hook component and instance of Heroes class. After instantiating Class through `useProvide` or `create`, it changes `store` property. Now `store` is getter/setter who updates all linked react components on each self-value change.
+We can use the single instance of `Heroes` class in any place of our application. And each use of `useProvide` hook makes a binding between called hook component and instance of `Heroes` class. After instantiating class through `useProvide` or `create`, it changes `store` property. Now `store` is getter/setter who updates all linked react components on each self-value change.
 
 `useSubscribe` - react hook for subscribe react component to store or action recieved from props.
 ```typescript
@@ -118,7 +118,7 @@ const App = memo(({ item }) => {
 })
 ```
 
-`provide` - Its a function that return a single instantiated instance of any class or function factory with performed `store` property.
+`provide` - Its a function that return a single instantiated instance of any class or function factory with preformed `store` property.
 ```typescript
 export class Todo {
   logger = provide(Logger);
@@ -126,12 +126,12 @@ export class Todo {
 ```
 Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - _service_. Already we can make app with multiple services with relations between them.
 
-`create` - Create new instance of store Class or function factory. And make the property `store`, on it change possible to subscribe.
+`create` - Create new instance of store class or function factory. And make the property `store`, on it change possible to subscribe.
 ```typescript
 const entity = creact(Entity);
 ```
 
-`action` - Create new object - Action. You can dispatch action or subscribe on It.
+`action` - Create new object - Action. You can dispatch action or subscribe on it.
 ```typescript
 import { action, subscribe, dispatch } from 'lamp-luwak';
 
@@ -142,7 +142,7 @@ dispatch(RemoveItem, {id: 1});
 
 `dispatch` - Run all subscribed functions and pass arguments to calling subscribers.
 
-`subscribe` - Subscribe function to object. Subscribed function will be called each `dispatch` call. Subscribed function can get all arguments whan passed to `dispatch` call.
+`subscribe` - Subscribe function to object. Subscribed function will be called each `dispatch` call. Subscribed function can get all arguments what passed to `dispatch` call.
 
 `modify` - Helper for modify immutable data.
 ```typescript

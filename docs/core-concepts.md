@@ -55,13 +55,13 @@ const ModalContainer = () => {
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/modal)
 
-We use single instantiated `Modal` service in `ModalButton` and `ModalContainer` components. Each update of `Modal` service store these two compononents will be updated too, because they got `Modal` service instance by call `useProvide` function inside.
+We use a single instantiated `Modal` service in `ModalButton` and `ModalContainer` components. Each update of the `Modal` service store these two components will be updated too because they got `Modal` service instance by call `useProvide` function inside.
 
 ### Stores
 
-Store - instance of class or plain object with `store` property created by `create` function or recieved from `useProvide` or `provide` functions.
-- You automatically subscribe to change of `store` property from react compoment that recieved service from `useProvide` function call.
-- Or you can subscribe to change of `store` property use `subscribe` or `useSubscribe` functions.
+Store - an instance of a class or plain object with `store` property created by `create` function or received from `useProvide` or `provide` functions.
+- You automatically subscribe to the change of `store` property in a react component that received service from `useProvide` function call.
+- Or you can subscribe to the change of `store` property use `subscribe` or `useSubscribe` functions.
 
 ```typescript
 import { useProvide, provide, subscribe } from 'lamp-luwak';
@@ -131,11 +131,11 @@ const List = () => {
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/todo-counters)
 
-Here you can see how to subcribe to change of `Todo` service store from `TodoCounter` service which calculate counters of active and completed items.
+Here you can see how to subscribe to the change of `Todo` service store, from `TodoCounter` service which calculates counters of active and completed items.
 
 ### Actions
 
-And finally we can use actions for communication between "no service stores" and services. Or for another implementation of event bus abstraction.
+And finally, we can use actions for communication between "no service stores" and services. Or for another implementation of event bus abstraction.
 
 ```typescript
 import { provide, subscribe, create, modify, action, useSubscribe } from 'lamp-luwak';
