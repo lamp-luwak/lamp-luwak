@@ -27,7 +27,7 @@ const UserNameEditor = () => {
   const user = useProvide(User);
   return (
     <input
-      onChange={(e: any) => user.store = e.target.value}
+      onChange={e => user.store = e.target.value}
       value={user.store}
     />
   )
@@ -49,11 +49,13 @@ Multistore state management with service ideology and module architecture for Re
 - Designed by React hooks coding style
 - TypeScript supported
 
-### Documentation [[russian]](./docs/ru/introduction.md)
+### Documentation
 
 - [Getting Started](./docs/getting-started.md)
 - [Core Concepts](./docs/core-concepts.md)
 - [API Reference](./docs/api-reference.md)
+
+[[russian]](./docs/ru/introduction.md) documentation.
 
 ### Examples
 
