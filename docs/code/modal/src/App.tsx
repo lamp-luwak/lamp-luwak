@@ -25,7 +25,7 @@ const ModalButton: FC<{ text: string }> = ({ text, children }) => {
       {children}
     </button>
   )
-}
+};
 
 const ModalContainer = () => {
   const modal = useProvide(Modal);
@@ -41,7 +41,7 @@ const ModalContainer = () => {
       </Panel>
     </Overlay>
   )
-}
+};
 
 export const App = () => (
   <>
