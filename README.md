@@ -10,6 +10,20 @@ Modular state management for React
 
 </div>
 
+### Introduction
+
+Multistore state management with service ideology and module architecture for React. You can organize the code of your application by service-stores. Single instantiated classes with a store inside at any place of your app code.
+
+- Service-oriented and multistore architecture
+- Update view components only dependent of changed stores
+- Data flow instruments
+- Server side rendering (SSR)
+- Possibility to make independent modules
+- Minimal abstraction
+- Lightweight (~2Kb)
+- Designed by React hooks coding style
+- TypeScript supported
+
 ### Install
 
 `npm i lamp-luwak`
@@ -34,20 +48,6 @@ const UserNameEditor = () => {
 };
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/examples/basic-usage)
-
-### Introduction
-
-Multistore state management with service ideology and module architecture for React. You can organize the code of your application by service-stores. Single instantiated classes with a store inside at any place of your app code.
-
-- Service-oriented and multistore architecture
-- Update view components only dependent of changed stores
-- Data flow instruments
-- Server side rendering (SSR)
-- Possibility to make independent modules
-- Minimal abstraction
-- Lightweight (~2Kb)
-- Designed by React hooks coding style
-- TypeScript supported
 
 ### Documentation
 
