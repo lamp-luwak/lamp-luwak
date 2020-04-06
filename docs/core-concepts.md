@@ -55,7 +55,7 @@ const ModalContainer = () => {
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/modal)
 
-We use single instantiated Modal service in ModalButton and ModalContainer components. Each update of Modal service store these two compononents will be updated too, because they got Modal service instance by call `useProvide` function inside.
+We use single instantiated `Modal` service in `ModalButton` and `ModalContainer` components. Each update of `Modal` service store these two compononents will be updated too, because they got `Modal` service instance by call `useProvide` function inside.
 
 ### Stores
 

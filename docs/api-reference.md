@@ -2,8 +2,8 @@
 
 Service section
 
-- provide
 - useProvide
+- provide
 - override
 - assign
 - cleanup
@@ -15,8 +15,8 @@ Store section
 
 Communication section
 
-- subscribe
 - useSubscribe
+- subscribe
 - action
 - dispatch
 - Subscribe
