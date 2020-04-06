@@ -51,7 +51,9 @@ Multistore state management with service ideology and module architecture for Re
 
 ### Documentation
 
-- [Getting Started](./docs/getting-started.md)
+- [Getting Started](./docs/getting-started.md) [ru](./docs/ru/getting-started.md)
+- [Core Concepts](./docs/core-concepts.md) [ru](./docs/ru/core-concepts.md)
+- [API Reference](./docs/api-reference.md) [ru](./docs/ru/api-reference.md)
 
 ### Examples
 

@@ -2,49 +2,49 @@
 
 DI Section
 
-**provide** -
+#### provide
 
-**useProvide** -
+#### useProvide
 
-**override** -
+#### override
 
-**assign** -
+#### assign
 
-**cleanup** -
+#### cleanup
 
 Store section
 
-**create** -
+#### create
 
-**modify** -
+#### modify
 
 Communication section
 
-**subscribe** -
+#### subscribe
 
-**useSubscribe** -
+#### useSubscribe
 
-**action** -
+#### action
 
-**dispatch** -
+#### dispatch
 
-**Subscribe** -
+#### Subscribe
 
 Server side rendering section
 
-**ssr** -
+#### ssr
 
-**useUnserialize** -
+#### useUnserialize
 
-**register** -
+#### register
 
-**unserialize** -
+#### unserialize
 
-**serialize** -
+#### serialize
 
 Reset section
 
-**reset** -
+#### reset
 
 
 
