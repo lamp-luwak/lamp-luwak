@@ -127,6 +127,7 @@ const List = () => {
   );
 };
 ```
+[![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/todo-counters)
 
 Here you can see how to subcribe to change of `Todo` service store from `TodoCounter` service which calculate counters of active and completed items.
 
