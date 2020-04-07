@@ -52,8 +52,6 @@ const UserNameEditor = () => {
 - [Core Concepts](./docs/core-concepts.md)
 - [API Reference](./docs/api-reference.md)
 
-[[russian]](./docs/ru/introduction.md) documentation.
-
 ### Examples
 
 - [Todos on CodeSandbox](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/examples/todos)
