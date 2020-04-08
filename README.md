@@ -24,7 +24,11 @@ Multistore state management with service ideology and module architecture for Re
 
 ### Install
 
-`npm i lamp-luwak`
+```bash
+npm i --save lamp-luwak
+# or
+yarn add lamp-luwak
+```
 
 ### Basic Usage
 
