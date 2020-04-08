@@ -16,10 +16,11 @@ Multistore state management with service ideology and module architecture for Re
 
 - Service-oriented and multistore architecture
 - Update view components only dependent of changed stores
-- Server side rendering (SSR)
 - Lightweight (~2Kb)
-- Designed by React hooks coding style
+- Minimum init page CPU time
 - TypeScript supported
+- Designed by React hooks coding style
+- Server side rendering (SSR)
 
 ### Install
 
