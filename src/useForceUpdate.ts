@@ -2,6 +2,6 @@ import { useReducer } from "react";
 
 type VoidFunction = () => void;
 
-const reducer = (state: boolean, _action: null): boolean => !state;
+const reducer = (state: number, _action: null): number => (state + 1) % 0xffffff;
 
-export const useForceUpdate = () => useReducer(reducer, true)[1] as VoidFunction;
+export const useForceUpdate = () => useReducer(reducer, 0)[1] as VoidFunction;
