@@ -55,9 +55,9 @@ const UserNameEditor = () => {
 
 - [Getting Started](./docs/getting-started.md)
 - [Core Concepts](./docs/core-concepts.md)
-- [API Reference](./docs/api-reference.md)
+- [API Reference](./docs/api-reference.md) - coming soon
 
-[The russian article.](https://github.com/betula/lamp-luwak-article-1)
+[The Russian article.](https://github.com/betula/lamp-luwak-article-1)
 
 ### Examples
 
