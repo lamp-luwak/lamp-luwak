@@ -4,7 +4,7 @@
 
 ![lamp-luwak logo](https://betula.github.io/lamp-luwak/logo-sm.png)
 
-Modular state management for React
+Flexible state management for React
 
 [![npm](https://img.shields.io/npm/v/lamp-luwak?style=flat-square)](https://www.npmjs.com/package/lamp-luwak) ![npm type definitions](https://img.shields.io/npm/types/lamp-luwak?style=flat-square) [![npm bundle size](https://img.shields.io/bundlephobia/minzip/lamp-luwak?style=flat-square)](https://bundlephobia.com/result?p=lamp-luwak) [![build status](https://img.shields.io/github/workflow/status/betula/lamp-luwak/Tests?style=flat-square)](https://github.com/betula/lamp-luwak/actions?workflow=Tests) [![code coverage](https://img.shields.io/coveralls/github/betula/lamp-luwak?style=flat-square)](https://coveralls.io/github/betula/lamp-luwak)
 

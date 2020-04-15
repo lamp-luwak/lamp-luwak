@@ -1,7 +1,7 @@
 {
   "name": "lamp-luwak",
   "version": "3.2.2",
-  "description": "Modular state management for React",
+  "description": "Flexible state management for React",
   "repository": {
     "url": "https://github.com/betula/lamp-luwak"
   },
@@ -39,7 +39,8 @@
     "action",
     "modular",
     "service-architecture",
-    "service-oriented"
+    "service-oriented",
+    "flexible"
   ],
   "source": "./src/index.ts",
   "main": "./release/index.js",
