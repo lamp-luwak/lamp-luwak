@@ -19,7 +19,6 @@ Multistore state management with service ideology and module architecture for Re
 - Lightweight (~2Kb)
 - Minimum init page CPU time
 - TypeScript supported
-- Designed by React hooks coding style
 - Server side rendering (SSR)
 
 ### Install
