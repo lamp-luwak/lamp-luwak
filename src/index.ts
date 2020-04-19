@@ -2,7 +2,7 @@ export { useProvide } from "./useProvide";
 export { useSubscribe } from "./useSubscribe";
 export { action } from "./action";
 export { dispatch, subscribe } from "./subscriber";
-export { create } from "./store";
+export { create, get, set } from "./store";
 export { provide, assign, override, cleanup } from "./di";
 export { modify } from "./immutable";
 export { reset } from "./reset";

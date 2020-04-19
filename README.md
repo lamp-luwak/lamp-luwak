@@ -32,7 +32,7 @@ yarn add lamp-luwak
 ### Basic Usage
 
 ```typescript
-import { useProvide } from 'lamp-luwak';
+import { useProvide, get, set } from 'lamp-luwak';
 
 class User {
   store = 'John';
@@ -42,8 +42,8 @@ const UserNameEditor = () => {
   const user = useProvide(User);
   return (
     <input
-      onChange={(e) => user.store = e.target.value}
-      value={user.store}
+      onChange={(e) => set(user, e.target.value)}
+      value={get(user)}
     />
   )
 };

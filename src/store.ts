@@ -45,3 +45,11 @@ export function create<T>(dep: Dep<T>, ...args: any[]): T {
   }
   return configure(inst);
 }
+
+export function get(inst: any) {
+  return inst[StoreProperty];
+}
+
+export function set(inst: any, callback: (store: any) => any) {
+  inst[StoreProperty] = callback(inst[StoreProperty]);
+}
