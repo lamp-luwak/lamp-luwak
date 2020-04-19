@@ -16,10 +16,9 @@ Multistore state management with service ideology and module architecture for Re
 
 - Service-oriented and multistore architecture
 - Update view components only dependent of changed stores
-- Lightweight (~2Kb)
-- Minimum init page CPU time
+- No use Context API inside
 - TypeScript supported
-- Server side rendering (SSR)
+- Lightweight (~2Kb)
 
 ### Install
 
