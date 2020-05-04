@@ -17,7 +17,7 @@ test("Should create from another store", () => {
     a: { b: 12 }
   });
   const b = create(a);
-  set(a, {});
+  set(a, { a: { b: 10 }});
   expect(b.state.a.b).toBe(12);
 });
 
