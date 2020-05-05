@@ -1,4 +1,4 @@
-import { store, get, set, modify, extend, chan, receive, send, multi } from "../src/v4";
+import { store, get, set, modify, extend, chan, receive, send, multi, watch, update, group } from "../src/v4";
 
 test("Should create without params", () => {
   const a = store();
@@ -10,15 +10,6 @@ test("Should create with params", () => {
     a: { b: 12 }
   });
   expect(a.state.a.b).toBe(12);
-});
-
-test("Should create from another store", () => {
-  const a = store({
-    a: { b: 12 }
-  });
-  const b = store(a);
-  set(a, { a: { b: 10 }});
-  expect(b.state.a.b).toBe(12);
 });
 
 test("Should create from another store and selector", () => {
@@ -43,7 +34,6 @@ test("Should create from two stores and selector", () => {
 test("Should create from class without params", () => {
   class A {
     state = 10;
-    inc() {}
   }
   const a = store(A);
   expect(a.state).toBe(10);
@@ -86,8 +76,8 @@ test("Should create from function factory with params", () => {
 
 test("Should work extend", () => {
   const a = store();
-  extend(a, { m: 22 });
-  expect(a.m).toBe(22);
+  const ex = extend(a, { m: 22 });
+  expect(ex.m).toBe(22);
 });
 
 test("Should work watch", () => {
@@ -104,10 +94,23 @@ test("Should work watch from two stores", () => {
   const b = store("B");
   watch(a, b, fn);
   set(a, "M");
-  expect(fn).toBeCalledWith("M", "B");
+  expect(fn).toHaveBeenNthCalledWith(1, "M", "B", "A", undefined);
   set(b, "L");
-  expect(fn).toBeCalledWith("M", "L");
+  expect(fn).toHaveBeenNthCalledWith(2, "M", "L", "A", "B");
   expect(fn).toBeCalledTimes(2);
+});
+
+test("Should work group", () => {
+  const fn = jest.fn();
+  const a = store("A");
+  const b = store("B");
+  watch(a, b, fn);
+  group(() => {
+    set(a, "M");
+    set(b, "L");
+  });
+  expect(fn).toHaveBeenNthCalledWith(1, "M", "L", "A", "B");
+  expect(fn).toBeCalledTimes(1);
 });
 
 test("Should resolve diamond problem in state part", () => {
@@ -116,7 +119,7 @@ test("Should resolve diamond problem in state part", () => {
   const b = store(a, (state) => "_" + state);
   watch(a, b, fn);
   set(a, "B");
-  expect(fn).toHaveBeenNthCalledWith(1, "B", "_B");
+  expect(fn).toHaveBeenNthCalledWith(1, "B", "_B", "A", "_A");
 });
 
 test("Should work modify", () => {
@@ -125,6 +128,24 @@ test("Should work modify", () => {
   modify(a).a = 11;
   expect(a.state).not.toBe(m);
   expect(a.state.a).toBe(11);
+});
+
+test("Should work update without callback", () => {
+  const m = { a: 10, m: 9 };
+  const a = store(m);
+  update(a, { a: 11 });
+  expect(a.state).not.toBe(m);
+  expect(a.state.a).toBe(11);
+  expect(a.state.m).toBe(9);
+});
+
+test("Should work update with callback", () => {
+  const m = { a: 10, m: 9 };
+  const a = store(m);
+  update(a, () => ({ a: 11 }));
+  expect(a.state).not.toBe(m);
+  expect(a.state.a).toBe(11);
+  expect(a.state.m).toBe(9);
 });
 
 test("Should work get", () => {

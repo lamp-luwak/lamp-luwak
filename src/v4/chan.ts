@@ -3,18 +3,12 @@ import { prop } from "./prop";
 const ChanReceivers = Symbol("ChanReceivers");
 const Multi = Symbol();
 
-const SendIterationLimit = 10000;
-let sendingDepth = 0;
+const IterationLimit = 10000;
+let depth = 0;
 const onAfterLastDelegates = new Map();
 const onAfterLastDelegatesQueue = [] as any;
 
-function getChanReceivers(node: any) {
-  return prop(node, ChanReceivers, []);
-}
-
-export function blank() {
-  return {};
-}
+const propChanReceivers = prop(ChanReceivers, () => []);
 
 export function multi(...nodes: any) {
   const m = nodes;
@@ -68,39 +62,44 @@ export function receive(node: any, receiver: any) {
     node.forEach((node: any) => receive(node, multiReceiver));
     return;
   }
-  getChanReceivers(node).push(receiver);
+  propChanReceivers(node).push(receiver);
 }
 
-export function send(node: any, signal: any) {
-  sendingDepth ++;
+export function group(code: () => void) {
+  depth ++;
   try {
-    if (node[Multi]) {
-      node.forEach((node: any) => send(node, signal));
-      return;
-    }
-    const receivers = getChanReceivers(node);
-    for (const receiver of receivers) {
-      receiver(signal);
-    }
-
-    if (sendingDepth === 1) {
+    code();
+    if (depth === 1) {
       let iteration = 0;
       while(onAfterLastDelegatesQueue.length > 0) {
         const onAfterLast = onAfterLastDelegatesQueue.shift();
         onAfterLastDelegates.delete(onAfterLast);
         onAfterLast();
         iteration ++;
-        if (iteration > SendIterationLimit) {
-          throw new Error("Send iteration limit exceeded");
+        if (iteration > IterationLimit) {
+          throw new Error("Iteration limit exceeded");
         }
       }
     }
   }
   finally {
-    if (sendingDepth === 1) {
+    if (depth === 1) {
       onAfterLastDelegates.clear();
       onAfterLastDelegatesQueue.length = 0;
     }
-    sendingDepth --;
+    depth --;
   }
+}
+
+export function send(node: any, signal?: any) {
+  group(() => {
+    if (node[Multi]) {
+      node.forEach((node: any) => send(node, signal));
+      return;
+    }
+    const receivers = propChanReceivers(node);
+    for (const receiver of receivers) {
+      receiver(signal);
+    }
+  });
 }
