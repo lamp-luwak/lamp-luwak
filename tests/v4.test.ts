@@ -1,41 +1,41 @@
-import { create, get, set, modify, extend, chan, receive, send } from "../src/v4";
+import { store, get, set, modify, extend, chan, receive, send, multi } from "../src/v4";
 
 test("Should create without params", () => {
-  const a = create();
+  const a = store();
   expect(a.state).toBeUndefined();
 });
 
 test("Should create with params", () => {
-  const a = create({
+  const a = store({
     a: { b: 12 }
   });
   expect(a.state.a.b).toBe(12);
 });
 
 test("Should create from another store", () => {
-  const a = create({
+  const a = store({
     a: { b: 12 }
   });
-  const b = create(a);
+  const b = store(a);
   set(a, { a: { b: 10 }});
   expect(b.state.a.b).toBe(12);
 });
 
 test("Should create from another store and selector", () => {
-  const a = create({
+  const a = store({
     a: { b: 12 }
   });
-  const b = create(a, (state) => state.a.b);
+  const b = store(a, (state) => state.a.b);
   modify(a).a.b = 13;
   expect(b.state).toBe(13);
 });
 
 test("Should create from two stores and selector", () => {
-  const a = create({
+  const a = store({
     a: { b: 12 }
   });
-  const b = create(a, (state) => state.a.b + 5);
-  const c = create(a, b, (s1, s2) => s1.a.b + "_" + s2);
+  const b = store(a, (state) => state.a.b + 5);
+  const c = store(a, b, (s1, s2) => s1.a.b + "_" + s2);
   modify(a).a.b = 13;
   expect(c.state).toBe("13_18");
 });
@@ -45,7 +45,7 @@ test("Should create from class without params", () => {
     state = 10;
     inc() {}
   }
-  const a = create(A);
+  const a = store(A);
   expect(a.state).toBe(10);
   expect(a instanceof A).toBeTruthy();
 });
@@ -58,41 +58,41 @@ test("Should create from class with params", () => {
       fn(a, b);
     }
   }
-  const a = create(A, 10, "A");
+  const a = store(A, 10, "A");
   expect(a.state).toBe(15);
   expect(fn).toBeCalledWith(10, "A");
 });
 
 test("Should create from function factory without params", () => {
-  const m = create(10);
+  const m = store(10);
   const F = () => m;
-  const f = create(F);
+  const f = store(F);
   expect(f.state).toBe(10);
   expect(f).toBe(m);
 });
 
 test("Should create from function factory with params", () => {
   const fn = jest.fn();
-  const m = create(10);
+  const m = store(10);
   const F = (a, b) => {
     fn(a, b);
     return m;
   };
-  const f = create(F, 10, "A");
+  const f = store(F, 10, "A");
   expect(f.state).toBe(10);
   expect(f).toBe(m);
   expect(fn).toBeCalledWith(10, "A");
 });
 
 test("Should work extend", () => {
-  const a = create();
+  const a = store();
   extend(a, { m: 22 });
   expect(a.m).toBe(22);
 });
 
 test("Should work watch", () => {
   const fn = jest.fn();
-  const a = create(10);
+  const a = store(10);
   watch(a, fn);
   set(a, 11);
   expect(fn).toBeCalledWith(11, 10);
@@ -100,8 +100,8 @@ test("Should work watch", () => {
 
 test("Should work watch from two stores", () => {
   const fn = jest.fn();
-  const a = create("A");
-  const b = create("B");
+  const a = store("A");
+  const b = store("B");
   watch(a, b, fn);
   set(a, "M");
   expect(fn).toBeCalledWith("M", "B");
@@ -112,8 +112,8 @@ test("Should work watch from two stores", () => {
 
 test("Should resolve diamond problem in state part", () => {
   const fn = jest.fn();
-  const a = create("A");
-  const b = create(a, (state) => "_" + state);
+  const a = store("A");
+  const b = store(a, (state) => "_" + state);
   watch(a, b, fn);
   set(a, "B");
   expect(fn).toHaveBeenNthCalledWith(1, "B", "_B");
@@ -121,24 +121,24 @@ test("Should resolve diamond problem in state part", () => {
 
 test("Should work modify", () => {
   const m = { a: 10 };
-  const a = create(m);
+  const a = store(m);
   modify(a).a = 11;
   expect(a.state).not.toBe(m);
   expect(a.state.a).toBe(11);
 });
 
 test("Should work get", () => {
-  expect(get(create(10))).toBe(10);
+  expect(get(store(10))).toBe(10);
 });
 
 test("Should work set with value", () => {
-  const a = create(10);
+  const a = store(10);
   set(a, 11);
   expect(a.state).toBe(11);
 });
 
 test("Should work set with callback", () => {
-  const a = create(10);
+  const a = store(10);
   set(a, (s) => s + 1);
   expect(a.state).toBe(11);
 });
@@ -173,7 +173,7 @@ test("Should work chan with two chans without callback", () => {
 test("Should work chan with one to many", () => {
   const [ f1, f2 ] = [ jest.fn(), jest.fn() ];
   const [ a, b, c ] = [ {}, {}, {} ];
-  chan(a, [ b, c ], (s) => s + 1);
+  chan(a, multi(b, c), (s) => s + 1);
   receive(b, f1);
   receive(c, f2);
   send(a, 10);
@@ -186,8 +186,8 @@ test("Should work chan with one to many", () => {
 test("Should resolve diamond problem in chan mechanism and non changed signal", () => {
   const fn = jest.fn();
   const [ a, b, c, d ] = [ {}, {}, {}, {} ];
-  chan(a, [ b, c ]);
-  chan([ b, c ], d);
+  chan(a, multi(b, c));
+  chan(multi(b, c), d);
   receive(d, fn);
   send(a, 10);
   expect(fn).toBeCalledTimes(1);
@@ -199,7 +199,7 @@ test("Should resolve diamond problem in chan mechanism and changed signal", () =
   const [ a, b, c, d ] = [ {}, {}, {}, {} ];
   chan(a, b, (s) => s + 1);
   chan(a, c, (s) => s + 2);
-  chan([ b, c ], d);
+  chan(multi(b, c), d);
   receive(d, fn);
   send(a, 10);
   expect(fn).toBeCalledTimes(2);

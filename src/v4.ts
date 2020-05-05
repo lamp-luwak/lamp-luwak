@@ -1,3 +1,5 @@
+import { multi, chan, receive, send, blank } from "./v4/chan";
+export { multi, chan, receive, send, blank };
 
 const StoreState = "state";
 const StoreChan = Symbol("StoreChan");
@@ -6,13 +8,13 @@ interface Store<S> {
   readonly [StoreState]: S;
 }
 
-export function create(): Store<undefined>;
-export function create<S>(store: Store<S>): Store<S>;
-export function create<S>(initialState: S): Store<S>;
-export function create(a?: any): any {
+export function store(): Store<undefined>;
+export function store<S>(store: Store<S>): Store<S>;
+export function store<S>(initialState: S): Store<S>;
+export function store(a?: any): any {
   return {
     [StoreState]: a,
-    [StoreChan]: chan()
+    [StoreChan]: blank()
   };
 }
 
@@ -41,29 +43,10 @@ export function set(store: any, value: any) {
   }
 }
 
+export function update() { // TODO: make test
+
+}
+
 export function watch() {
 
-}
-
-
-const ChanReceivers = Symbol("ChanReceivers");
-
-interface Chan {
-  [ChanReceivers]: any[];
-}
-
-export function chan(): Chan {
-  return {
-    [ChanReceivers]: []
-  };
-}
-
-export function receive(chan: Chan, receiver: any) {
-  chan[ChanReceivers].push(receiver);
-}
-
-export function send(chan: Chan, signal: any) {
-  for (const receiver of chan[ChanReceivers]) {
-    receiver(signal);
-  }
 }
