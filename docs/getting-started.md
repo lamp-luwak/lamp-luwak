@@ -4,7 +4,7 @@ Today we talk about `lamp-luwak`.
 
 State management who combine inside:
 - The service-oriented principle, you can use oop theory to organize apps code if you want.
-- Automatically sync Data-View from data in `store` property in services to react component views.
+- Automatically sync Data-View from data in `state` property in services to react component views.
 - Update only those components who use only that services inside. It gives easy and great instruments to make independent update view areas. You can make your component with your own set of stores and services, and use in some app as usually component without any additional initialize phase attachments or registrations (SSR supported).
 - Instruments for making dependent services from a set of other services, for example, filters or search indexes.
 - Action/subscribe/dispatch - abstraction (inspired by Rust trait) for organizing different kinds of code design: Event bus, Global event bus, Event Emitter, Observer, Dispatcher, pub/sub, Command, etc.
@@ -31,19 +31,19 @@ I think here we can start our first app. Put the next code to your `App.js`.
 
 ```typescript
 import React from 'react';
-import { useProvide, modify } from 'lamp-luwak';
+import { useService, modify, set } from 'lamp-luwak';
 
 class Heroes {
-  store = {
+  state = {
     list: [],
     name: 'Isaac Newton'
   };
   append() {
-    const { list, name } = this.store;
-    this.store = {
+    const { list, name } = this.state;
+    set(this.state, {
       list: list.concat({ name }),
       name: ''
-    }
+    });
   }
   setName(name) {
     modify(this).name = name;
@@ -51,11 +51,11 @@ class Heroes {
 }
 
 const App = () => {
-  const heroes = useProvide(Heroes);
+  const heroes = useService(Heroes);
   return (
     <>
       <ul>
-        {heroes.store.list.map((hero) =>(
+        {heroes.state.list.map((hero) => (
           <li>{hero.name}</li>
         ))}
       </ul>
@@ -68,7 +68,7 @@ const App = () => {
           }
         }}
         onChange={(e) => heroes.setName(e.target.value)}
-        value={heroes.store.name} />
+        value={heroes.state.name} />
     </>
   );
 };
@@ -81,10 +81,10 @@ We use the instance of `Heroes` class as a usually immutable store with two meth
 - `add` method who same as reducer only modify immutable data. Add new hero to heroes list, and reset text in the inputbox after.
 - And `setName` method who same as reducer too as well as the previous method. It uses `modify` method, who using current structure of store, and give a possibility to edit immutable data as a usual assignment, no more, only kind of syntax for updating immutable data.
 
-Store - Its a usually class (better) or function factory returns object with `store` property.
+Store - Its a usually class (better) or function factory returns object with `state` property.
 ```typescript
 class Heroes {
-  store = {
+  state = {
     list: [] as Hero[],
     name: 'Isaac Newton'
   };
@@ -92,21 +92,21 @@ class Heroes {
 ```
 This place is the best place for define default store value.
 
-`useProvide` - react hook for provide and subscribe to service from react component. Syntax here.
+`useService` - react hook for provide and subscribe to service from react component. Syntax here.
 ```typescript
 export const App = () => {
-  const heroes = useProvide(Heroes);
+  const heroes = useService(Heroes);
   // ...
 ```
 
-For a deeper understanding of using `useProvide` we can separate `App` to two components. The code below has an equal effect as a previous code.
+For a deeper understanding of using `useService` we can separate `App` to two components. The code below has an equal effect as a previous code.
 
 ```typescript
 const List = React.memo(() => {
-  const heroes = useProvide(Heroes);
+  const heroes = useService(Heroes);
   return (
     <ul>
-      {heroes.store.list.map((hero) =>(
+      {heroes.state.list.map((hero) => (
         <li>{hero.name}</li>
       ))}
     </ul>
@@ -114,7 +114,7 @@ const List = React.memo(() => {
 });
 
 export const App = () => {
-  const heroes = useProvide(Heroes);
+  const heroes = useService(Heroes);
   return (
     <>
       <List />
@@ -127,14 +127,14 @@ export const App = () => {
           }
         }}
         onChange={(e) => heroes.setName(e.target.value)}
-        value={heroes.store.name} />
+        value={heroes.state.name} />
     </>
   );
 };
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/heroes-2)
 
-We can use the single instance of `Heroes` class in any place of our application. And each use of `useProvide` hook makes a binding between called hook component and instance of `Heroes` class. After instantiating class through `useProvide` or `create`, it changes `store` property. Now `store` is getter/setter who updates all linked react components on each self-value change.
+We can use the single instance of `Heroes` class in any place of our application. And each use of `useService` hook makes a binding between called hook component and instance of `Heroes` class. After instantiating class through `useService` or `store`, it changes `state` property. Now `state` is getter/setter who updates all linked react components on each self-value change.
 
 Below you can find short information about primary `lamp-luwak` functions.
 
@@ -146,40 +146,40 @@ const App = memo(({ item }) => {
 })
 ```
 
-`provide` - Its a function that return a single instantiated instance of any class or function factory with preformed `store` property.
+`service` - Its a function that return a single instantiated instance of any class or function factory with preformed `state` property.
 ```typescript
 export class Todo {
-  logger = provide(Logger);
+  logger = service(Logger);
 }
 ```
 Best place to use this function. Its mechanism is the same as Dependency Injection. You can get a single instance of any class or function factory from any place of your app. I think `logger` in this example - _service_. Already we can make app with multiple services with relations between them.
 
-`create` - Create new instance of store class or function factory. And make the property `store`, on it change possible to subscribe.
+`store` - Create new instance of store class or function factory. And make the property `state`, on it change possible to subscribe.
 ```typescript
-const entity = creact(Entity);
+const entity = store(Entity);
 ```
 
 `action` - Create new object - Action. You can dispatch action or subscribe on it.
 ```typescript
-import { action, subscribe, dispatch } from 'lamp-luwak';
+import { action, on, dispatch } from 'lamp-luwak';
 
 const RemoveItem = action();
-subscribe(RemoveItem, (item) => console.log(item));
+on(RemoveItem, (item) => console.log(item));
 dispatch(RemoveItem, {id: 1});
 ```
 
 `dispatch` - Run all subscribed functions and pass arguments to calling subscribers.
 
-`subscribe` - Subscribe function to object. Subscribed function will be called each `dispatch` call. Subscribed function can get all arguments what passed to `dispatch` call.
+`on` - Subscribe function to action dispatching. Subscribed function will be called each `dispatch` call. Subscribed function can get all arguments what passed to `dispatch` call.
 
 `modify` - Helper for modify immutable data.
 ```typescript
   const Hero {
-    store = {
+    state = {
       name: ''
     }
   }
-  const hero = create(Hero);
+  const hero = store(Hero);
   modify(hero).name = 'Ganesha';
 ```
-This means that creating new plain object in `store` property with new name value.
+This means that creating new plain object in `state` property with new name value.

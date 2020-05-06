@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
-import { useProvide, modify } from 'lamp-luwak';
+import { useService, modify, set } from 'lamp-luwak';
 import { Overlay, Panel, Body, Footer } from './ui';
 
 class Modal {
-  store = {
+  state = {
     text: '',
     opened: false
   };
   open(text: string) {
-    this.store = {
+    set(this, {
       text,
       opened: true
-    }
+    });
   }
   close() {
     modify(this).opened = false;
@@ -19,7 +19,7 @@ class Modal {
 }
 
 const ModalButton: FC<{ text: string }> = ({ text, children }) => {
-  const modal = useProvide(Modal);
+  const modal = useService(Modal);
   return (
     <button onClick={() => modal.open(text)}>
       {children}
@@ -28,8 +28,8 @@ const ModalButton: FC<{ text: string }> = ({ text, children }) => {
 };
 
 const ModalContainer = () => {
-  const modal = useProvide(Modal);
-  const { opened, text } = modal.store;
+  const modal = useService(Modal);
+  const { opened, text } = modal.state;
   if (!opened) return null;
   return (
     <Overlay>

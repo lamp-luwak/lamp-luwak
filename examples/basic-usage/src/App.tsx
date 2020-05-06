@@ -1,22 +1,25 @@
 import React from 'react';
-import { useProvide } from 'lamp-luwak';
+import { set, useService } from 'lamp-luwak';
 
-class User {
-  store = 'John';
+class CounterService {
+  state = 0; // Initial state
+  increment() {
+    set(this, (state) => state + 1);
+  }
+  decrement() {
+    set(this, (state) => state - 1);
+  }
 }
 
-const UserNameEditor = () => {
-  const user = useProvide(User);
+const Counter = () => {
+  const counter = useService(CounterService);
   return (
     <>
-      <input
-        onChange={(e: any) => user.store = e.target.value}
-        value={user.store}
-        autoFocus
-      />
-      <p>Hello {user.store}!</p>
+      <button onClick={() => counter.increment()}>+</button>
+      <button onClick={() => counter.decrement()}>-</button>
+      <p>Counter: {counter.state}</p>
     </>
   )
 };
 
-export const App = () => <UserNameEditor/>;
+export const App = () => <Counter/>;

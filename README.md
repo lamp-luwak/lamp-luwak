@@ -18,7 +18,7 @@ Multistore state management with service ideology and module architecture for Re
 - Update view components only dependent of changed stores
 - No use Context API inside
 - TypeScript supported
-- Lightweight (~2Kb)
+- Lightweight (~3Kb)
 
 ### Install
 
@@ -31,19 +31,27 @@ yarn add lamp-luwak
 ### Basic Usage
 
 ```typescript
-import { useProvide, get, set } from 'lamp-luwak';
+import React from 'react';
+import { set, useService } from 'lamp-luwak';
 
-class User {
-  store = 'John';
+class CounterService {
+  state = 0; // Initial state
+  increment() {
+    set(this, (state) => state + 1);
+  }
+  decrement() {
+    set(this, (state) => state - 1);
+  }
 }
 
-const UserNameEditor = () => {
-  const user = useProvide(User);
+const Counter = () => {
+  const counter = useService(CounterService);
   return (
-    <input
-      onChange={(e) => set(user, e.target.value)}
-      value={get(user)}
-    />
+    <>
+      <button onClick={() => counter.increment()}>+</button>
+      <button onClick={() => counter.decrement()}>-</button>
+      <p>Counter: {counter.state}</p>
+    </>
   )
 };
 ```

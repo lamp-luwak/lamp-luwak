@@ -2,24 +2,40 @@
 
 Service section
 
-- useProvide
-- provide
-- override
+- useService
+- service
 - assign
+- override
 - cleanup
 
 Store section
 
-- create
+- store
+- watch
+- set
+- update
 - modify
+- get
+- extend
 
-Communication section
+Store subscribe section
 
 - useSubscribe
-- subscribe
+- Subscribe
+
+Channel section
+
+- chan
+- receive
+- send
+- multi
+- group
+
+Action section
+
 - action
 - dispatch
-- Subscribe
+- on
 
 Server side rendering section
 
@@ -32,6 +48,3 @@ Server side rendering section
 Reset section
 
 - reset
-
-
-

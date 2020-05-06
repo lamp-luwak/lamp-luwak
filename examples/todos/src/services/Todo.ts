@@ -1,37 +1,37 @@
-import { create, subscribe } from "lamp-luwak";
+import { store, on, set } from "lamp-luwak";
 import { Item, RemoveItem } from "./Todo/Item";
 
 export class Todo {
-  store = [] as Item[];
+  state = [] as Item[];
 
   constructor() {
-    subscribe(RemoveItem, this.remove, this);
+    on(RemoveItem, this.remove.bind(this));
   }
 
   append(label: string) {
-    const item = create(Item, { label });
-    this.store = this.store.concat(item);
+    const item = store(Item, { label });
+    set(this, this.state.concat(item));
   }
 
   remove({ id }: Item) {
-    this.store = this.store.filter((item) => item.id !== id);
+    set(this, this.state.filter((item) => item.id !== id));
   }
 
   clearCompleted() {
-    this.store = this.store.filter(({ completed }) => !completed);
+    set(this, this.state.filter(({ completed }) => !completed));
   }
 
   isEmpty() {
-    return this.store.length === 0;
+    return this.state.length === 0;
   }
 
   getList() {
-    return this.store;
+    return this.state;
   }
 
   toggleAll() {
-    const completedTo = this.store.some(({ completed }) => !completed);
-    for (const item of this.store) {
+    const completedTo = this.state.some(({ completed }) => !completed);
+    for (const item of this.state) {
       if (completedTo !== item.completed) {
         item.setCompleted(completedTo);
       }

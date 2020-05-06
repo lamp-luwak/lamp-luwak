@@ -6,22 +6,22 @@
 
 ### Services
 
-Service - it single instantiated class or memoized result of function factory. Service can be accessed from any place of your app code through call `useProvide` or `provide` function.
+Service - it single instantiated class or memoized result of function factory. Service can be accessed from any place of your app code through call `useService` or `service` function.
 
 ```typescript
-import { useProvide, modify } from "lamp-luwak";
+import { useService, modify, set } from "lamp-luwak";
 // ...
 
 class Modal {
-  store = {
+  state = {
     text: '',
     opened: false
   };
   open(text: string) {
-    this.store = {
+    set(this, {
       text,
       opened: true
-    }
+    });
   }
   close() {
     modify(this).opened = false;
@@ -29,7 +29,7 @@ class Modal {
 }
 
 const ModalButton: FC<{ text: string }> =  = ({ text, children }) => {
-  const modal = useProvide(Modal);
+  const modal = useService(Modal);
   return (
     <button onClick={() => modal.open(text)}>
       {children}
@@ -38,8 +38,8 @@ const ModalButton: FC<{ text: string }> =  = ({ text, children }) => {
 };
 
 const ModalContainer = () => {
-  const modal = useProvide(Modal);
-  const { opened, text } = modal.store;
+  const modal = useService(Modal);
+  const { opened, text } = modal.state;
   if (!opened) return null;
   return (
     <Overlay>
@@ -55,55 +55,56 @@ const ModalContainer = () => {
 ```
 [![Example on codesandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/github/betula/lamp-luwak/tree/master/docs/code/modal)
 
-We use a single instantiated `Modal` service in `ModalButton` and `ModalContainer` components. Each update of the `Modal` service store these two components will be updated too because they got `Modal` service instance by call `useProvide` function inside.
+We use a single instantiated `Modal` service in `ModalButton` and `ModalContainer` components. Each update of the `Modal` service store these two components will be updated too because they got `Modal` service instance by call `useService` function inside.
 
 ### Stores
 
-Store - an instance of a class or plain object with `store` property created by `create` function or received from `useProvide` or `provide` functions.
-- You automatically subscribe to the change of `store` property in a react component that received service from `useProvide` function call.
-- Or you can subscribe to the change of `store` property use `subscribe` or `useSubscribe` functions.
+Store - an instance of a class or plain object with `state` property created by `store` function or received from `useService` or `service` functions.
+- You automatically subscribe to the change of `state` property in a react component that received service from `useService` function call.
+- Or you can subscribe to the change of `state` property use `watch` or `useSubscribe` functions.
 
 ```typescript
-import { useProvide, provide, subscribe } from 'lamp-luwak';
+import { useService, service, watch, set } from 'lamp-luwak';
 // ...
 
 class Todo {
-  store: TodoItem[] = [
+  state: TodoItem[] = [
     { id: 1, label: 'Cook the dinner', completed: false },
     { id: 2, label: 'Cook the breakfast', completed: true }
   ]
   toggle(item: TodoItem) {
-    const items = this.store;
+    const items = this.state;
     const index = items.indexOf(item);
-    this.store = items.slice(0, index)
+    set(this, items.slice(0, index)
       .concat({
         ...items[index],
         completed: !item.completed
       })
-      .concat(...items.slice(index+1));
+      .concat(...items.slice(index+1))
+    );
   }
 }
 
 class TodoCounters {
-  todo = provide(Todo);
-  store = {
+  todo = service(Todo);
+  state = {
     active: 0,
     completed: 0
   }
   constructor() {
-    subscribe(this.todo, this.calculate, this);
+    watch(this.todo, this.calculate.bind(this));
     this.calculate();
   }
   calculate() {
-    const items = this.todo.store;
+    const items = this.todo.state;
     const completed = items.filter(item => item.completed).length;
     const active = items.length - completed;
-    this.store = { completed, active };
+    set(this, { completed, active });
   }
 }
 
 const Counters = () => {
-  const { active, completed } = useProvide(TodoCounters).store;
+  const { active, completed } = useService(TodoCounters).state;
   return (
     <>
       <div>Active: {active}</div>
@@ -113,8 +114,8 @@ const Counters = () => {
 };
 
 const List = () => {
-  const todo = useProvide(Todo);
-  const items = todo.store;
+  const todo = useService(Todo);
+  const items = todo.state;
   if (items.length === 0) return null;
   return (
     <ul>
@@ -138,57 +139,57 @@ Here you can see how to subscribe to the change of `Todo` service store, from `T
 And finally, we can use actions for communication between "no service stores" and services. Or for another implementation of event bus abstraction.
 
 ```typescript
-import { provide, subscribe, create, modify, action, useSubscribe } from 'lamp-luwak';
+import { service, watch, on, store, modify, action, useSubscribe } from 'lamp-luwak';
 // ...
 
 const TodoItemChanged = action();
 
 class TodoItem {
-  store: TodoItemStore;
-  constructor(store: TodoItemStore) {
-    this.store = store;
-    subscribe(this, TodoItemChanged);
+  state: TodoItemStore;
+  constructor(state: TodoItemStore) {
+    this.state = state;
+    watch(this, TodoItemChanged);
   }
   toggle() {
-    modify(this).completed = !this.store.completed;
+    modify(this).completed = !this.state.completed;
   }
 }
 
 class Todo {
-  store = [
-    create(TodoItem, { id: 1, label: 'Cook the dinner', completed: false }),
-    create(TodoItem, { id: 2, label: 'Cook the breakfast', completed: true })
+  state = [
+    store(TodoItem, { id: 1, label: 'Cook the dinner', completed: false }),
+    store(TodoItem, { id: 2, label: 'Cook the breakfast', completed: true })
   ]
   add(label: string) {
-    this.store = this.store.concat(
-      create(TodoItem, { id: Date.now(), label, completed: false })
-    );
+    set(this, this.state.concat(
+      store(TodoItem, { id: Date.now(), label, completed: false })
+    ));
   }
 }
 
 class TodoCounters {
-  todo = provide(Todo);
-  store = {
+  todo = service(Todo);
+  state = {
     active: 0,
     completed: 0
   }
   constructor() {
-    subscribe(this.todo, this.calculate, this);
-    subscribe(TodoItemChanged, this.calculate, this);
+    watch(this.todo, this.calculate.bind(this));
+    on(TodoItemChanged, this.calculate.bind(this));
     this.calculate();
   }
   calculate() {
-    const items = this.todo.store;
-    const completed = items.filter(item => item.store.completed).length;
+    const items = this.todo.state;
+    const completed = items.filter(item => item.state.completed).length;
     const active = items.length - completed;
-    this.store = { completed, active };
+    set(this, { completed, active });
   }
 }
 
 // ...
 
 const Item: FC<{ item: TodoItem }> = ({ item }) => {
-  const { label, completed } = item.store;
+  const { label, completed } = item.state;
   useSubscribe(item);
   return (
     <li>
@@ -200,13 +201,13 @@ const Item: FC<{ item: TodoItem }> = ({ item }) => {
 };
 
 const List = () => {
-  const todo = useProvide(Todo);
-  const items = todo.store;
+  const todo = useService(Todo);
+  const items = todo.state;
   if (items.length === 0) return null;
   return (
     <ul>
       {items.map(item => (
-        <Item item={item} key={item.store.id} />
+        <Item item={item} key={item.state.id} />
       ))}
     </ul>
   )

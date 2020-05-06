@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useProvide } from "lamp-luwak";
+import { useService } from "lamp-luwak";
 import { EnterKeyCode } from "../lib/consts";
 import { Todo } from "../services/Todo";
 
 export const NewTodo = () => {
-  const todo = useProvide(Todo);
+  const todo = useService(Todo);
   const [ label, setLabel ] = useState("");
 
   const handleInputChange = (event: any) => setLabel(event.target.value);

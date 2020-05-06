@@ -11,12 +11,12 @@ function transform(code: string) {
   }).code;
 }
 
-test("Should register classes with store property", () => {
+test("Should register classes with state property", () => {
   const code = `class A {
-  store = {}
+  state = {}
 }`;
   const transformedCode = `class A {
-  store = {};
+  state = {};
 }
 
 require("${LIB}").register(A, "A_${KEY_A}");`;
@@ -24,10 +24,10 @@ require("${LIB}").register(A, "A_${KEY_A}");`;
 });
 
 test("Should work with class expression", () => {
-  const code = "hello(class { store = 0; });";
+  const code = "hello(class { state = 0; });";
 
   const transformedCode = `hello(require("${LIB}").register(class {
-  store = 0;
+  state = 0;
 }, "${KEY_A}"));`;
 
   expect(transform(code)).toBe(transformedCode);

@@ -1,10 +1,10 @@
 import React from "react";
-import { useProvide } from "lamp-luwak";
+import { useService } from "lamp-luwak";
 import { Todo } from "../services/Todo";
 import { TodoFilter } from "../services/TodoFilter";
 
 export const ToggleAllButton = () => {
-  const [ todo, todoFilter ] = useProvide([ Todo, TodoFilter ]);
+  const [ todo, todoFilter ] = useService([ Todo, TodoFilter ]);
   return (
     <>
       <input

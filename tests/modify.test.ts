@@ -1,8 +1,8 @@
-import { modify, create, subscribe } from "../src";
+import { modify, store, watch } from "../src";
 
 test("Should modify store", () => {
   const inst = {
-    store: {
+    state: {
       a: 0,
       b: 1,
       c: {
@@ -13,9 +13,9 @@ test("Should modify store", () => {
       }
     }
   }
-  const prevStore = inst.store;
+  const prevState = inst.state;
   modify(inst).c.b.a = 13;
-  expect(inst.store).toStrictEqual({
+  expect(inst.state).toStrictEqual({
     a: 0,
     b: 1,
     c: {
@@ -25,15 +25,15 @@ test("Should modify store", () => {
       }
     }
   });
-  expect(inst.store).not.toBe(prevStore);
-  expect(inst.store.c).not.toBe(prevStore.c);
-  expect(inst.store.c.b).not.toBe(prevStore.c.b);
+  expect(inst.state).not.toBe(prevState);
+  expect(inst.state.c).not.toBe(prevState.c);
+  expect(inst.state.c.b).not.toBe(prevState.c.b);
 });
 
 test("Should modify store with only one assignment", () => {
   const spy = jest.fn();
   class Class {
-    store = {
+    state = {
       a: 0,
       b: 1,
       c: {
@@ -41,21 +41,21 @@ test("Should modify store with only one assignment", () => {
       }
     };
   }
-  const inst = create(Class);
-  subscribe(inst, spy);
-  const prevStore = inst.store;
+  const inst = store(Class);
+  watch(inst, spy);
+  const prevState = inst.state;
   modify(inst, (context) => {
     context.a = 11;
     context.c.a = 22;
   });
-  expect(inst.store).toStrictEqual({
+  expect(inst.state).toStrictEqual({
     a: 11,
     b: 1,
     c: {
       a: 22
     }
   });
-  expect(inst.store).not.toBe(prevStore);
+  expect(inst.state).not.toBe(prevState);
   expect(spy).toBeCalledWith(
     {
       a: 11,
@@ -78,10 +78,10 @@ test("Should modify store with only one assignment", () => {
 test("Should no dispatch with no modify", () => {
   const spy = jest.fn();
   class Class {
-    store = {};
+    state = {};
   }
-  const inst = create(Class);
-  subscribe(inst, spy);
+  const inst = store(Class);
+  watch(inst, spy);
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   modify(inst, () => {});
   expect(spy).toBeCalledTimes(0);
@@ -90,11 +90,11 @@ test("Should no dispatch with no modify", () => {
 test("Should throw invalid schema exception", () => {
   expect(() => {
     class Class {
-      store = {
+      state = {
         a: 0
       };
     }
-    const inst = create(Class);
+    const inst = store(Class);
     (modify(inst).a as any).k = 10;
   }).toThrowError("Only current value schema supported");
 });

@@ -4,13 +4,14 @@ import { FileUniqid } from "./FileUniqid";
 const PluginName = "babel-plugin-lamp-luwak";
 const LibPath = "lamp-luwak";
 const RegClassFunc = "register";
+const StoreStateProp = "state";
 
 const regClassSet = new WeakSet();
 const uniqid = new FileUniqid();
 
 function transformClassProperty(path: any) {
   const node = path.node;
-  if (t.isClassProperty(node) && node.key && (node.key as any).name === "store" && node.static === false) {
+  if (t.isClassProperty(node) && node.key && (node.key as any).name === StoreStateProp && node.static === false) {
     const { parent: Class, parentPath: ClassPath } = path.parentPath;
 
     if (regClassSet.has(Class)) {
