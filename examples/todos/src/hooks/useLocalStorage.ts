@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { provide, serialize, useUnserialize, register, subscribe } from "lamp-luwak";
+import { service, serialize, useUnserialize, register, watch, on } from "lamp-luwak";
 import { Todo } from "../services/Todo";
 import { TodoFilter } from "../services/TodoFilter";
 import { Item as TodoItem, ItemChanged } from "../services/Todo/Item";
@@ -18,13 +18,13 @@ export const useLocalStorage = () => {
   useUnserialize(data);
 
   useEffect(() => {
-    const todo = provide(Todo);
-    const todoFilter = provide(TodoFilter);
+    const todo = service(Todo);
+    const todoFilter = service(TodoFilter);
 
     const unsubscribers = [
-      subscribe(ItemChanged, sync),
-      subscribe(todo, sync),
-      subscribe(todoFilter, sync)
+      on(ItemChanged, sync),
+      watch(todo, sync),
+      watch(todoFilter, sync)
     ];
 
     function sync() {

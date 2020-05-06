@@ -1,58 +1,54 @@
-import { provide, subscribe } from "lamp-luwak";
+import { service, watch, on, update } from "lamp-luwak";
 import { Todo } from "./Todo";
 import { Item, ItemCompletedChanged } from "./Todo/Item";
 
 export class TodoFilter {
-  todo = provide(Todo);
-  store = {
+  todo = service(Todo);
+  state = {
     filter: "all",
     completed: [] as Item[],
     active: [] as Item[]
   }
 
   constructor() {
-    subscribe(this.todo, this.refresh, this);
-    subscribe(ItemCompletedChanged, this.refresh, this);
+    watch(this.todo, this.refresh.bind(this));
+    on(ItemCompletedChanged, this.refresh.bind(this));
   }
 
   refresh() {
     const list = this.todo.getList();
-    this.store = {
-      ...this.store,
+    update(this, {
       completed: list.filter(({ completed }) => completed),
       active: list.filter(({ completed }) => !completed),
-    };
+    });
   }
 
   getCurrentList(): Item[] {
-    const { filter } = this.store;
+    const { filter } = this.state;
     switch (filter) {
       case "active":
-        return this.store.active;
+        return this.state.active;
       case "completed":
-        return this.store.completed;
+        return this.state.completed;
       default:
         return this.todo.getList();
     }
   }
 
   getActiveCounter() {
-    return this.store.active.length;
+    return this.state.active.length;
   }
 
   getCompletedCounter() {
-    return this.store.completed.length;
+    return this.state.completed.length;
   }
 
   getFilter() {
-    return this.store.filter;
+    return this.state.filter;
   }
 
   setFilter(filter: string) {
-    this.store = {
-      ...this.store,
-      filter
-    }
+    update(this, { filter });
   }
 
 }

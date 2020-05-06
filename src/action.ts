@@ -15,5 +15,5 @@ export function dispatch(target: any, ...args: any[]) {
 }
 
 export function on(target: any, callback: (...args: any[]) => void) {
-  receive(propActionChan(target), (args: any[]) => callback(...args));
+  return receive(propActionChan(target), (args: any[]) => callback(...args));
 }

@@ -1,4 +1,4 @@
-import { action, subscribe, dispatch } from "lamp-luwak";
+import { action, watch, dispatch, modify } from "lamp-luwak";
 import { uniqid } from "../../lib/uniqid";
 
 export const ItemChanged = action();
@@ -10,50 +10,50 @@ type Props = {
   label: string;
   completed?: boolean;
 }
-type Store = {
+type State = {
   id: string;
   label: string;
   completed: boolean;
 }
 
 export class Item {
-  store: Store;
+  state: State;
 
   constructor(props?: Props) {
-    this.store = {
+    this.state = {
       id: props?.id || uniqid(),
       label: props?.label || '',
       completed: props?.completed || false
     };
-    subscribe(this, ItemChanged);
-    subscribe(this, this.onChange, this);
+    watch(this, ItemChanged);
+    watch(this, this.onChange.bind(this));
   }
 
-  protected onChange(store: Store, prevStore: Store) {
-    if (store.completed !== prevStore.completed) {
-      dispatch(ItemCompletedChanged, store, prevStore);
+  protected onChange(state: State, prevState: State) {
+    if (state.completed !== prevState.completed) {
+      dispatch(ItemCompletedChanged, state, prevState);
     }
   }
 
   public get id() {
-    return this.store.id;
+    return this.state.id;
   }
   public get completed() {
-    return this.store.completed;
+    return this.state.completed;
   }
   public get label() {
-    return this.store.label;
+    return this.state.label;
   }
 
   public setCompleted(completed: boolean) {
-    if (completed !== this.store.completed) {
-      this.store = { ...this.store, completed };
+    if (completed !== this.state.completed) {
+      modify(this).completed = completed;
     }
   }
 
   public setLabel(label: string) {
-    if (label !== this.store.label) {
-      this.store = { ...this.store, label };
+    if (label !== this.state.label) {
+      modify(this).label = label;
     }
   }
 
