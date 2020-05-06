@@ -1,21 +1,21 @@
 import React from 'react';
-import { useProvide, modify } from 'lamp-luwak';
+import { useService, modify, set } from 'lamp-luwak';
 
 type Hero = {
   name: string;
 }
 
 class Heroes {
-  store = {
+  state = {
     list: [] as Hero[],
     name: 'Isaac Newton'
   };
   append() {
-    const { list, name } = this.store;
-    this.store = {
+    const { list, name } = this.state;
+    set(this, {
       list: list.concat({ name }),
       name: ''
-    }
+    });
   }
   setName(name: string) {
     modify(this).name = name;
@@ -23,10 +23,10 @@ class Heroes {
 }
 
 const List = React.memo(() => {
-  const heroes = useProvide(Heroes);
+  const heroes = useService(Heroes);
   return (
     <ul>
-      {heroes.store.list.map((hero) =>(
+      {heroes.state.list.map((hero) => (
         <li>{hero.name}</li>
       ))}
     </ul>
@@ -34,7 +34,7 @@ const List = React.memo(() => {
 });
 
 export const App = () => {
-  const heroes = useProvide(Heroes);
+  const heroes = useService(Heroes);
   return (
     <>
       <List />
@@ -47,7 +47,7 @@ export const App = () => {
           }
         }}
         onChange={(e) => heroes.setName(e.target.value)}
-        value={heroes.store.name} />
+        value={heroes.state.name} />
     </>
   );
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useProvide, provide, subscribe } from 'lamp-luwak';
+import { useService, service, watch, set } from 'lamp-luwak';
 import { Text } from './ui';
 
 type TodoItem = {
@@ -9,42 +9,43 @@ type TodoItem = {
 }
 
 class Todo {
-  store: TodoItem[] = [
+  state: TodoItem[] = [
     { id: 1, label: 'Cook the dinner', completed: false },
     { id: 2, label: 'Cook the breakfast', completed: true }
   ]
   toggle(item: TodoItem) {
-    const items = this.store;
+    const items = this.state;
     const index = items.indexOf(item);
-    this.store = items.slice(0, index)
+    set(this, items.slice(0, index)
       .concat({
         ...items[index],
         completed: !item.completed
       })
-      .concat(...items.slice(index+1));
+      .concat(...items.slice(index+1))
+    );
   }
 }
 
 class TodoCounters {
-  todo = provide(Todo);
-  store = {
+  todo = service(Todo);
+  state = {
     active: 0,
     completed: 0
   }
   constructor() {
-    subscribe(this.todo, this.calculate, this);
+    watch(this.todo, this.calculate.bind(this));
     this.calculate();
   }
   calculate() {
-    const items = this.todo.store;
+    const items = this.todo.state;
     const completed = items.filter(item => item.completed).length;
     const active = items.length - completed;
-    this.store = { completed, active };
+    set(this, { completed, active });
   }
 }
 
 const Counters = () => {
-  const { active, completed } = useProvide(TodoCounters).store;
+  const { active, completed } = useService(TodoCounters).state;
   return (
     <>
       <div>Active: {active}</div>
@@ -54,8 +55,8 @@ const Counters = () => {
 };
 
 const List = () => {
-  const todo = useProvide(Todo);
-  const items = todo.store;
+  const todo = useService(Todo);
+  const items = todo.state;
   if (items.length === 0) return null;
   return (
     <ul>
