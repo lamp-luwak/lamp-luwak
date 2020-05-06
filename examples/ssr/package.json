@@ -1,6 +1,6 @@
 {
   "name": "ssr",
-  "version": "3.2.3",
+  "version": "4.0.0",
   "private": true,
   "scripts": {
     "dev": "next",
@@ -8,9 +8,9 @@
     "clean": "npx rimraf ./.next"
   },
   "dependencies": {
-    "babel-plugin-lamp-luwak": "^3.2.3",
+    "babel-plugin-lamp-luwak": "^4.0.0",
     "isomorphic-unfetch": "3.0.0",
-    "lamp-luwak": "^3.2.3",
+    "lamp-luwak": "^4.0.0",
     "next": "latest",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
