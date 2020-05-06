@@ -27,7 +27,7 @@ export const App = () => {
   return (
     <>
       <ul>
-        {heroes.state.list.map((hero) =>(
+        {heroes.state.list.map((hero) => (
           <li>{hero.name}</li>
         ))}
       </ul>

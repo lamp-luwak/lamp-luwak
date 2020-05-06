@@ -139,7 +139,7 @@ Here you can see how to subscribe to the change of `Todo` service store, from `T
 And finally, we can use actions for communication between "no service stores" and services. Or for another implementation of event bus abstraction.
 
 ```typescript
-import { service, watch, on, create, modify, action, useSubscribe } from 'lamp-luwak';
+import { service, watch, on, store, modify, action, useSubscribe } from 'lamp-luwak';
 // ...
 
 const TodoItemChanged = action();
@@ -157,12 +157,12 @@ class TodoItem {
 
 class Todo {
   state = [
-    create(TodoItem, { id: 1, label: 'Cook the dinner', completed: false }),
-    create(TodoItem, { id: 2, label: 'Cook the breakfast', completed: true })
+    store(TodoItem, { id: 1, label: 'Cook the dinner', completed: false }),
+    store(TodoItem, { id: 2, label: 'Cook the breakfast', completed: true })
   ]
   add(label: string) {
     set(this, this.state.concat(
-      create(TodoItem, { id: Date.now(), label, completed: false })
+      store(TodoItem, { id: Date.now(), label, completed: false })
     ));
   }
 }
