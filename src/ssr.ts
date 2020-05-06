@@ -1,5 +1,5 @@
-import { Dep, provide } from "./di";
-import { create, Factory } from "./store";
+import { Dep, service } from "./di";
+import { store, StoreFactory, set, get } from "./store";
 import { instances as diInstances, zone } from "./di";
 
 const regClassIndex = new Map<string, Dep>();
@@ -28,7 +28,7 @@ export function serialize(instances?: any[]) {
     const data = [
       (instances || diInstances())
       .filter((inst) => inst &&
-        (regClassSearch.has(inst.constructor) || regClassSearch.has(inst[Factory]))
+        (regClassSearch.has(inst.constructor) || regClassSearch.has(inst[StoreFactory]))
       )
       .map(pack)
     ];
@@ -77,9 +77,9 @@ function afterSerializeUnserialize() {
 
 function factory(dep: Dep, data: any, isService: boolean) {
   const inst = isService
-    ? provide(dep)
-    : create(dep);
-  inst.store = data;
+    ? service(dep)
+    : store(dep);
+  set(inst, data);
   return inst;
 }
 
@@ -88,7 +88,7 @@ function packRef(val: any) {
   if (!id) {
     id = refIncrementalId++;
     refInstSearch.set(val, id);
-    refSerializedIndex.set(id, pack(val.store));
+    refSerializedIndex.set(id, pack(get(val)));
   }
   return id;
 }
@@ -119,7 +119,7 @@ function pack(val: any): any {
       case Set:
         return ["Set", pack([...(val as Set<any>).values()])];
     }
-    const id = regClassSearch.get(Ctor) || regClassSearch.get(val[Factory]);
+    const id = regClassSearch.get(Ctor) || regClassSearch.get(val[StoreFactory]);
     if (typeof id !== "undefined") {
       return [id, packRef(val)];
     }

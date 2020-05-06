@@ -1,5 +1,5 @@
 import { ObjectMap, ClassType, FuncType } from "./types";
-import { create } from "./store";
+import { store } from "./store";
 
 export type Dep<T = any> = ClassType<T> | FuncType<T>;
 enum DepResolvePhase {
@@ -16,9 +16,7 @@ const zoneTreeIndex: ObjectMap<number> = {};
 let zoneId: number = RootZoneId;
 let asyncHook: any;
 
-export const getZoneId = (): number => {
-  return zoneId;
-}
+export const getZoneId = () => zoneId;
 export const getInternalState = () => ({
   instancesMap, resolvePhases, overridePairs, zoneTreeIndex
 });
@@ -65,16 +63,16 @@ export async function zone<T = void>(callback: () => T): Promise<void> {
   });
 }
 
-export function provide<T>(dep: Dep<T>): T {
+export function service<T>(dep: Dep<T>): T {
   let instance = getInstance(dep);
   if (!instance) {
     const OverrideDep = getOverride(dep);
     if (typeof OverrideDep !== "undefined") {
-      setInstance(dep, instance = provide(OverrideDep));
+      setInstance(dep, instance = service(OverrideDep));
       return instance;
     }
     setResolvePhase(dep, DepResolvePhase.Start);
-    instance = create(dep);
+    instance = store(dep);
     setInstance(dep, instance);
     setResolvePhase(dep, DepResolvePhase.Finish);
   }

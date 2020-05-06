@@ -1,5 +1,5 @@
 import {
-  provide,
+  service,
   resolved,
   override,
   assign,
@@ -19,10 +19,10 @@ test("Should be only one instance of provided class", () => {
     value = "value";
   }
   class B {
-    a = provide(A);
+    a = service(A);
   }
   class C {
-    a = provide(A);
+    a = service(A);
   }
   const b = new B();
   const c = new C();
@@ -35,12 +35,12 @@ test("Should work provide function", () => {
   class A {}
   class B {}
   class C {
-    a = provide(A);
-    b = provide(B);
+    a = service(A);
+    b = service(B);
   }
   const c = new C();
-  expect(provide(A)).toBe(c.a);
-  const [a, b] = [A, B].map(provide);
+  expect(service(A)).toBe(c.a);
+  const [a, b] = [A, B].map(service);
   expect(a).toBe(c.a);
   expect(b).toBe(c.b);
 });
@@ -49,8 +49,8 @@ test("Should work resolved function", () => {
   class A {}
   class B {}
   class C {
-    a = provide(A);
-    b = provide(B);
+    a = service(A);
+    b = service(B);
   }
   expect(resolved(A)).toBeFalsy();
   expect(resolved(B)).toBeFalsy();
@@ -63,11 +63,11 @@ test("Should work with override", () => {
   class A {}
   class A2 extends A {}
   class B {
-    a = provide(A);
+    a = service(A);
   }
   override(A, A2);
   expect(overridePairs[RootZoneId].size).toBe(1);
-  expect(provide(B).a).toBeInstanceOf(A2);
+  expect(service(B).a).toBeInstanceOf(A2);
 });
 
 test("Should cache override", () => {
@@ -75,12 +75,12 @@ test("Should cache override", () => {
   class A2 extends A {}
   class A3 extends A2 {}
   class B {
-    a = provide(A);
+    a = service(A);
   }
   override(A, A2);
   override(A2, A3);
   expect(overridePairs[RootZoneId].size).toBe(2);
-  expect(provide(B).a).toBeInstanceOf(A3);
+  expect(service(B).a).toBeInstanceOf(A3);
   expect(instancesMap[RootZoneId].get(A)).toBeInstanceOf(A3);
   expect(instancesMap[RootZoneId].get(A2)).toBeInstanceOf(A3);
 });
@@ -89,9 +89,9 @@ test("Should work cleanup", () => {
   class A {}
   class B {}
   const m = {};
-  expect(provide(A)).toBeInstanceOf(A);
+  expect(service(A)).toBeInstanceOf(A);
   assign(B, m);
-  expect(provide(B)).toBe(m);
+  expect(service(B)).toBe(m);
   expect(instancesMap[RootZoneId].size).toBe(2);
   cleanup();
   expect(instancesMap[RootZoneId]).toBeUndefined();
@@ -101,22 +101,12 @@ test("Should work reset", () => {
   class A {}
   class A2 extends A {}
   override(A, A2);
-  expect(provide(A)).toBe(provide(A2));
+  expect(service(A)).toBe(service(A2));
   expect(instancesMap[RootZoneId].size).toBe(2);
   expect(overridePairs[RootZoneId].size).toBe(1);
   reset();
   expect(instancesMap[RootZoneId]).toBeUndefined();
   expect(overridePairs[RootZoneId]).toBeUndefined();
-});
-
-test("should throw exception with plain values", () => {
-  const d = new Date();
-  const c = {};
-  expect(() => provide(null as any)).toThrowError("Only function and class supported");
-  expect(() => provide("hello" as any)).toThrowError();
-  expect(() => provide(10 as any)).toThrowError();
-  expect(() => provide(d as any)).toThrowError();
-  expect(() => provide(c as any)).toThrowError();
 });
 
 test("Should work assign", () => {
@@ -127,8 +117,8 @@ test("Should work assign", () => {
   override(A, B);
   assign(A, j);
   assign(E, 10);
-  expect(provide(E)).toBe(10);
-  const [a, b] = [A, B].map(provide);
+  expect(service(E)).toBe(10);
+  const [a, b] = [A, B].map(service);
   expect(a).toBe(j);
   expect(b).toBe(j);
 });
@@ -144,10 +134,10 @@ test("Should work zone with local override", async () => {
   class B extends A {}
   await zone(() => {
     override(A, B);
-    const a = provide(A);
+    const a = service(A);
     expect(a).toBeInstanceOf(B);
   });
-  const a = provide(A);
+  const a = service(A);
   expect(a).toBeInstanceOf(A);
   expect(a).not.toBeInstanceOf(B);
 });
@@ -201,16 +191,16 @@ test("Should pass zone code in browser", async () => {
 
 test("Should throw error when circular dependency detected", () => {
   class A {
-    f = provide(func);
+    f = service(func);
     action() { return 0; }
     constructor() {
       this.f.action();
     }
   }
   function func() {
-    return provide(A);
+    return service(A);
   }
-  expect(() => provide(A)).toThrow("Circular dependency detected");
+  expect(() => service(A)).toThrow("Circular dependency detected");
 });
 
 test("Should get instances list correctly", async () => {
@@ -218,11 +208,11 @@ test("Should get instances list correctly", async () => {
   class A {}
   class B {}
   expect(instances().length).toBe(0);
-  const a = provide(A);
+  const a = service(A);
   expect(instances()).toContain(a);
   await zone(() => {
     expect(instances().length).toBe(0);
-    const [a, b] = [A, B].map(provide);
+    const [a, b] = [A, B].map(service);
     expect(instances().length).toBe(2);
     expect(instances()).toContain(a);
     expect(instances()).toContain(b);
@@ -231,7 +221,7 @@ test("Should get instances list correctly", async () => {
   expect(spy).toBeCalled();
   expect(instances().length).toBe(1);
   expect(instances()).toContain(a);
-  const b = provide(B);
+  const b = service(B);
   expect(instances().length).toBe(2);
   expect(instances()).toContain(b);
 });

@@ -1,115 +1,115 @@
-import { serialize, unserialize, register, provide, create, ssr } from "../src";
+import { serialize, unserialize, register, service, store, ssr, set } from "../src";
 import { reset as resetDi, resolved } from "../src/di";
 
 test("Should work serialize", () => {
   class A {
-    store = {
+    state = {
       d: "D"
     };
   }
   register(A, "A");
-  provide(A);
+  service(A);
   expect(serialize()).toEqual([[["A", 1]], {"d": "D"}]);
 });
 
 test("should work unserialize", () => {
   class A {
-    store = "D";
+    state = "D";
   }
   register(A, "A");
   unserialize(
     [[["A", 1]], "DD"]
   );
-  expect(provide(A).store).toBe("DD");
+  expect(service(A).state).toBe("DD");
 });
 
 test("Should work serialize/unserialize nested stores", () => {
   class R {
-    store: any;
+    state: any;
   }
   register(R, "R");
   class A {
-    store = create(R);
+    state = store(R);
   }
   register(A, "A");
-  provide(A).store.store = [1,2,3];
+  service(A).state.state = [1,2,3];
   expect(serialize()).toEqual(
     [[["A", 1]], ["R", 2], ["Array", [1, 2, 3]]]
   );
   resetDi();
-  expect(provide(A).store.store).toBeUndefined();
+  expect(service(A).state.state).toBeUndefined();
   resetDi();
   unserialize(
     [[["A", 1]], ["R", 2], ["Array", [5, 6, 7]]]
   );
-  expect(provide(A).store.store).toEqual([5,6,7]);
+  expect(service(A).state.state).toEqual([5,6,7]);
 });
 
 test("Should throw error with invalid store data", () => {
   class B {}
   class A {
-    store = new B;
+    state = new B;
   }
   register(A, "A");
-  const a = provide(A);
+  const a = service(A);
   expect(serialize).toThrowError("Supported only registered store containers as serializable class instances");
 
-  a.store = () => void 0;
+  a.state = () => void 0;
   expect(serialize).toThrowError("Functions unsupported");
 });
 
 test("Should support standard data structures", () => {
   class A {
-    store: any;
+    state: any;
   }
   register(A, "A");
 
   // null
-  provide(A).store = null;
+  service(A).state = null;
   expect(serialize()).toEqual(
     [[["A", 1]], null]
   );
   resetDi();
-  expect(provide(A).store).toBeUndefined();
+  expect(service(A).state).toBeUndefined();
   resetDi();
   unserialize(
     [[["A", 1]], null]
   );
-  expect(provide(A).store).toBe(null);
+  expect(service(A).state).toBe(null);
 
   // Array
-  provide(A).store = [1,2,3];
+  service(A).state = [1,2,3];
   expect(serialize()).toEqual(
     [[["A", 1]], ["Array", [1, 2, 3]]]
   );
   resetDi();
-  expect(provide(A).store).toBeUndefined();
+  expect(service(A).state).toBeUndefined();
   resetDi();
   unserialize(
     [[["A", 1]], ["Array", [3, 4, 5]]]
   );
-  expect(provide(A).store).toEqual([3,4,5]);
+  expect(service(A).state).toEqual([3,4,5]);
 
   // Date
   const date = "Sun Feb 09 2020 17:00:05 GMT+0800";
   const Time = 1581238805000;
-  provide(A).store = new Date(date);
+  service(A).state = new Date(date);
   expect(serialize()).toEqual(
     [[["A", 1]], ["Date", Time]]
   );
   resetDi();
-  expect(provide(A).store).toBeUndefined();
+  expect(service(A).state).toBeUndefined();
   resetDi();
   unserialize(
     [[["A", 1]], ["Date", Time]]
   );
-  expect(provide(A).store).toEqual(new Date(date));
+  expect(service(A).state).toEqual(new Date(date));
 
   // Map
   const map = new Map();
   map.set(1, [1, 2]);
   map.set(2, {a: 10});
-  provide(A).store = map;
+  service(A).state = map;
   expect(serialize()).toEqual(
     [[["A", 1]], ["Map", ["Array", [
       ["Array", [1, ["Array", [1, 2]]]],
@@ -117,7 +117,7 @@ test("Should support standard data structures", () => {
     ]]]]
   );
   resetDi();
-  expect(provide(A).store).toBeUndefined();
+  expect(service(A).state).toBeUndefined();
   resetDi();
   unserialize(
     [[["A", 1]], ["Map", ["Array", [
@@ -125,45 +125,45 @@ test("Should support standard data structures", () => {
       ["Array", [2, {"a": 10}]]
     ]]]]
   );
-  expect(provide(A).store).toEqual(new Map(map));
+  expect(service(A).state).toEqual(new Map(map));
 
   // Map
-  const set = new Set();
-  set.add(1);
-  set.add(3);
-  set.add("D");
-  provide(A).store = set;
+  const setInst = new Set();
+  setInst.add(1);
+  setInst.add(3);
+  setInst.add("D");
+  service(A).state = setInst;
   expect(serialize()).toEqual(
     [[["A", 1]], ["Set", ["Array", [1, 3, "D"]]]]
   );
   resetDi();
-  expect(provide(A).store).toBeUndefined();
+  expect(service(A).state).toBeUndefined();
   resetDi();
   unserialize(
     [[["A", 1]], ["Set", ["Array", [1, 3, "D"]]]]
   );
-  expect(provide(A).store).toEqual(new Set(set));
-  expect(provide(A).store.has("D")).toBeTruthy();
+  expect(service(A).state).toEqual(new Set(setInst));
+  expect(service(A).state.has("D")).toBeTruthy();
 });
 
 test("Should pass non class instance in serialize correctly", () => {
-  class A { store = 10; }
+  class A { state = 10; }
   register(A, "A");
   class B {}
-  provide(A);
-  provide(B);
-  provide(() => ({}));
+  service(A);
+  service(B);
+  service(() => ({}));
   expect(serialize()).toEqual([[["A", 1]], 10]);
 });
 
 test("Should throw non null exception", () => {
   expect(() => {
-    provide(() => void 0);
+    service(() => void 0);
   }).toThrowError("Only object supported for function return.");
 });
 
 test("Should throw unexistence class id in unserialize", () => {
-  class B { store = 10; }
+  class B { state = 10; }
   register(B, "B");
 
   expect(() => {
@@ -180,47 +180,47 @@ test("Should throw unexistence class id in unserialize", () => {
 test("Should use only one instance of entity in several stores", () => {
   let b: B;
   const DATA = [[["B", 1]], {"a1": ["A", 2], "a2": ["A", 2]}, ["M", 3], "M"];
-  class M { store: string; }
+  class M { state: string; }
   register(M, "M");
-  class A { store: M; }
+  class A { state: M; }
   register(A, "A");
   class B {
-    store: {
+    state: {
       a1: A;
       a2: A;
     }
   }
   register(B, "B");
-  b = provide(B);
-  b.store = {} as any;
-  b.store.a2 = b.store.a1 = create(A);
-  b.store.a1.store = create(M);
-  b.store.a1.store.store = "M";
+  b = service(B);
+  b.state = {} as any;
+  b.state.a2 = b.state.a1 = store(A);
+  b.state.a1.state = store(M);
+  b.state.a1.state.state = "M";
   expect(serialize()).toEqual(DATA);
   resetDi();
   unserialize(DATA);
   expect(resolved(B)).toBeTruthy();
-  b = provide(B);
-  expect(b.store.a1).toBe(b.store.a2);
-  expect(b.store.a1.store instanceof M).toBeTruthy();
-  expect(b.store.a2.store.store).toBe("M");
+  b = service(B);
+  expect(b.state.a1).toBe(b.state.a2);
+  expect(b.state.a1.state instanceof M).toBeTruthy();
+  expect(b.state.a2.state.state).toBe("M");
 });
 
 test("Should work ssr function", async () => {
   const spy = jest.fn();
   class A {
-    store = "A";
+    state = "A";
   }
   register(A, "A");
-  const a1 = provide(A);
-  a1.store = "A1";
+  const a1 = service(A);
+  a1.state = "A1";
   const data = await ssr(() => {
     spy();
-    const a2 = provide(A);
-    expect(a2.store).toBe("A");
-    a2.store = "DD";
+    const a2 = service(A);
+    expect(a2.state).toBe("A");
+    a2.state = "DD";
   });
-  expect(provide(A).store).toBe("A1");
+  expect(service(A).state).toBe("A1");
   expect(data).toStrictEqual([[["A", 1]], "DD"]);
 });
 
@@ -229,8 +229,8 @@ test("Should pass null in unserialize", () => {
 });
 
 test("Should work function factory service with ssr", () => {
-  const A = () => ({ store: "A" });
+  const A = () => ({ state: "A" });
   register(A, "A");
-  provide(A);
+  service(A);
   expect(serialize()).toEqual([[["A", 1]], "A"]);
 });

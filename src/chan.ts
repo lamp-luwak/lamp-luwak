@@ -63,10 +63,20 @@ export function receive(node: any, receiver: any) {
         receiver(_lastSignal);
       }
     };
-    node.forEach((node: any) => receive(node, multiReceiver));
-    return;
+    const offFunctions = node.map((node: any) => receive(node, multiReceiver));
+    return () => {
+      for (const fn of offFunctions) {
+        fn();
+      }
+    }
   }
   propChanReceivers(node).push(receiver);
+  return () => {
+    propChanReceivers(
+      node,
+      propChanReceivers(node).filter((r: any) => r !== receiver)
+    );
+  };
 }
 
 export function group(code: () => void) {

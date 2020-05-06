@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { subscribe } from "./subscriber";
+import { watch } from "./store";
 import { useForceUpdate } from "./useForceUpdate";
 
-export const useSubscribe = (...items: any[]) => {
+export function useSubscribe(...items: any[]) {
   const forceUpdate = useForceUpdate();
   useEffect(
     () => {
-      const unsubscribers = items.map((item) => subscribe(item, forceUpdate));
+      const unsubscribers = items.map((item) => watch(item, forceUpdate));
       return () => {
         for (const unsubscriber of unsubscribers.slice()) {
           unsubscriber();
@@ -15,4 +15,4 @@ export const useSubscribe = (...items: any[]) => {
     },
     [...items]
   );
-};
+}

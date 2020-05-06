@@ -1,55 +1,144 @@
-import { Dep } from "./di";
-import { dispatch } from "./subscriber";
+import { multi, receive, send, blank } from "./chan";
+import { prop } from "./prop";
+import { ClassType, FuncType } from "./types";
 
-const StoreProperty = "store";
-export const StoreDataProperty = Symbol("store");
-export const Factory = Symbol("factory");
+const StoreState = "state";
+const StorePrevState = Symbol("StorePrevState");
+const StoreChan = Symbol("StoreChan");
+export const StoreFactory = Symbol("StoreFactory");
 
-function configure(inst: any) {
-  const initStorePropertyDescriptor = Object.getOwnPropertyDescriptor(inst, StoreProperty);
+interface Store<S> {
+  [StoreState]: S;
+}
 
-  Object.defineProperty(inst, StoreProperty, {
-    get() {
-      if (this.hasOwnProperty(StoreDataProperty)) {
-        return this[StoreDataProperty];
-      } else {
-        return this[StoreDataProperty] = initStorePropertyDescriptor && initStorePropertyDescriptor.value;
+const propStoreChan = prop(StoreChan, blank);
+const propStoreState = prop(StoreState);
+const propStorePrevState = prop(StorePrevState);
+const propStoreFactory = prop(StoreFactory);
+
+export function store(): Store<undefined>;
+export function store<K, M>(store: Store<K>, selector: (state: K) => M): Store<M>;
+export function store<K, L, M>(storeA: Store<K>, storeB: Store<L>, selector: (stateA: K, stateB: L) => M): Store<M>;
+export function store<S>(initialState: S): Store<S>;
+export function store<A>(Class: ClassType<A>): A;
+export function store<A, P extends any[]>(Class: ClassType<A, P>, ...args: P): A;
+export function store<A>(Fn: FuncType<A>): A;
+export function store<A, P extends any[]>(Fn: FuncType<A, P>, ...args: P): A;
+export function store(...args: any[]): any {
+  let inst = {} as any;
+
+  if (typeof args[0] === "function") {
+    const fn = args[0];
+    if (typeof fn.prototype !== "undefined") {
+      inst = new (fn as new (...args: any[]) => any)(...args.slice(1));
+    } else {
+      inst = (fn as (...args: any[]) => any)(...args.slice(1));
+      if (!inst || typeof inst !== "object") {
+        throw new Error("Only object supported for function return.");
       }
-    },
-    set(value: any) {
-      if (value === this[StoreProperty]) {
-        return;
-      }
-      const prevStoreData = this[StoreProperty];
-      this[StoreDataProperty] = value;
-      dispatch(this, value, prevStoreData);
+      propStoreFactory(inst, fn);
     }
-  });
-
+  }
+  else if (args.length <= 1) {
+    propStoreState(inst, args[0]);
+  }
+  else {
+    const fn = args[args.length - 1];
+    const stores = args.slice(0, -1);
+    propStoreState(inst, fn(
+      ...stores.map(propStoreState)
+    ));
+    receive(multi(...stores.map(propStoreChan)), () => {
+      set(inst, fn(...stores.map(propStoreState)));
+    });
+  }
   return inst;
 }
 
-export function create<T>(dep: Dep<T>, ...args: any[]): T {
-  let inst;
-  if (typeof dep !== "function") {
-    throw new Error("Only function and class supported");
+export function extend<S, T>(store: Store<S>, additional: T): Store<S> & T {
+  Object.assign(store, additional);
+  return store as Store<S> & T;
+}
+
+export function get<S>(store: Store<S>): S {
+  return propStoreState(store);
+}
+
+export function set<S>(store: Store<S>, state: S): void;
+export function set<S>(store: Store<S>, callback: (state: S) => S): void;
+export function set(store: any, state: any) {
+  const prevState = propStoreState(store);
+  if (typeof state == "function") {
+    state = state(prevState);
   }
-  if (typeof dep.prototype !== "undefined") {
-    inst = new (dep as new (...args: any[]) => any)(...args);
+  if (state !== prevState) {
+    propStorePrevState(store, prevState);
+    propStoreState(store, state);
+    send(propStoreChan(store));
+  }
+}
+
+export function update<S>(store: Store<S>, state: Partial<S>): void;
+export function update<S>(store: Store<S>, callback: (state: S) => Partial<S>): void;
+export function update(store: any, state: any) {
+  const prevState = propStoreState(store);
+  if (typeof state == "function") {
+    state = state(prevState);
+  }
+  set(store, {
+    ...prevState,
+    ...state
+  });
+}
+
+export function watch<S>(store: Store<S>, callback: (state: S, prevState: S) => void): () => void;
+export function watch<A, B>(storeA: Store<A>, storeB: Store<B>, callback: (stateA: A, stateB: B, prevStateA: A, prevStateB: B) => void): () => void;
+export function watch(...args: any[]) {
+  const fn = args[args.length - 1];
+  const stores = args.slice(0, -1);
+  const receiver = () => {
+    fn(
+      ...stores.map(propStoreState),
+      ...stores.map(propStorePrevState)
+    );
+  };
+  if (stores.length === 1) {
+    return receive(propStoreChan(stores[0]), receiver);
   } else {
-    inst = (dep as (...args: any[]) => any)(...args);
-    if (!inst || typeof inst !== "object") {
-      throw new Error("Only object supported for function return.");
-    }
-    inst[Factory] = dep;
+    return receive(multi(...stores.map(propStoreChan)), receiver);
   }
-  return configure(inst);
 }
 
-export function get(inst: any) {
-  return inst[StoreProperty];
+function level(state: any, write: (value: any) => void) {
+  if (!state || typeof state !== "object") {
+    throw new Error("Only current value schema supported");
+  }
+
+  const properties = {} as any;
+  Object.keys(state).forEach((key) => {
+    const writeKey = (value: any) => state = write({
+      ...state,
+      [key]: value
+    });
+    properties[key] = {
+      get: () => level(state[key], writeKey),
+      set: writeKey
+    };
+  });
+  const proxy = {};
+  Object.defineProperties(proxy, properties);
+  return proxy;
 }
 
-export function set(inst: any, callback: (store: any) => any) {
-  inst[StoreProperty] = callback(inst[StoreProperty]);
+export function modify<T>(store: Store<T>): T;
+export function modify<T>(store: Store<T>, callback: (context: T) => void): void;
+export function modify(store: Store<any>, callback?: (context: any) => void): any {
+  if (callback) {
+    let state = propStoreState(store);
+    const context = level(state, (s) => state = s)
+    callback(context);
+    set(store, state);
+  } else {
+    return level(propStoreState(store), (state) => set(store, state));
+  }
 }

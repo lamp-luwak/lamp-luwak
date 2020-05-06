@@ -1,16 +1,16 @@
 import React from "react";
 import { mount } from "enzyme";
-import { useProvide, useUnserialize, register } from "../src";
+import { useService, useUnserialize, register } from "../src";
 
 test("Should work unserialize with useUnserialize", () => {
   class A {
-    store = "D";
+    state = "D";
   }
   register(A, "A");
   const C = ({ data }: any) => {
     useUnserialize(data);
-    const a = useProvide(A);
-    return <p>{a.store}</p>
+    const a = useService(A);
+    return <p>{a.state}</p>
   };
   const data = [[["A", 1]], "DD"];
   const el = mount(<C data={data}/>);
