@@ -34,7 +34,7 @@ yarn add lamp-luwak
 import { useService, set } from 'lamp-luwak';
 
 class User {
-  state = 'John';
+  state = 'John'; // Initial state value
 }
 
 const UserNameEditor = () => {
