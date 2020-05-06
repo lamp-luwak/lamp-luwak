@@ -1,20 +1,20 @@
 import React from 'react';
-import { useProvide } from 'lamp-luwak';
+import { set, useService } from 'lamp-luwak';
 
 class User {
-  store = 'John';
+  state = 'John'; // Initial state
 }
 
 const UserNameEditor = () => {
-  const user = useProvide(User);
+  const user = useService(User);
   return (
     <>
       <input
-        onChange={(e: any) => user.store = e.target.value}
-        value={user.store}
+        onChange={(e: any) => set(user, e.target.value)}
+        value={user.state}
         autoFocus
       />
-      <p>Hello {user.store}!</p>
+      <p>Hello {user.state}!</p>
     </>
   )
 };
