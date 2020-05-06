@@ -1,6 +1,6 @@
 
 export class Config {
-  store = {
+  state = {
     protocol: 'http',
     host: 'localhost:3000'
   }

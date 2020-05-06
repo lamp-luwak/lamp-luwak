@@ -1,5 +1,5 @@
 import fetch from 'isomorphic-unfetch'
-import { provide } from 'lamp-luwak'
+import { service, modify } from 'lamp-luwak'
 import { Config } from './Config'
 
 export type Hero = {
@@ -9,8 +9,8 @@ export type Hero = {
 }
 
 export class HeroList {
-  config = provide(Config);
-  store = {
+  config = service(Config);
+  state = {
     list: [] as Hero[],
     cache: {
       expires: 0,
@@ -18,31 +18,22 @@ export class HeroList {
   };
 
   setList(list: Hero[]) {
-    this.store = {
-      ...this.store,
-      list
-    };
+    modify(this).list = list;
   }
 
   getList() {
-    return this.store.list;
+    return this.state.list;
   }
 
   updateCacheExpires(expires = Date.now()) {
-    this.store = {
-      ...this.store,
-      cache: {
-        ...this.store.cache,
-        expires
-      }
-    };
+    modify(this).cache.expires = expires;
   }
 
   async fetch() {
-    if (this.store.cache.expires > Date.now()) {
+    if (this.state.cache.expires > Date.now()) {
       return;
     }
-    const { protocol, host } = this.config.store;
+    const { protocol, host } = this.config.state;
     const response = await fetch(`${protocol}://${host}/api`);
     const data = await response.json();
     this.setList(data);

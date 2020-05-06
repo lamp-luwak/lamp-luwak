@@ -1,11 +1,11 @@
 import React from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { ssr, useUnserialize, provide, useProvide } from 'lamp-luwak'
+import { ssr, useUnserialize, service, useService } from 'lamp-luwak'
 import { HeroList } from '../services/HeroList'
 
 const List = () => {
-  const heroList = useProvide(HeroList);
+  const heroList = useService(HeroList);
   return (
     <ul>
       {heroList.getList().map(({ id, name, saying }) => (
@@ -42,7 +42,7 @@ const Home = ({ data }: any) => {
 export const getServerSideProps: GetServerSideProps = async () => {
   const props = {} as any;
   props.data = await ssr(async () => {
-    await provide(HeroList).fetch();
+    await service(HeroList).fetch();
   });
   return { props };
 }

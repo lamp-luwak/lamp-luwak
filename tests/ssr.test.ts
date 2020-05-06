@@ -1,4 +1,4 @@
-import { serialize, unserialize, register, service, store, ssr, set } from "../src";
+import { serialize, unserialize, register, service, store, ssr } from "../src";
 import { reset as resetDi, resolved } from "../src/di";
 
 test("Should work serialize", () => {
