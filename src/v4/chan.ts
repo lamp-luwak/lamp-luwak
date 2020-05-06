@@ -1,7 +1,7 @@
 import { prop } from "./prop";
 
 const ChanReceivers = Symbol("ChanReceivers");
-const Multi = Symbol();
+const Multi = Symbol("Multi");
 
 const IterationLimit = 10000;
 let depth = 0;
@@ -9,6 +9,10 @@ const onAfterLastDelegates = new Map();
 const onAfterLastDelegatesQueue = [] as any;
 
 const propChanReceivers = prop(ChanReceivers, () => []);
+
+export function blank() {
+  return {};
+}
 
 export function multi(...nodes: any) {
   const m = nodes;

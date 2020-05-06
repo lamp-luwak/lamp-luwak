@@ -1,4 +1,4 @@
-import { multi, receive, send } from "./chan";
+import { multi, receive, send, blank } from "./chan";
 import { prop } from "./prop";
 import { ClassType, FuncType } from "./types";
 
@@ -11,10 +11,10 @@ interface Store<S> {
   readonly [StoreState]: S;
 }
 
-const propStoreChan = prop(StoreChan, () => ({}));
+const propStoreChan = prop(StoreChan, blank);
 const propStoreState = prop(StoreState);
 const propStorePrevState = prop(StorePrevState);
-const propStoreFactory = prop(StorePrevState);
+const propStoreFactory = prop(StoreFactory);
 
 export function store(): Store<undefined>;
 export function store<K, M>(store: Store<K>, selector: (state: K) => M): Store<M>;
