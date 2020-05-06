@@ -18,7 +18,7 @@ Multistore state management with service ideology and module architecture for Re
 - Update view components only dependent of changed stores
 - No use Context API inside
 - TypeScript supported
-- Lightweight (~2Kb)
+- Lightweight (~3Kb)
 
 ### Install
 
