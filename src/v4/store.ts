@@ -5,7 +5,7 @@ import { ClassType, FuncType } from "./types";
 const StoreState = "state";
 const StorePrevState = Symbol("StorePrevState");
 const StoreChan = Symbol("StoreChan");
-const StoreFactory = Symbol("StoreFactory");
+export const StoreFactory = Symbol("StoreFactory");
 
 interface Store<S> {
   readonly [StoreState]: S;
