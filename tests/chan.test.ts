@@ -63,3 +63,38 @@ test("Should resolve diamond problem in chan mechanism and changed signal", () =
   expect(fn).toHaveBeenNthCalledWith(1, 11);
   expect(fn).toHaveBeenNthCalledWith(2, 12);
 });
+
+test("Should work off function for single", () => {
+  const fn = jest.fn();
+  const a = {};
+  const off = receive(a, fn);
+  send(a, 10);
+  send(a, 11);
+  off();
+  send(a, 12);
+  expect(fn).toBeCalledTimes(2);
+  expect(fn).toHaveBeenNthCalledWith(1, 10);
+  expect(fn).toHaveBeenNthCalledWith(2, 11);
+});
+
+test("Should work off function for multi", () => {
+  const fn = jest.fn();
+  const [ a, b ] = [ {}, {} ];
+  const off = receive(multi(a, b), fn);
+  send(a, 10);
+  send(b, 11);
+  off();
+  send(a, 12);
+  send(b, 13);
+  expect(fn).toBeCalledTimes(2);
+  expect(fn).toHaveBeenNthCalledWith(1, 10);
+  expect(fn).toHaveBeenNthCalledWith(2, 11);
+});
+
+test("Should throw Iteration limit exceeded exception", () => {
+  const [ a, b ] = [ {}, {} ];
+  expect(() => {
+    receive(multi(a, b), () => send(a));
+    send(a);
+  }).toThrowError("Iteration limit exceeded");
+});

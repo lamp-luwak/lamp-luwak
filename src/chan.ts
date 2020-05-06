@@ -42,17 +42,13 @@ export function receive(node: any, receiver: any) {
     let lastSignal = null as any;
     let hasLastSignal = false;
     const finish = () => {
-      const _hasLastSignal = hasLastSignal;
       const _lastSignal = lastSignal;
       lastSignal = null;
       hasLastSignal = false;
-      if (_hasLastSignal) {
-        receiver(_lastSignal);
-      }
+      receiver(_lastSignal);
     };
     const multiReceiver = (signal: any) => {
       onAfterLast(finish);
-
       if (!hasLastSignal) {
         hasLastSignal = true;
         lastSignal = signal;
