@@ -31,18 +31,18 @@ yarn add lamp-luwak
 ### Basic Usage
 
 ```typescript
-import { useProvide, get, set } from 'lamp-luwak';
+import { useService, set } from 'lamp-luwak';
 
 class User {
-  store = 'John';
+  state = 'John';
 }
 
 const UserNameEditor = () => {
-  const user = useProvide(User);
+  const user = useService(User);
   return (
     <input
       onChange={(e) => set(user, e.target.value)}
-      value={get(user)}
+      value={user.state}
     />
   )
 };
