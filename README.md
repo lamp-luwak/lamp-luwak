@@ -31,19 +31,27 @@ yarn add lamp-luwak
 ### Basic Usage
 
 ```typescript
-import { useService, set } from 'lamp-luwak';
+import React from 'react';
+import { set, useService } from 'lamp-luwak';
 
-class User {
-  state = 'John'; // Initial state value
+class CounterService {
+  state = 0; // Initial state
+  increment() {
+    set(this, (state) => state + 1);
+  }
+  decrement() {
+    set(this, (state) => state - 1);
+  }
 }
 
-const UserNameEditor = () => {
-  const user = useService(User);
+const Counter = () => {
+  const counter = useService(CounterService);
   return (
-    <input
-      onChange={(e) => set(user, e.target.value)}
-      value={user.state}
-    />
+    <>
+      <button onClick={() => counter.increment()}>+</button>
+      <button onClick={() => counter.decrement()}>-</button>
+      <p>Counter: {counter.state}</p>
+    </>
   )
 };
 ```
