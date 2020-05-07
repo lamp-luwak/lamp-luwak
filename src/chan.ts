@@ -21,7 +21,7 @@ export function multi(...nodes: any) {
 }
 
 export function chan(from: any, to: any, callback?: (signal: any) => void) {
-  receive(from, (signal: any) => {
+  return receive(from, (signal: any) => {
     if (callback) {
       signal = callback(signal);
     }

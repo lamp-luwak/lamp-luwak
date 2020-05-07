@@ -1,4 +1,4 @@
-import { multi, receive, send, blank } from "./chan";
+import { multi, receive, send, blank, chan } from "./chan";
 import { prop } from "./prop";
 import { ClassType, FuncType } from "./types";
 
@@ -7,7 +7,7 @@ const StorePrevState = Symbol("StorePrevState");
 const StoreChan = Symbol("StoreChan");
 export const StoreFactory = Symbol("StoreFactory");
 
-export interface Store<S> {
+export interface Store<S = any> {
   [StoreState]: S;
 }
 
