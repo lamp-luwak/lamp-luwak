@@ -18,6 +18,10 @@ Store section
 - get
 - extend
 
+Memoize/selector section
+
+- memoize
+
 Store subscribe section
 
 - useSubscribe
@@ -30,6 +34,7 @@ Channel section
 - send
 - multi
 - group
+- blank
 
 Action section
 
