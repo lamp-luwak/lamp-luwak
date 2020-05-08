@@ -1,7 +1,7 @@
 import { lens, store } from "../src";
 import { read, write } from "../src/lens";
 
-test("Should create from array of two functions", () => {
+test("Should create lens from array of two functions", () => {
   const l = lens("hello", [
     (state) => state.sync,
     (state, sync) => ({ ...state, sync })

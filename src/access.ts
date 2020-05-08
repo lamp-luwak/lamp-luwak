@@ -48,15 +48,20 @@ export function watch(...args: any[]) {
     return (storeWatch as any)(...args);
   }
 
-  const len = views.length;
-  const half = len / 2;
+  const len = stores.length;
 
-  return (storeWatch as any)(...stores, (...args: any[]) => {
+  const watchStores = stores.slice();
+  for (let i = 0; i < views.length; i++) {
+    watchStores[i] = watchStores[i][0];
+  }
+  return (storeWatch as any)(...watchStores, (...args: any[]) => {
     let hasChanging = false;
-    for (let i = 0; i < half / 2; i++) {
-      args[i] = readState(args[i], stores[i][1]);
-      args[i + half] = readState(args[i + half], stores[i + half][1]);
-      hasChanging = hasChanging || args[i] !== args[i + half];
+    for (let i = 0; i < views.length; i++) {
+      const j = views[i];
+      const l = stores[j][1];
+      args[j] = readState(args[j], l);
+      args[j + len] = readState(args[j + len], l);
+      hasChanging = hasChanging || args[j] !== args[j + len];
     }
     if (hasChanging) {
       fn(...args);

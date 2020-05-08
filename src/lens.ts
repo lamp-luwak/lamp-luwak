@@ -99,12 +99,12 @@ export function write(store: any, lens?: any, value?: any) {
   }
   [ store, lens ] = view(store, lens) as any;
   let state = get(store);
-  const queue = [ state ] as any[];
+  const queue = [] as any[];
   const last = lens.length - 1;
   for (let i = 0; i <= last; i++) {
     if (i !== last) {
-      state = readOne(state, lens[i]);
       queue.push(state);
+      state = readOne(state, lens[i]);
     }
     else {
       if (typeof value === "function") {
