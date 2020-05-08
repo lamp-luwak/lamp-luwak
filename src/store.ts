@@ -1,4 +1,4 @@
-import { multi, receive, send, blank, chan } from "./chan";
+import { multi, receive, send, blank } from "./chan";
 import { prop } from "./prop";
 import { ClassType, FuncType } from "./types";
 

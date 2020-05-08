@@ -10,3 +10,5 @@ export { useSubscribe } from "./useSubscribe";
 export { useUnserialize } from "./useUnserialize";
 export { Subscribe } from "./Subscribe";
 export { memoize } from "./memoize";
+export { lens, view } from "./lens";
+export { join } from "./join";

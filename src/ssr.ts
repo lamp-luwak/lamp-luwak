@@ -1,6 +1,6 @@
-import { Dep, service } from "./di";
+import { Dep, service, getInstances, zone } from "./di";
 import { store, StoreFactory, set, get } from "./store";
-import { instances as diInstances, zone } from "./di";
+import { group } from "./chan";
 
 const regClassIndex = new Map<string, Dep>();
 const regClassSearch = new Map<Dep, string>();
@@ -26,7 +26,7 @@ export function serialize(instances?: any[]) {
       regClassSearch.set(Class, id);
     }
     const data = [
-      (instances || diInstances())
+      (instances || getInstances())
       .filter((inst) => inst &&
         (regClassSearch.has(inst.constructor) || regClassSearch.has(inst[StoreFactory]))
       )
@@ -35,11 +35,10 @@ export function serialize(instances?: any[]) {
     for (let i = 1; i < refIncrementalId; i++) {
       data.push(refSerializedIndex.get(i) as any);
     }
-    afterSerializeUnserialize();
     return data;
-  } catch(e) {
+  }
+  finally {
     afterSerializeUnserialize();
-    throw e;
   }
 }
 
@@ -49,13 +48,12 @@ export function unserialize(data: any) {
     for (let i = 1; i < data.length; i++) {
       refSerializedIndex.set(i, data[i]);
     }
-    const instances = data[0].map((ref: any) => unpack(ref, true));
+    return group(() => data[0].map((ref: any) => unpack(ref, true)));
 
+    // return data[0].map((ref: any) => unpack(ref, true));
+  }
+  finally {
     afterSerializeUnserialize();
-    return instances;
-  } catch (e) {
-    afterSerializeUnserialize();
-    throw e;
   }
 }
 

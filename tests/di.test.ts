@@ -7,7 +7,7 @@ import {
   reset,
   zone,
   getZoneId,
-  instances,
+  getInstances,
   getInternalState,
   RootZoneId
 } from "../src/di";
@@ -207,21 +207,21 @@ test("Should get instances list correctly", async () => {
   const spy = jest.fn();
   class A {}
   class B {}
-  expect(instances().length).toBe(0);
+  expect(getInstances().length).toBe(0);
   const a = service(A);
-  expect(instances()).toContain(a);
+  expect(getInstances()).toContain(a);
   await zone(() => {
-    expect(instances().length).toBe(0);
+    expect(getInstances().length).toBe(0);
     const [a, b] = [A, B].map(service);
-    expect(instances().length).toBe(2);
-    expect(instances()).toContain(a);
-    expect(instances()).toContain(b);
+    expect(getInstances().length).toBe(2);
+    expect(getInstances()).toContain(a);
+    expect(getInstances()).toContain(b);
     spy();
   });
   expect(spy).toBeCalled();
-  expect(instances().length).toBe(1);
-  expect(instances()).toContain(a);
+  expect(getInstances().length).toBe(1);
+  expect(getInstances()).toContain(a);
   const b = service(B);
-  expect(instances().length).toBe(2);
-  expect(instances()).toContain(b);
+  expect(getInstances().length).toBe(2);
+  expect(getInstances()).toContain(b);
 });

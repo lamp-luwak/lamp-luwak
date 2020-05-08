@@ -1,7 +1,7 @@
 import { prop } from "./prop";
 
 const ChanReceivers = Symbol("ChanReceivers");
-const Multi = Symbol("Multi");
+const ChanMulti = Symbol("ChanMulti");
 
 const IterationLimit = 10000;
 let depth = 0;
@@ -16,7 +16,7 @@ export function blank() {
 
 export function multi(...nodes: any) {
   const m = nodes;
-  m[Multi] = true;
+  m[ChanMulti] = true;
   return m;
 }
 
@@ -38,7 +38,7 @@ function onAfterLast(callback: any) {
 }
 
 export function receive(node: any, receiver: any) {
-  if (node[Multi]) {
+  if (node[ChanMulti]) {
     let lastSignal = null as any;
     let hasLastSignal = false;
     const finish = () => {
@@ -75,10 +75,10 @@ export function receive(node: any, receiver: any) {
   };
 }
 
-export function group(code: () => void) {
+export function group<T>(code: () => T): T {
   depth ++;
   try {
-    code();
+    const ret = code();
     if (depth === 1) {
       let iteration = 0;
       while(onAfterLastDelegatesQueue.length > 0) {
@@ -91,6 +91,7 @@ export function group(code: () => void) {
         }
       }
     }
+    return ret;
   }
   finally {
     if (depth === 1) {
@@ -103,7 +104,7 @@ export function group(code: () => void) {
 
 export function send(node: any, signal?: any) {
   group(() => {
-    if (node[Multi]) {
+    if (node[ChanMulti]) {
       node.forEach((node: any) => send(node, signal));
       return;
     }

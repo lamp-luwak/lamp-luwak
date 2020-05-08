@@ -95,7 +95,7 @@ export function assign(dep: Dep, instance: any) {
   }
 }
 
-export function instances() {
+export function getInstances() {
   if (typeof instancesMap[zoneId] === "undefined") {
     return [];
   }
