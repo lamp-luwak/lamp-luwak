@@ -11,9 +11,11 @@ export function join(src: any, dest: any, lens?: Lens): any {
   const offs = [] as any[];
   const destView = view(dest, lens);
   offs[0] = watch(src, (state) => {
+    console.log(">>>>>_000");
     set(destView, state);
   });
   offs[1] = watch(destView, (state) => {
+    console.log(">>>>>_111");
     set(src, state);
   });
   return () => {

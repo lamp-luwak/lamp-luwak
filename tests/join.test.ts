@@ -1,4 +1,4 @@
-import { store, join, get, set, lens } from "../src";
+import { store, join, get, set, lens, view } from "../src";
 
 test("Should create join", () => {
   const a = store();
@@ -30,4 +30,7 @@ test("Should create join with custom lens", () => {
   join(a, b, l);
   set(a, { b: 17 });
   expect(get(b)).toStrictEqual({ a: { b: { v: { v: { b: 17 } } } } });
+  set(view(b, l), { b: 22 });
+  expect(get(b)).toStrictEqual({ b: 23 });
+  expect(get(a)).toStrictEqual({ b: 23 });
 });
