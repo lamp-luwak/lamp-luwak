@@ -1,4 +1,4 @@
-import { Store, propStoreState, set } from "./store";
+import { Accessable, get, set } from "./access";
 
 function level(state: any, write: (value: any) => void) {
   if (!state || typeof state !== "object") {
@@ -21,15 +21,15 @@ function level(state: any, write: (value: any) => void) {
   return proxy;
 }
 
-export function modify<T>(store: Store<T>): T;
-export function modify<T>(store: Store<T>, callback: (context: T) => void): void;
-export function modify(store: Store<any>, callback?: (context: any) => void): any {
+export function modify<T>(store: Accessable<T>): T;
+export function modify<T>(store: Accessable<T>, callback: (context: T) => void): void;
+export function modify(store: Accessable<any>, callback?: (context: any) => void): any {
   if (callback) {
-    let state = propStoreState(store);
+    let state = get(store);
     const context = level(state, (s) => state = s)
     callback(context);
     set(store, state);
   } else {
-    return level(propStoreState(store), (state) => set(store, state));
+    return level(get(store), (state) => set(store, state));
   }
 }

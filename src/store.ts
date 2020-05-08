@@ -12,7 +12,7 @@ export interface Store<S = any> {
 }
 
 const propStoreChan = prop(StoreChan, blank);
-export const propStoreState = prop(StoreState);
+const propStoreState = prop(StoreState);
 const propStorePrevState = prop(StorePrevState);
 const propStoreFactory = prop(StoreFactory);
 
@@ -76,19 +76,6 @@ export function set(store: any, state: any) {
     propStoreState(store, state);
     send(propStoreChan(store));
   }
-}
-
-export function update<S>(store: Store<S>, state: Partial<S>): void;
-export function update<S>(store: Store<S>, callback: (state: S) => Partial<S>): void;
-export function update(store: any, state: any) {
-  const prevState = propStoreState(store);
-  if (typeof state == "function") {
-    state = state(prevState);
-  }
-  set(store, {
-    ...prevState,
-    ...state
-  });
 }
 
 export function watch<S>(store: Store<S>, callback: (state: S, prevState: S) => void): () => void;

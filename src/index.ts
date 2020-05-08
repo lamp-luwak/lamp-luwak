@@ -1,5 +1,5 @@
 export { multi, chan, receive, send, group, blank } from "./chan";
-export { store, get, set, extend, watch, update } from "./store";
+export { store, extend } from "./store";
 export { modify } from "./modify";
 export { action, dispatch, on } from "./action";
 export { service, assign, override, cleanup } from "./di";
@@ -12,3 +12,4 @@ export { Subscribe } from "./Subscribe";
 export { memoize } from "./memoize";
 export { lens, view } from "./lens";
 export { join } from "./join";
+export { get, set, watch, update } from "./access";

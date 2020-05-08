@@ -1,4 +1,4 @@
-import { Store, propStoreState, set } from "./store";
+import { Store, get, set } from "./store";
 import { prop } from "./prop";
 
 export const LensComposite = Symbol("LensComposite");
@@ -43,9 +43,22 @@ export function view(store: Store | View, l: Lens): View {
 }
 
 function readOne(state: any, lens: RawLens) {
-  return Array.isArray(lens)
-    ? lens[0](state)
-    : state[lens as any];
+  if (Array.isArray(lens)) {
+    return lens[0](state);
+  }
+  else {
+    if (typeof state !== "undefined") {
+      return state[lens as any];
+    }
+    return state;
+  }
+}
+
+export function readState(state: any, lens: Lens) {
+  for (const l of lens as any) {
+    state = readOne(state, l);
+  }
+  return state;
 }
 
 export function read(view: View): any;
@@ -58,11 +71,7 @@ export function read(store: any, lens?: any) {
     throw new Error("Unsupported agruments");
   }
   [ store, lens ] = view(store, lens) as any;
-  let state = propStoreState(store);
-  for (const l of lens) {
-    state = readOne(state, l);
-  }
-  return state;
+  return readState(get(store), lens);
 }
 
 function writeOne(state: any, lens: RawLens, value: any) {
@@ -78,7 +87,9 @@ function writeOne(state: any, lens: RawLens, value: any) {
 }
 
 export function write(view: View, value: any): void;
+export function write(view: View, callback: (state: any) => any): void;
 export function write(store: Store | View, lens: Lens, value: any): void;
+export function write(store: Store | View, lens: Lens, callback: (state: any) => any): void;
 export function write(store: any, lens?: any, value?: any) {
   if (arguments.length === 2) {
     if (propLensView(store)) {
@@ -86,9 +97,8 @@ export function write(store: any, lens?: any, value?: any) {
     }
     throw new Error("Unsupported agruments");
   }
-
   [ store, lens ] = view(store, lens) as any;
-  let state = propStoreState(store);
+  let state = get(store);
   const queue = [ state ] as any[];
   const last = lens.length - 1;
   for (let i = 0; i <= last; i++) {
@@ -97,6 +107,12 @@ export function write(store: any, lens?: any, value?: any) {
       queue.push(state);
     }
     else {
+      if (typeof value === "function") {
+        value = value(state);
+      }
+      if (value === readOne(state, lens[i])) {
+        return;
+      }
       state = writeOne(state, lens[i], value);
       for (let j = i - 1; j >= 0; j--) {
         state = writeOne(queue.pop(), lens[j], state);
