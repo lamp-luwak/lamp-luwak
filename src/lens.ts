@@ -64,11 +64,8 @@ export function readState(state: any, lens: Lens) {
 export function read(view: View): any;
 export function read(store: Accessable, lens: Lens): any;
 export function read(store: any, lens?: any) {
-  if (typeof lens === "undefined") {
-    if (propLensView(store)) {
-      return (read as any)(...store);
-    }
-    throw new Error("Unsupported agruments");
+  if (arguments.length === 1) {
+    return (read as any)(...store);
   }
   [ store, lens ] = view(store, lens) as any;
   return readState(get(store), lens);
@@ -92,10 +89,7 @@ export function write(store: Accessable, lens: Lens, value: any): void;
 export function write(store: Accessable, lens: Lens, callback: (state: any) => any): void;
 export function write(store: any, lens?: any, value?: any) {
   if (arguments.length === 2) {
-    if (propLensView(store)) {
-      return (write as any)(...store, lens);
-    }
-    throw new Error("Unsupported agruments");
+    return (write as any)(...store, lens);
   }
   [ store, lens ] = view(store, lens) as any;
   let state = get(store);
@@ -107,10 +101,11 @@ export function write(store: any, lens?: any, value?: any) {
       state = readOne(state, lens[i]);
     }
     else {
+      const prev = readOne(state, lens[i]);
       if (typeof value === "function") {
-        value = value(state);
+        value = value(prev);
       }
-      if (value === readOne(state, lens[i])) {
+      if (value === prev) {
         return;
       }
       state = writeOne(state, lens[i], value);
