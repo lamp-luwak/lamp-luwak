@@ -19,8 +19,8 @@ const propStorePrevState = prop(StorePrevState);
 const propStoreFactory = prop(StoreFactory);
 
 export function store(): Store<undefined>;
-export function store<K, M>(store: Store<K>, selector: (state: K) => M): Store<M>;
-export function store<K, L, M>(storeA: Store<K>, storeB: Store<L>, selector: (stateA: K, stateB: L) => M): Store<M>;
+export function store<K, M>(store: Accessable<K>, selector: (state: K) => M): Store<M>;
+export function store<K, L, M>(storeA: Accessable<K>, storeB: Accessable<L>, selector: (stateA: K, stateB: L) => M): Store<M>;
 export function store<S>(initialState: S): Store<S>;
 export function store<A>(Class: ClassType<A>): A;
 export function store<A, P extends any[]>(Class: ClassType<A, P>, ...args: P): A;
@@ -48,10 +48,10 @@ export function store(...args: any[]): any {
     const fn = args[args.length - 1];
     const stores = args.slice(0, -1);
     propStoreState(inst, fn(
-      ...stores.map(propStoreState)
+      ...stores.map(get)
     ));
-    receive(multi(...stores.map(propStoreChan)), () => {
-      set(inst, fn(...stores.map(propStoreState)));
+    (watch as any)(...stores, (...args: any[]) => {
+      set(inst, fn(...args));
     });
   }
   return inst;
