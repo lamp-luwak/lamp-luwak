@@ -1,4 +1,4 @@
-import { Store, get, set } from "./store";
+import { Accessable, get, set } from "./store";
 import { prop } from "./prop";
 
 export const LensComposite = Symbol("LensComposite");
@@ -32,7 +32,7 @@ export function lens(...pieces: (Lens | RawLens)[]): Lens {
   return composite;
 }
 
-export function view(store: Store | View, l: Lens): View {
+export function view(store: Accessable, l: Lens): View {
   let lenses = [] as any;
   if (propLensView(store)) {
     [ store, lenses ] = store as any;
@@ -62,7 +62,7 @@ export function readState(state: any, lens: Lens) {
 }
 
 export function read(view: View): any;
-export function read(store: Store | View, lens: Lens): any;
+export function read(store: Accessable, lens: Lens): any;
 export function read(store: any, lens?: any) {
   if (typeof lens === "undefined") {
     if (propLensView(store)) {
@@ -88,8 +88,8 @@ function writeOne(state: any, lens: RawLens, value: any) {
 
 export function write(view: View, value: any): void;
 export function write(view: View, callback: (state: any) => any): void;
-export function write(store: Store | View, lens: Lens, value: any): void;
-export function write(store: Store | View, lens: Lens, callback: (state: any) => any): void;
+export function write(store: Accessable, lens: Lens, value: any): void;
+export function write(store: Accessable, lens: Lens, callback: (state: any) => any): void;
 export function write(store: any, lens?: any, value?: any) {
   if (arguments.length === 2) {
     if (propLensView(store)) {

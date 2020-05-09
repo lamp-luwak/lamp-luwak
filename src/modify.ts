@@ -1,4 +1,4 @@
-import { Accessable, get, set } from "./access";
+import { Accessable, get, set } from "./store";
 
 function level(state: any, write: (value: any) => void) {
   if (!state || typeof state !== "object") {

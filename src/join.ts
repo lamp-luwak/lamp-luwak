@@ -1,11 +1,10 @@
-import { Store } from "./store";
-import { watch, set, get } from "./access";
+import { Accessable, watch, set, get } from "./store";
 import { Lens, View, view } from "./lens";
 
-export function join(src: Store | View, dest: View): void;
-export function join(src: Store | View, dest: Store | View, lens: Lens): void;
-export function join(src: any, dest: any, lens?: Lens): any {
-  const destView = typeof lens !== "undefined"
+export function connect(src: Accessable, dest: View): () => void;
+export function connect(src: Accessable, dest: Accessable, lens: Lens): () => void;
+export function connect(src: any, dest: any, lens?: any): any {
+  const destView = arguments.length === 3
     ? view(dest, lens)
     : dest
 
@@ -21,4 +20,11 @@ export function join(src: any, dest: any, lens?: Lens): any {
       fn();
     }
   };
+}
+
+export function join<T extends Accessable>(src: T, dest: View): T;
+export function join<T extends Accessable>(src: T, dest: Accessable, lens: Lens): T;
+export function join(...args: any[]): any {
+  (connect as any)(...args);
+  return args[0];
 }
