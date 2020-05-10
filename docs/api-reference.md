@@ -17,16 +17,16 @@ Store section
 - modify
 - get
 - extend
-
-Memoize/selector section
-
-- memoize
+- join
 
 Store subscribe section
 
 - useSubscribe
 - Subscribe
-- join
+
+Memoize/selector section
+
+- memoize
 
 Action section
 
