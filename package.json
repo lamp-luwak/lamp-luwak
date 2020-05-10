@@ -1,6 +1,6 @@
 {
   "name": "lamp-luwak",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Flexible state management for React",
   "repository": {
     "url": "https://github.com/betula/lamp-luwak"
