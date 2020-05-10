@@ -1,7 +1,7 @@
-import { reset as resetDi } from "./di";
-import { reset as resetSsr } from "./ssr";
+import { reset as diReset } from "./di";
+import { reset as ssrReset } from "./ssr";
 
 export function reset() {
-  resetDi();
-  resetSsr();
+  diReset();
+  ssrReset();
 }

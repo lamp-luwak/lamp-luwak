@@ -26,15 +26,7 @@ Store subscribe section
 
 - useSubscribe
 - Subscribe
-
-Channel section
-
-- chan
-- receive
-- send
-- multi
-- group
-- blank
+- join
 
 Action section
 
@@ -53,3 +45,12 @@ Server side rendering section
 Reset section
 
 - reset
+
+Channel section
+
+- chan
+- receive
+- send
+- multi
+- group
+- blank

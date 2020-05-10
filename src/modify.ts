@@ -1,4 +1,4 @@
-import { Store, propStoreState, set } from "./store";
+import { Store, get, set } from "./store";
 
 function level(state: any, write: (value: any) => void) {
   if (!state || typeof state !== "object") {
@@ -25,11 +25,11 @@ export function modify<T>(store: Store<T>): T;
 export function modify<T>(store: Store<T>, callback: (context: T) => void): void;
 export function modify(store: Store<any>, callback?: (context: any) => void): any {
   if (callback) {
-    let state = propStoreState(store);
+    let state = get(store);
     const context = level(state, (s) => state = s)
     callback(context);
     set(store, state);
   } else {
-    return level(propStoreState(store), (state) => set(store, state));
+    return level(get(store), (state) => set(store, state));
   }
 }
