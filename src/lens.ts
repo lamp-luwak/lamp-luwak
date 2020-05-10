@@ -1,4 +1,4 @@
-import { Accessable, get, set } from "./store";
+import { Store, propStoreState, set } from "./store";
 import { prop } from "./prop";
 
 export const LensComposite = Symbol("LensComposite");
@@ -32,7 +32,7 @@ export function lens(...pieces: (Lens | RawLens)[]): Lens {
   return composite;
 }
 
-export function view(store: Accessable, l: Lens): View {
+export function view(store: Store | View, l: Lens): View {
   let lenses = [] as any;
   if (propLensView(store)) {
     [ store, lenses ] = store as any;
@@ -43,32 +43,26 @@ export function view(store: Accessable, l: Lens): View {
 }
 
 function readOne(state: any, lens: RawLens) {
-  if (Array.isArray(lens)) {
-    return lens[0](state);
-  }
-  else {
-    if (typeof state !== "undefined") {
-      return state[lens as any];
-    }
-    return state;
-  }
-}
-
-export function readState(state: any, lens: Lens) {
-  for (const l of lens as any) {
-    state = readOne(state, l);
-  }
-  return state;
+  return Array.isArray(lens)
+    ? lens[0](state)
+    : state[lens as any];
 }
 
 export function read(view: View): any;
-export function read(store: Accessable, lens: Lens): any;
+export function read(store: Store | View, lens: Lens): any;
 export function read(store: any, lens?: any) {
-  if (arguments.length === 1) {
-    return (read as any)(...store);
+  if (typeof lens === "undefined") {
+    if (propLensView(store)) {
+      return (read as any)(...store);
+    }
+    throw new Error("Unsupported agruments");
   }
   [ store, lens ] = view(store, lens) as any;
-  return readState(get(store), lens);
+  let state = propStoreState(store);
+  for (const l of lens) {
+    state = readOne(state, l);
+  }
+  return state;
 }
 
 function writeOne(state: any, lens: RawLens, value: any) {
@@ -84,30 +78,25 @@ function writeOne(state: any, lens: RawLens, value: any) {
 }
 
 export function write(view: View, value: any): void;
-export function write(view: View, callback: (state: any) => any): void;
-export function write(store: Accessable, lens: Lens, value: any): void;
-export function write(store: Accessable, lens: Lens, callback: (state: any) => any): void;
+export function write(store: Store | View, lens: Lens, value: any): void;
 export function write(store: any, lens?: any, value?: any) {
   if (arguments.length === 2) {
-    return (write as any)(...store, lens);
+    if (propLensView(store)) {
+      return (write as any)(...store, lens);
+    }
+    throw new Error("Unsupported agruments");
   }
+
   [ store, lens ] = view(store, lens) as any;
-  let state = get(store);
-  const queue = [] as any[];
+  let state = propStoreState(store);
+  const queue = [ state ] as any[];
   const last = lens.length - 1;
   for (let i = 0; i <= last; i++) {
     if (i !== last) {
-      queue.push(state);
       state = readOne(state, lens[i]);
+      queue.push(state);
     }
     else {
-      const prev = readOne(state, lens[i]);
-      if (typeof value === "function") {
-        value = value(prev);
-      }
-      if (value === prev) {
-        return;
-      }
       state = writeOne(state, lens[i], value);
       for (let j = i - 1; j >= 0; j--) {
         state = writeOne(queue.pop(), lens[j], state);

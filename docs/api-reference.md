@@ -27,12 +27,14 @@ Store subscribe section
 - useSubscribe
 - Subscribe
 
-Lens sections
+Channel section
 
-- lens
-- view
-- join
-- connect
+- chan
+- receive
+- send
+- multi
+- group
+- blank
 
 Action section
 
@@ -47,15 +49,6 @@ Server side rendering section
 - register
 - unserialize
 - serialize
-
-Channel section
-
-- chan
-- receive
-- send
-- multi
-- group
-- blank
 
 Reset section
 

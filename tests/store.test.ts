@@ -1,4 +1,4 @@
-import { store, get, set, modify, extend, watch, group, lens, view } from "../src";
+import { store, get, set, modify, extend, watch, update, group } from "../src";
 
 test("Should create without params", () => {
   const a = store();
@@ -88,16 +88,6 @@ test("Should work watch", () => {
   expect(fn).toBeCalledWith(11, 10);
 });
 
-test("Should work watch from view", () => {
-  const fn = jest.fn();
-  const a = store({a: 10, b: 11});
-  watch(view(a, "b"), fn);
-  set(a, {a: 10, b: 11});
-  expect(fn).toBeCalledTimes(0);
-  modify(a).b = 12;
-  expect(fn).toBeCalledWith(12, 11);
-});
-
 test("Should work watch from two stores", () => {
   const fn = jest.fn();
   const a = store("A");
@@ -140,12 +130,26 @@ test("Should work modify", () => {
   expect(a.state.a).toBe(11);
 });
 
-test("Should work get", () => {
-  expect(get(store(10))).toBe(10);
+test("Should work update without callback", () => {
+  const m = { a: 10, m: 9 };
+  const a = store(m);
+  update(a, { a: 11 });
+  expect(a.state).not.toBe(m);
+  expect(a.state.a).toBe(11);
+  expect(a.state.m).toBe(9);
 });
 
-test("Should work get with view", () => {
-  expect(get(view(store({ a: 11 }), "a"))).toBe(11);
+test("Should work update with callback", () => {
+  const m = { a: 10, m: 9 };
+  const a = store(m);
+  update(a, () => ({ a: 11 }));
+  expect(a.state).not.toBe(m);
+  expect(a.state.a).toBe(11);
+  expect(a.state.m).toBe(9);
+});
+
+test("Should work get", () => {
+  expect(get(store(10))).toBe(10);
 });
 
 test("Should work set with value", () => {
@@ -158,13 +162,4 @@ test("Should work set with callback", () => {
   const a = store(10);
   set(a, (s) => s + 1);
   expect(a.state).toBe(11);
-});
-
-test("Should work set with view", () => {
-  const l = lens("a", lens("b"));
-  const s = store();
-  set(view(s, l), 10);
-  expect(get(s)).toStrictEqual({ a: { b: 10 } });
-  set(view(s, "a"), 11);
-  expect(get(s)).toStrictEqual({ a: 11 });
 });
