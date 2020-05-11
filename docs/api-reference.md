@@ -10,7 +10,7 @@ Service section
 
 Store section
 
-- store
+- [store](./api-reference/store.md)
 - watch
 - set
 - update
