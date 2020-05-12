@@ -1,5 +1,5 @@
 import { ReactNode, ReactElement } from "react";
-import { useSubscribe } from "./useSubscribe";
+import { useStores } from "./useStore";
 import { ObjectMap } from "./types";
 
 type Ret = ReactNode | ReactElement | null;
@@ -12,6 +12,6 @@ export const Subscribe = <T, R = Ret>(props: Props<T, R>): R => {
     .filter((key) => key !== "children")
     .map((key) => (props as ObjectMap)[key]);
 
-  useSubscribe(...values);
+  useStores(...values);
   return props.children(props);
 };

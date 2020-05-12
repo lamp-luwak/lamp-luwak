@@ -1,14 +1,14 @@
 import React, { useMemo } from "react";
 import { mount } from "enzyme";
-import { store, useSubscribe, set } from "../src";
+import { store, useStore, set } from "../src";
 
-test("Should update component with useSubscribe", () => {
+test("Should update component with useStore", () => {
   class A {
     state = "D";
   }
   const C = () => {
     const a = useMemo(() => store(A), []);
-    useSubscribe(a);
+    useStore(a);
     return <p onClick={() => set(a, "DD")}>{a.state}</p>
   };
   const el = mount(<C/>);

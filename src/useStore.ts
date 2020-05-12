@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { watch } from "./store";
+import { Store, watch } from "./store";
 import { useForceUpdate } from "./useForceUpdate";
 
-export function useSubscribe(...items: any[]) {
+export function useStores<T extends Store[]>(...items: T): T {
   const forceUpdate = useForceUpdate();
   useEffect(
     () => {
@@ -15,4 +15,9 @@ export function useSubscribe(...items: any[]) {
     },
     [...items]
   );
+  return items;
+}
+
+export function useStore<T extends Store>(store: T): T {
+  return useStores(store)[0];
 }

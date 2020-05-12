@@ -138,10 +138,10 @@ We can use the single instance of `Heroes` class in any place of our application
 
 Below you can find short information about primary `lamp-luwak` functions.
 
-`useSubscribe` - react hook for subscribe react component to store or action recieved from props.
+`useStore` - react hook for subscribe react component to store or action recieved from props.
 ```typescript
 const App = memo(({ item }) => {
-  useSubscribe(item);
+  useStore(item);
   // ...
 })
 ```

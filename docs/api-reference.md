@@ -3,6 +3,7 @@
 Service section
 
 - useService
+- useServices
 - service
 - assign
 - override
@@ -21,7 +22,8 @@ Store section
 
 Store subscribe section
 
-- useSubscribe
+- [useStore](./api-reference/useStore.md)
+- useStores
 - Subscribe
 
 Memoize/selector section

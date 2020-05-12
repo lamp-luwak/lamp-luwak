@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSubscribe } from "lamp-luwak";
+import { useStore } from "lamp-luwak";
 import { EnterKeyCode } from "../lib/consts";
 import { useClickAway } from "../lib/useClickAway";
 import { Item as TodoItemType } from "../services/Todo/Item";
@@ -17,7 +17,7 @@ export const TodoItem = ({ item }: Props) => {
   useClickAway(editInputElementRef, () => {
     setEditing(false);
   });
-  useSubscribe(item);
+  useStore(item);
 
   useEffect(() => {
     if (editing && editInputSetFocusNeeded) {

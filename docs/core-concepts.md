@@ -61,7 +61,7 @@ We use a single instantiated `Modal` service in `ModalButton` and `ModalContaine
 
 Store - an instance of a class or plain object with `state` property created by `store` function or received from `useService` or `service` functions.
 - You automatically subscribe to the change of `state` property in a react component that received service from `useService` function call.
-- Or you can subscribe to the change of `state` property use `watch` or `useSubscribe` functions.
+- Or you can subscribe to the change of `state` property use `watch` or `useStore` functions.
 
 ```typescript
 import { useService, service, watch, set } from 'lamp-luwak';
@@ -139,7 +139,7 @@ Here you can see how to subscribe to the change of `Todo` service store, from `T
 And finally, we can use actions for communication between "no service stores" and services. Or for another implementation of event bus abstraction.
 
 ```typescript
-import { service, watch, on, store, modify, action, useSubscribe } from 'lamp-luwak';
+import { service, watch, on, store, modify, action, useStore } from 'lamp-luwak';
 // ...
 
 const TodoItemChanged = action();
@@ -190,7 +190,7 @@ class TodoCounters {
 
 const Item: FC<{ item: TodoItem }> = ({ item }) => {
   const { label, completed } = item.state;
-  useSubscribe(item);
+  useStore(item);
   return (
     <li>
       <Text onClick={() => item.toggle()} lineThrough={completed}>

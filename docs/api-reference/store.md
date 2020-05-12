@@ -33,3 +33,5 @@ const Name = () => {
   return <p>Name: {name.state}</p>
 }
 ```
+
+After [useStore](./useStore.md) React component will be update each change of `name` store state.

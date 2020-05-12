@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useService, service, watch, store, modify, action, useSubscribe, on, set } from 'lamp-luwak';
+import { useService, service, watch, store, modify, action, useStore, on, set } from 'lamp-luwak';
 import { Text } from './ui';
 
 type TodoItemStore = {
@@ -64,7 +64,7 @@ const Counters = () => {
 
 const Item: FC<{ item: TodoItem }> = ({ item }) => {
   const { label, completed } = item.state;
-  useSubscribe(item);
+  useStore(item);
   return (
     <li>
       <Text onClick={() => item.toggle()} lineThrough={completed}>

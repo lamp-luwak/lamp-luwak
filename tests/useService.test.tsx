@@ -1,9 +1,9 @@
 import React from "react";
 import { mount } from "enzyme";
 import { act } from "react-dom/test-utils";
-import { useService, service, set } from "../src";
+import { useService, useServices, service, set } from "../src";
 
-test("Should update component with useProvide", () => {
+test("Should update component with useService", () => {
   class A {
     state = "D";
   }
@@ -20,7 +20,7 @@ test("Should update component with useProvide", () => {
   expect(el.find("p").text()).toBe("DD");
 });
 
-test("Should update component with array in useProvide", () => {
+test("Should update component with array in useService", () => {
   class A {
     state = "D";
   }
@@ -28,7 +28,7 @@ test("Should update component with array in useProvide", () => {
     state = "E";
   }
   const C = () => {
-    const [a, b] = useService([A, B]);
+    const [a, b] = useServices(A, B);
     return <p>{a.state}{b.state}</p>
   };
 
@@ -48,3 +48,11 @@ test("Should update component with array in useProvide", () => {
   });
   expect(el.find("p").text()).toBe("AB");
 });
+
+test("Should unsubscribe after component unmounted", () => {
+  class A { state = "A"; }
+  const C = () => <p>{useService(A).state}</p>;
+  const el = mount(<C/>);
+  expect(el.find("p").text()).toBe("A");
+  el.unmount();
+})
