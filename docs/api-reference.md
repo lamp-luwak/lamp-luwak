@@ -1,14 +1,5 @@
 ### API Reference
 
-Service section
-
-- useService
-- useServices
-- service
-- assign
-- override
-- cleanup
-
 Store section
 
 - [store](./api-reference/store.md)
@@ -25,6 +16,15 @@ Store subscribe section
 - [useStore](./api-reference/useStore.md)
 - useStores
 - Subscribe
+
+Service section
+
+- useService
+- useServices
+- service
+- assign
+- override
+- cleanup
 
 Memoize/selector section
 
