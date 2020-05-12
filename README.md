@@ -63,7 +63,7 @@ const Counter = () => {
 - [Core Concepts](./docs/core-concepts.md)
 - [API Reference](./docs/api-reference.md)
 
-[The Russian article](https://github.com/betula/lamp-luwak-article-1/blob/master/README.md)
+[The Russian article](https://habr.com/ru/post/497572/)
 
 ### Examples
 
