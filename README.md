@@ -2,9 +2,9 @@
 
 # lamp-luwak
 
-> `lamp-luwak` is no longer maintained. Please use [realar](https://github.com/betula/realar) or [use-between](https://github.com/betula/use-between) instead of.
+> `lamp-luwak` is no longer maintained. Please use [remini](https://github.com/betula/remini) or [use-between](https://github.com/betula/use-between) instead of.
 
-![lamp-luwak logo](https://betula.github.io/lamp-luwak/logo-sm.png)
+![lamp-luwak logo](./logo-sm.png)
 
 Flexible state management for React
 
